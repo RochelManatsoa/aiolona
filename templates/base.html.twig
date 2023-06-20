@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <nav class="bg-gray-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center">
+            <div class="flex-shrink-0">
+              <a href="{{path('app_home')}}" class="text-gray-800 font-bold text-xl" style="font-family: 'Poppins', sans-serif;">AI App</a>
+            </div>
+            <div class="hidden md:block">
+              <div class="ml-10 flex items-baseline space-x-4">
+                <a href="{{path('app_home')}}" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">Accueil</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">Services</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">À Propos</a>
+                <a href="#" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">Contact</a>
+              </div>
+            </div>
+          </div>
+          <div class="hidden md:block">
+            <div class="flex items-center">
+              <input type="text" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Rechercher..." style="font-family: 'Poppins', sans-serif;">
+            </div>
+          </div>
+          <div class="hidden md:block">
+            <div class="ml-4 flex items-center md:ml-6">
+              <button class="bg-gray-300 p-1 rounded-full text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" style="font-family: 'Poppins', sans-serif;">
+                <span class="sr-only">View notifications</span>
+                <!-- Ajoutez ici une icône de notifications -->
+              </button>
+            {% if app.user %}
+              <div class="flex items-center">
+                <img src="{{ app.user.avatar }}" alt="Avatar" class="w-10 h-10 rounded-full">
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium">{{ app.user.fullName }}</h3>
+                    <p class="text-xs text-gray-500">{{ app.user.email }}</p>
+                    <p class="text-xs text-gray-500"> <a href="{{path('app_logout')}}" class="text-gray-600">Déconnexion</a></p>
+                </div>
+              </div>
+              <div class="relative inline-block text-left">
+                <div>
+                  <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-600 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75" id="dropdown-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M10 15l5-5H5z" />
+                    </svg>
+                  </button>
+                </div>
+    
+                <div class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-menu-button" tabindex="-1" id="dropdown-menu">
+                  <div class="py-1" role="none">
+                    <a href="{{path('app_dashboard')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-0">Tableau de bord</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-1">Mon profil</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-2">Mes paramètres</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-3">Mes messages</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-4">Mes notifications</a>
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-5">Administration</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% else %}
+            <div class="bg-blue-500 text-white font-bold px-4 py-2 rounded-md">
+                <a href="#" class="text-white">Connexion</a>
+            </div>
+    
+            <div class="bg-green-500 text-white font-bold px-4 py-2 rounded-md">
+                <a href="#" class="text-white">Inscription</a>
+            </div>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+      
+</html>
