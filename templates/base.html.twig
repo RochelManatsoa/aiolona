@@ -71,11 +71,11 @@
             </div>
             {% else %}
             <div class="bg-blue-500 text-white font-bold px-4 py-2 rounded-md">
-                <a href="#" class="text-white">Connexion</a>
+                <a href="{{path('app_login')}}" class="text-white">Connexion</a>
             </div>
     
             <div class="bg-green-500 text-white font-bold px-4 py-2 rounded-md">
-                <a href="#" class="text-white">Inscription</a>
+                <a href="{{path('app_logout')}}" class="text-white">Inscription</a>
             </div>
             {% endif %}
             </div>
