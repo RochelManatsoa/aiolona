@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mon compte
+{% endblock %}
+
+{% block body %}
+    <div class="bg-gray-100 min-h-screen">
+        <div class="container mx-auto p-4">
+            <h1 class="text-2xl font-bold mb-4">
+                Mon profil
+            </h1>
+
+            <div class="flex">
+                <div class="w-3/5 lg:w-2/3 bg-white rounded-lg p-4 shadow-md mr-2">
+                    <h2 class="text-lg font-bold mb-2">
+                        Compte
+                    </h2>
+                    <p class="text-gray-600">
+                        {{ identity.account.name }}
+                    </p>
+                    <div class="flex items-center justify-center mt-4">
+                        <div class="border-t border-gray-300 flex-grow"></div>
+                    </div>
+                    <h2 class="text-lg font-bold mb-2">
+                        Secteurs
+                    </h2>
+                    <ul class="text-gray-600">
+                        <!-- Remplacez `userInfos` par votre liste d'objets -->
+                        {% for sector in identity.sectors %}
+                            <li class="mb-1">
+                                {{ sector.name }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="flex items-center justify-center mt-4">
+                        <div class="border-t border-gray-300 flex-grow"></div>
+                    </div>
+                    <h2 class="text-lg font-bold mb-2">
+                        AI maîtrisés
+                    </h2>
+                    <ul class="text-gray-600">
+                        <!-- Remplacez `userInfos` par votre liste d'objets -->
+                        {% for aicore in identity.aicores %}
+                            <li class="mb-1">
+                                {{ aicore.name }}
+                                <div class="flex items-center">
+                                    {% for i in 1..5 %}
+                                        {% if i <= aicore.id %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                                            </svg>
+                                        {% else %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                                            </svg>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="flex items-center justify-center mt-4">
+                        <div class="border-t border-gray-300 flex-grow"></div>
+                    </div>
+                    <h2 class="text-lg font-bold mb-2">
+                        Membre depuis
+                    </h2>
+                    <p class="text-gray-600">
+                        {{ identity.createdAt | date('Y-m-d') }}
+                    </p>
+                </div>
+                <div class="w-2/5 lg:w-1/3 bg-white rounded-lg p-4 shadow-md">
+                    <h2 class="text-lg font-bold mb-2">
+                        Mes infos
+                    </h2>
+                    <ul>
+                        <!-- Remplacez `userInfos` par votre liste d'objets -->
+                        <li class="mb-1">
+                            <span class="font-bold">
+                                Nom :
+                            </span>
+                            {{ identity.firstName }}
+                        </li>
+                        <li class="mb-1">
+                            <span class="font-bold">
+                                Prénom :
+                            </span>
+                            {{ identity.lastName }}
+                        </li>
+                        <li class="mb-1">
+                            <span class="font-bold">
+                                Email :
+                            </span>
+                            {{ identity.user.email }}
+                        </li>
+                        <li class="mb-1">
+                            <span class="font-bold">
+                                Pays :
+                            </span>
+                            {{ show_country(identity.country) }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

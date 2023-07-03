@@ -1,0 +1,183 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Créer un compte
+{% endblock %}
+
+{% block body %}
+    <div class="bg-gray-100 flex justify-center ">
+        <div class="w-full max-w-lg">
+            {{ form_start(form, {'attr': {'class': 'bg-white shadow-lg rounded p-8 step-app', 'id':'demo'}}) }}
+            <ul class="step-steps" style="display:none;">
+                <li data-step-target="step1">Step 1</li>
+                <li data-step-target="step2">Step 2</li>
+                <li data-step-target="step3">Step 3</li>
+                <li data-step-target="step4">Step 4</li>
+            </ul>
+            <div class="step-content">
+
+                <div class="step-tab-panel" data-step="step1">
+                    <div class="border-b border-gray-900/10 pb-12">
+                        <h2 class="text-base font-semibold leading-7 text-gray-900">Secteur</h2>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">Veuillez indiquer votre secteur d'activité dans le domaine digital :</p>
+            
+                        <div class="mt-10 space-y-10">
+                            <fieldset>
+                                <div class="mt-6 space-y-6">
+                                {% for sector in form.sectors %}
+                                <div class="flex items-center gap-x-3">
+                                    {{ form_widget(sector, {'attr': {'class': 'h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600'}}) }}
+                                    {{ form_label(sector, sector.vars.label, {'attr': {'class': 'block text-sm font-medium leading-6 text-gray-900'}}) }}
+                                </div>
+                                {% endfor %}
+                                </div>
+                            </fieldset>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="step-tab-panel" data-step="step2">
+                    <div class="border-b border-gray-900/10 pb-12">
+                        <h2 class="text-base font-semibold leading-7 text-gray-900">Quels outils AI maitrisez-vous?</h2>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.</p>
+                        <div class="mt-10 space-y-10">
+                        <fieldset>
+                            <legend class="text-sm font-semibold leading-6 text-gray-900"></legend>
+                            <div class="mt-6 space-y-6">
+                            {% for account in form.aicores %}
+                            <div class="relative flex gap-x-3">
+                            <div class="flex h-6 items-center">
+                                {{ form_widget(account, {'attr': {'class': 'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'}}) }}
+                            </div>
+                            <div class="text-sm leading-6">
+                            {{ form_label(account, account, {'attr': {'class': 'font-medium text-gray-900'}}) }}
+                            </div>
+                            </div>
+                            {% endfor %}
+                            </div>
+                        </fieldset>
+                        </div>
+                    </div>
+                </div>   
+
+                <div class="step-tab-panel" data-step="step3">
+                    <div class="border-b border-gray-900/10 pb-12">
+                        <h2 class="text-base font-semibold leading-7 text-gray-900">Information personnelle</h2>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
+                
+                        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div class="sm:col-span-4">
+                            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+                            <div class="mt-2">
+                                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span>
+                                {{ form_widget(form.username, {'attr': {'class': 'block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6', 'placeholder':'janesmith'}}) }}
+                                </div>
+                            </div>
+                            </div>
+                    
+                            <div class="col-span-full">
+                            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">A propos de moi</label>
+                            <div class="mt-2">
+                                {{ form_widget(form.bio, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6', 'rows':'3'}}) }}
+                            </div>
+                            <p class="mt-3 text-sm leading-6 text-gray-600">Écrivez quelques phrases sur vous-même.</p>
+                            </div>
+
+                            <div class="sm:col-span-6">
+                                <div class="mt-2">
+                                {{ form_widget(form.country, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6', 'autocomplete':'country-name'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step-tab-panel" data-step="step4">
+                    <div class="border-b border-gray-900/10 pb-12">
+                        <h2 class="text-base font-semibold leading-7 text-gray-900">Trouver un travail que vous aimez.</h2>
+        
+                        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            <div class="mt-2">
+                            {{ form_widget(form.firstName, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6', 'placeholder':'Nom'}}) }}
+                            </div>
+                        </div>
+                        
+                        <div class="sm:col-span-3">
+                            <div class="mt-2">
+                            {{ form_widget(form.lastName, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6', 'placeholder':'Prénom(s)'}}) }}
+                            </div>
+                        </div>
+                
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="step-footer">
+                <button data-step-action="prev" class="step-btn">
+                    Previous
+                                        
+                </button>
+                <button data-step-action="next" class="step-btn">
+                    Next
+                                        
+                </button>
+                <button data-step-action="finish" class="step-btn">
+                    Finish
+                                        
+                </button>
+            </div>
+            <div style="display:block;">
+            {{ form_widget(form)}}
+            </div>
+            {{ form_end(form) }}  
+        </div>
+    </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery.steps@1.1.4/dist/jquery-steps.min.js"></script>
+  <script>
+
+    $(document).ready(
+      function(){
+        initFormStep(
+            $("#demo")
+        );
+      }
+    );
+
+    $(document).ready(function() {
+      // Utiliser l'API de géolocalisation
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        var url = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=7f1dcd816e4e4e40986e57af2e2e198c`;
+        
+        $.ajax({
+          url: url,
+          method: 'GET',
+          dataType: 'json',
+          success: function(response) {
+            var codePays = response.results[0].components.country_code;
+            var codePaysMajuscule = codePays.toUpperCase();
+            $('#identity_country').val(codePaysMajuscule);
+          },
+          error: function() {
+            console.log('Erreur lors de la récupération du code pays.');
+          }
+        });
+      });
+    });
+
+
+  $(document).ready(function() {
+    $('#connect-google-start').click(function() {
+      $('#demo').submit()
+    });
+  });
+  </script>
+{% endblock %}
+          

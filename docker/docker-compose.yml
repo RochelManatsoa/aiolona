@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+    db: 
+        image: mysql:5.7
+        ports:
+            - 9092:80
+        container_name: db-olona
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE:-aiolona}
+            MYSQL_USER: ${MYSQL_USER:-nirina}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD:-moissons}
+            MYSQL_RANDOM_ROOT_PASSWORD: '1'
+        volumes:
+            - db-data:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin
+        container_name: ppa-olona
+        ports:
+            - 9091:80
+
+    app:
+        image: 7386c36ae2eb2406893e3d1e36df5d619fadee7fc1593343728a86a86bd3642e 
+        ports:
+            - "9090:80"
+        environment:
+            DATABASE_URL: mysql://${MYSQL_USER:-nirina}:${MYSQL_PASSWORD:-moissons}@127.0.0.1:3306/${MYSQL_DATABASE:-aiolona}?serverVersion=8&charset=utf8mb4
+
+volumes:
+    db-data:
