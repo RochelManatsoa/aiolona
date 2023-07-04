@@ -9,32 +9,33 @@
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">
             Experts
-        </h1>
+        </h1>   
 
         <div class="flex">
             <div class="w-3/5 lg:w-2/3 bg-white rounded-lg p-4 shadow-md mr-2">
-                <div class="flex flex-wrap">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {% for identity in identities %}
-                    <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/3 xl:w-1/3">
-                        <div class="bg-white p-4 shadow rounded-lg">
-                            <img src="https://www.jea.com/cdn/images/avatar-gray.png" alt="{{ identity.firstName }} {{ identity.lastName }}" class="h-32 mb-4">
-                            <h2 class="text-lg font-semibold">
-                                {{ identity.firstName }}
-                                {{ identity.lastName }}
-                            </h2>
-                            <p class="text-gray-600 mb-2 text-sm">
-                                {{ identity.bio | slice(0, 90) | raw  }} ...
+                    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+                        <img class="w-full" src="{{vich_uploader_asset(identity, 'file')}}" alt="Image de la card">
+                        <div class="px-6 py-4">
+                            <div class="font-bold text-xl mb-2">{{ identity.firstName }} {{ identity.lastName }}</div>
+                            <p class="text-gray-700 text-xs">
+                                Tarif moyenne journalier: <br> <span class="font-bold">€ {{ identity.tarif / 100}}</span>
                             </p>
-                            <p class="text-gray-900">
-                                TMJ <span class="font-bold">$19.99</span>
-                            </p>
-                            <a href="{{ path('app_profile_expert', { 'username' : identity.username })}}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mt-4">
-                                Voir le profil                                           
-                            </a>
+                        </div>
+                        <div class="px-6 py-4">
+                            {% for aicore in identity.aicores %}
+                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-base text-gray-700 mr-2">{{ aicore.name }}</span>
+                            {% endfor %}
                         </div>
                     </div>
                 {% endfor %}
                 </div>
+                <nav class="flex items-center justify-center mt-4">
+                {% do identities.setPageRange(2) %}
+                {{ knp_pagination_render(identities, 'base/pagination.html.twig')}}
+                </nav>
+
             </div>
             <div class="w-2/5 lg:w-1/3 bg-white rounded-lg p-4 shadow-md">
 
