@@ -1,135 +1,31 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.steps@1.1.2/dist/jquery-steps.min.css">
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      {% block title %}
+        PostIn Experts
+      {% endblock %}
+    </title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.steps@1.1.2/dist/jquery-steps.min.css">
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </head>
 
+  {% include 'base/navbar.html.twig' %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <nav class="bg-gray-100">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <div class="flex items-center justify-between h-16">
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <a href="{{path('app_home')}}" class="text-gray-800 font-bold text-xl" style="font-family:Belanosima;">PostIn Experts</a>
-            </div>
-            <div class="hidden md:block">
-              <div class="ml-10 flex items-baseline space-x-4">
-                <a href="{{path('app_home')}}" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">Accueil</a>
-                <a href="{{path('app_profile_catalog')}}" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">Profils</a>
-                <a href="#" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">À Propos</a>
-                <a href="#" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">Contact</a>
-              </div>
-            </div>
-          </div>
-          <div class="hidden md:block">
-            <div class="flex items-center">
-              <input type="text" class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Rechercher..." style="font-family: 'Poppins', sans-serif;">
-            </div>
-          </div>
-          <div class="hidden md:block">
-            <div class="ml-4 flex items-center md:ml-6">
-              {% if app.user %}
-                <div class="flex items-center">
-                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 11 14H9a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 10 19Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                </svg>
-                  <div class="ml-4">
-                      <p class="text-xs text-gray-500">{{ app.user.email }}</p>
-                      <p class="text-xs text-gray-500"> <a href="{{path('app_logout')}}" class="text-gray-600">Déconnexion</a></p>
-                  </div>
-                </div>
-                <div class="relative inline-block text-left">
-                  <div>
-                    <button type="button" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-600 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75" id="dropdown-menu-button" aria-expanded="false" aria-haspopup="true">
-                      <svg class="w-5 h-5 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 15l5-5H5z" />
-                      </svg>
-                    </button>
-                  </div>
-      
-                  <div class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-menu-button" tabindex="-1" id="dropdown-menu">
-                    <div class="py-1" role="none">
-                      <a href="{{path('app_dashboard')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-0">Tableau de bord</a>
-                      <a href="{{path('app_account')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-1">Mon profil</a>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-2">Mes paramètres</a>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-3">Mes messages</a>
-                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-4">Mes notifications</a>
-                      <a href="{{path('admin')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-5">Administration</a>
-                    </div>
-                  </div>
-                </div>
-                <button class="bg-gray-300 p-1 rounded-full text-gray-600 hover:text-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" style="font-family: 'Poppins', sans-serif;">
-                  <span class="sr-only">View notifications</span>
-                  <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"/>
-                  </svg>
-                </button>
-              </div>
-              {% else %}
-            <div class="bg-blue-500 text-white font-bold px-4 py-2 rounded-md">
-                <a href="{{path('app_login')}}" class="text-white">Connexion</a>
-            </div>
-    
-            <div class="bg-green-500 text-white font-bold px-4 py-2 rounded-md">
-                <a href="{{path('app_register')}}" class="text-white">Inscription</a>
-            </div>
-            {% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
-    <footer class="bg-gray-900 py-8 mt-8">
-      <div class="container mx-auto px-4">
-        <div class="flex flex-wrap items-start justify-between">
-          <div class="w-full md:w-1/2 lg:w-1/4">
-            <h3 class="text-lg font-semibold text-white">Informations</h3>
-            <ul class="mt-4">
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">À propos</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Politique de confidentialité</a></li>
-            </ul>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/4 mt-8 md:mt-0">
-            <h3 class="text-lg font-semibold text-white">Réseaux sociaux</h3>
-            <ul class="mt-4">
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Facebook</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Twitter</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Instagram</a></li>
-            </ul>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/4 mt-8 md:mt-0">
-            <h3 class="text-lg font-semibold text-white">Services</h3>
-            <ul class="mt-4">
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Web design</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Développement web</a></li>
-              <li><a href="#" class="text-gray-400 hover:text-white transition duration-300">Marketing numérique</a></li>
-            </ul>
-          </div>
-          <div class="w-full md:w-1/2 lg:w-1/4 mt-8 md:mt-0">
-            <h3 class="text-lg font-semibold text-white">Adresse</h3>
-            <p class="mt-4 text-gray-400">123 Rue Principale<br>Montréal, QC<br>H0H 0H0</p>
-          </div>
-        </div>
-        <hr class="mt-8 border-gray-700">
-        <p class="mt-4 text-center text-gray-400">© 2023 Mon Entreprise. Tous droits réservés.</p>
-      </div>
-    </footer>
+  <body>
+    {% block body %}{% endblock %}
+  </body>
+  
+  {% include 'base/footer.html.twig' %}
 
+  <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('assets/js/jqueryValidate.js') }}"></script>
 
-  <script type="text/javascript" src="{{asset('assets/js/main.js')}}"></script>
-  <script type="text/javascript" src="{{asset('assets/js/jqueryValidate.js')}}"></script> 
-      
 </html>

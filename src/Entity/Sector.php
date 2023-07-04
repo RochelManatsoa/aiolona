@@ -103,12 +103,4 @@ class Sector
 
         return $this;
     }
-
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function generateSlug(): void
-    {
-        $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->name);
-    }
 }
