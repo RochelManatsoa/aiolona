@@ -46,13 +46,13 @@ class AppDefaultAthenticatorAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        $user = $token->getUser();
+        // $user = $token->getUser();
 
-        if($user->getIdentity()->getId() !== null){
-            return new RedirectResponse($this->urlGenerator->generate('app_profile'));
-        }
+        // if($user->getIdentity()->getId() !== null){
+        //     return new RedirectResponse($this->urlGenerator->generate('app_profile'));
+        // }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
+        return new RedirectResponse($this->urlGenerator->generate('app_profile'));
     }
 
     protected function getLoginUrl(Request $request): string
