@@ -19,8 +19,10 @@
 
   {% include 'base/navbar.html.twig' %}
 
-  <body>
-    {% block body %}{% endblock %}
+  <body {{ stimulus_controller('symfony/ux-swup/swup') }}>
+    <main id="swup">
+      {% block body %}{% endblock %}
+    </main>
   </body>
   
   {% include 'base/footer.html.twig' %}
