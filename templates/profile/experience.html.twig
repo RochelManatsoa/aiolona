@@ -25,11 +25,7 @@
                   
         </p>
         <div class="mt-10 space-y-10">
-          {% if experiences is empty %}
-            <p>
-              Aucune expérience à afficher.
-            </p>
-          {% else %}
+          {% if experiences is not empty %}
             <ul class="divide-y divide-gray-200">
               {% for experience in experiences %}
                 <li class="py-2">

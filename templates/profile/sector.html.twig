@@ -2,6 +2,7 @@
 
 {% block title %}
   Créer mon profil
+  
 {% endblock %}
 
 {% block body %}
@@ -10,29 +11,25 @@
     <div class="w-full max-w-lg">
       {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
       ) }} 
+            
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
-          Secteur
+          Secteur                  
         </h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">
-          Veuillez indiquer votre secteur d'activité:
+          Veuillez indiquer votre secteur d'activité:                  
         </p>
         <div class="space-y-10">
-          {% for sector in form.sectors %}
-            <div class="mt-4">
-              {{ form_widget(sector, {'attr': {'class': 'bg-white rounded-md shadow-sm px-2 py-2 mr-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' }}
-              ) }}
-              {{ form_label(sector, sector.vars.label, {'label_attr': {'class': 'text-sm font-medium text-gray-700' }}
-              ) }}
-            </div>
-          {% endfor %}
+          <div class="mt-4">
+            {{ form_widget(form) }}
+          </div>
         </div>
       </div>
       <a class="mx-5" href="{{ path('app_profile_ia') }}">
-        Skip for now
+        Skip for now              
       </a>
       <button type="submit" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Next, add your AI tools favorite
+        Next, add your AI tools favorite              
       </button>
       {{ form_end(form) }}
     </div>
