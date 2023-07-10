@@ -10,20 +10,15 @@
     <div class="w-full max-w-lg">
       {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
       ) }} 
-      
           
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">Quelques derniers détails, ensuite vous pourrez vérifier et publier votre profil.</h2>
         <p class="mt-1 text-sm leading-6 text-gray-600"></p>
         <div class="mt-10 space-y-10">
           <div class="mt-4">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="file-input">
-              Sélectionner un fichier
-              </label>
-              {{ form_widget(form, {'attr': {'class': 'block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500'}}) }}
-            </div>
+            {{ form_widget(form) }}
+          </div>
         </div>
-
       </div>
     <a class="mx-5" href="{{path('app_dashboard')}}">Skip for now</a>
       <button type="submit" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
