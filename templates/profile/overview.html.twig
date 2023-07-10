@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Créer mon profil
+{% endblock %}
+
+{% block body %}
+
+  <div class="bg-gray-100 flex justify-center ">
+    <div class="w-full max-w-lg">
+      {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
+      ) }} 
+      
+          
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Génial ! Maintenant rédigez une biographie pour vous présenter au monde.</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600"></p>
+        <div class="mt-10 space-y-10">
+          <div class="mt-4">
+              <label class="block text-gray-700 text-sm font-bold mb-2" for="file-input">
+              Sélectionner un fichier
+              </label>
+              {{ form_widget(form, {'attr': {'class': 'block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500'}}) }}
+            </div>
+        </div>
+
+      </div>
+    <a class="mx-5" href="{{path('app_profile_avatar')}}">Skip for now</a>
+      <button type="submit" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Next, add your photo
+      </button>
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+{% endblock %}
