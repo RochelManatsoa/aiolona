@@ -19,7 +19,19 @@
 
   {% include 'base/navbar.html.twig' %}
 
-  <body {{ stimulus_controller('symfony/ux-swup/swup') }}>
+  <body 
+  {{ stimulus_controller('symfony/ux-swup/swup', {
+    containers: ['#swup', '#nav'],
+    animateHistoryBrowsing: true,
+    animationSelector: '[class*="transition-"]',
+    cache: true,
+    requestHeaders: {
+      'X-Requested-With': 'swup',
+      'Accept': 'text/html, application/xhtml+xml'
+    },
+    theme: 'fade',
+    debug: true,
+  }) }}>
     <main id="swup">
       {% block body %}{% endblock %}
     </main>

@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Créer mon profil
+        
+      
+    
+  
+{% endblock %}
+
+{% block body %}
+
+  <div class="bg-gray-100 flex justify-center ">
+    <div class="w-full max-w-lg">
+      {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
+      ) }} 
+                              
+                                  
+                              
+                        
+                  
+            
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          C'est bien. Ensuite, indiquez-nous quelles langues vous parlez.
+                                      
+                            
+                  
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
+                                      
+                            
+                  
+        </p>
+        <div class="mt-10 space-y-10">
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Langage
+                                      
+                  </th>
+                  <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Niveau
+                                      
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {% if languages is empty %}
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      English
+                                      
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      My level is
+                                      
+                    </td>
+                  </tr>
+                {% else %}
+                  {% for language in languages %}
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        {{ language.title }}
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <p class='text-xs'>
+                          {{ language.level }}
+                        </p>
+                        <p class='text-xs text-gray-400'>
+                          {{ language.getRealFileName(language.level) }}
+                        </p>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                {% endif %}
+              </tbody>
+            </table>
+          </div>
+          {% if form.languages is defined %}
+            <div {{ stimulus_controller('form-collection') }} data-form-collection-index-value="{{ form.languages|length > 0 ? form.languages|last.vars.name + 1 : 0 }}" data-form-collection-prototype-value="{{ form_widget(form.languages.vars.prototype)|e('html_attr') }}">
+              <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div class="relative w-full max-w-2xl max-h-full">
+                  <!-- Modal content -->
+                  <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                      <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Ajouter une language                                                       
+                                                                                                
+                                                                        
+                                                
+                      </h3>
+                      <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultModal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">
+                          Close modal
+                                                                                                        
+                                                                              
+                                                    
+                        </span>
+                      </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-6">
+                      <ul {{ stimulus_target('form-collection', 'collectionContainer') }}></ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button type="button" data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" {{ stimulus_action('form-collection', 'addCollectionElement') }}>
+                Add an language
+                                                                
+                                                
+                                
+              </button>
+            </div>
+          {% endif %}
+          <div style="display:none;">
+            {{ form_row(form) }}
+          </div>
+        </div>
+
+      </div>
+      <a class="mx-5" href="{{ path('app_profile_rate') }}">
+        Skip for now
+                                
+                        
+                
+      </a>
+      <a href="{{ path('app_profile_rate') }}" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Next, set your rate
+                                        
+                                
+                        
+                
+      </a>
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+{% endblock %}

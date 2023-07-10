@@ -16,7 +16,6 @@ class AiAutocompleteField extends AbstractType
     {
         $resolver->setDefaults([
             'class' => AIcores::class,
-            'label' => 'What sounds tasty?',
             'choice_label' => 'name',
             'multiple' => true,
         ]);

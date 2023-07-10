@@ -8,11 +8,12 @@ use App\Repository\IdentityRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use Serializable;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: IdentityRepository::class)]
 #[Vich\Uploadable]
-class Identity
+class Identity implements Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -70,11 +71,24 @@ class Identity
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $tarif = null;
 
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Experience::class, cascade: ['persist', 'remove'])]
+    private Collection $experiences;
+
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Language::class, cascade: ['persist', 'remove'])]
+    private Collection $languages;
+
 
     public function __construct()
     {
         $this->aicores = new ArrayCollection();
         $this->sectors = new ArrayCollection();
+        $this->experiences = new ArrayCollection();
+        $this->languages = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->firstName;
     }
 
     public function getId(): ?int
@@ -316,6 +330,77 @@ class Identity
         $this->tarif = $tarif;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Experience>
+     */
+    public function getExperiences(): Collection
+    {
+        return $this->experiences;
+    }
+
+    public function addExperience(Experience $experience): static
+    {
+        if (!$this->experiences->contains($experience)) {
+            $this->experiences->add($experience);
+            $experience->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExperience(Experience $experience): static
+    {
+        if ($this->experiences->removeElement($experience)) {
+            // set the owning side to null (unless already changed)
+            if ($experience->getIdentity() === $this) {
+                $experience->setIdentity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Language>
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): static
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages->add($language);
+            $language->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): static
+    {
+        if ($this->languages->removeElement($language)) {
+            // set the owning side to null (unless already changed)
+            if ($language->getIdentity() === $this) {
+                $language->setIdentity(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function serialize()
+    {
+        $this->fileName = base64_encode($this->fileName);
+    }
+
+    public function unserialize($serialized)
+    {
+        $this->fileName = base64_decode($this->fileName);
+
     }
 
 }
