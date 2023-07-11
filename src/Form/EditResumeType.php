@@ -5,22 +5,23 @@ namespace App\Form;
 use App\Entity\Identity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CountryType;
 
-class AvatarType extends AbstractType
+class EditResumeType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('file', VichImageType::class, [])
-        ->add('phone')
-        ->add('country', CountryType::class, [
-            'label' => 'Pays',
-            'required' => false,
-            'placeholder' => 'Sélectionnez un pays',
-        ])
+            ->add('mainColor')
+            ->add('bio')
+            ->add('templateProfile')
+            ->add('username')
+            ->add('fileName')
+            ->add('tarif')
+            ->add('account')
+            ->add('aicores')
+            ->add('user')
+            ->add('sectors')
         ;
     }
 

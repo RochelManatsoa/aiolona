@@ -20,7 +20,7 @@ class ProfileCatalogController extends AbstractController
         Request $request,
         PaginatorInterface $paginatorInterface
     ): Response {
-        $data = $identityRepository->findAll();
+        $data = $identityRepository->findAllValid();
         $identities = $paginatorInterface->paginate(
             $data,
             $request->query->getInt('page', 1),
