@@ -2,22 +2,21 @@
 
 namespace App\Controller;
 
-use App\Entity\Experience;
-use App\Form\AvatarType;
-use App\Form\ExpType;
 use App\Form\IaType;
+use App\Form\ExpType;
 use App\Form\LangType;
-use App\Form\LanguagesType;
-use App\Form\OverviewType;
 use App\Form\RateType;
+use App\Entity\Identity;
+use App\Form\AvatarType;
 use App\Form\SecteurType;
+use App\Form\OverviewType;
 use App\Manager\IdentityManager;
-use App\Repository\ExperienceRepository;
 use App\Repository\LanguageRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ExperienceRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfileController extends AbstractController
 {
@@ -35,11 +34,13 @@ class ProfileController extends AbstractController
     public function sector(
         Request $request,
         IdentityManager $identityManager,
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
 
-        $identity = $identityManager->init();
+        $identity = $this->getUser()->getIdentity();
+        if (!$identity instanceof Identity) {
+            $identity = $identityManager->init();
+        }
         $form = $this->createForm(SecteurType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,7 +49,6 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile_ia', [
                 'identity' => $identity
             ]);
-            
         }
 
         return $this->render('profile/sector.html.twig', [
@@ -60,8 +60,7 @@ class ProfileController extends AbstractController
     public function ia(
         Request $request,
         IdentityManager $identityManager,
-    ): Response
-    {
+    ): Response {
         $identity = $this->getUser()->getIdentity();
 
         $form = $this->createForm(IaType::class, $identity, []);
@@ -72,7 +71,6 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile_experience', [
                 'identity' => $identity
             ]);
-            
         }
 
         return $this->render('profile/ia.html.twig', [
@@ -85,8 +83,7 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
         ExperienceRepository $experienceRepository
-    ): Response
-    {
+    ): Response {
         $identity = $this->getUser()->getIdentity();
         $expriences = $experienceRepository->findBy(['identity' => $identity]);
 
@@ -98,7 +95,6 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile_experience', [
                 'identity' => $identity,
             ]);
-            
         }
 
         return $this->render('profile/experience.html.twig', [
@@ -112,8 +108,7 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
         LanguageRepository $languageRepository
-    ): Response
-    {
+    ): Response {
         $identity = $this->getUser()->getIdentity();
         $languages = $languageRepository->findBy(['identity' => $identity]);
 
@@ -125,7 +120,6 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile_language', [
                 'identity' => $identity
             ]);
-            
         }
 
         return $this->render('profile/languages.html.twig', [
@@ -138,8 +132,7 @@ class ProfileController extends AbstractController
     public function rate(
         Request $request,
         IdentityManager $identityManager,
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
 
         $form = $this->createForm(RateType::class, $user = $this->getUser()->getIdentity(), []);
@@ -149,7 +142,7 @@ class ProfileController extends AbstractController
 
             return $this->redirectToRoute('app_profile_overview', [
                 'identity' => $identity
-            ]);            
+            ]);
         }
 
         return $this->render('profile/rate.html.twig', [
@@ -161,8 +154,7 @@ class ProfileController extends AbstractController
     public function overview(
         Request $request,
         IdentityManager $identityManager,
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
 
         $form = $this->createForm(OverviewType::class, $user = $this->getUser()->getIdentity(), []);
@@ -172,7 +164,7 @@ class ProfileController extends AbstractController
 
             return $this->redirectToRoute('app_profile_avatar', [
                 'identity' => $identity
-            ]);            
+            ]);
         }
 
         return $this->render('profile/overview.html.twig', [
@@ -184,8 +176,7 @@ class ProfileController extends AbstractController
     public function avatar(
         Request $request,
         IdentityManager $identityManager,
-    ): Response
-    {
+    ): Response {
         $user = $this->getUser();
 
         $form = $this->createForm(AvatarType::class, $user = $this->getUser()->getIdentity(), []);
@@ -195,7 +186,7 @@ class ProfileController extends AbstractController
 
             return $this->redirectToRoute('app_account', [
                 'identity' => $identity
-            ]);            
+            ]);
         }
 
         return $this->render('profile/avatar.html.twig', [

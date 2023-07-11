@@ -2,29 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Identity;
+use App\Entity\Note;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OverviewType extends AbstractType
+class NoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('bio', TextareaType::class, [
-                'attr' => [
-                    'rows' => 6
-                ]
-            ])
+            ->add('note', NumberType::class)
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Identity::class,
+            'data_class' => Note::class,
         ]);
     }
 }

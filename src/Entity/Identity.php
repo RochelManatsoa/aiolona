@@ -77,6 +77,15 @@ class Identity implements Serializable
     #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Language::class, cascade: ['persist', 'remove'])]
     private Collection $languages;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
+    #[ORM\ManyToMany(targetEntity: AINote::class, mappedBy: 'identities')]
+    private Collection $aINotes;
+
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Note::class)]
+    private Collection $notes;
+
 
     public function __construct()
     {
@@ -84,6 +93,8 @@ class Identity implements Serializable
         $this->sectors = new ArrayCollection();
         $this->experiences = new ArrayCollection();
         $this->languages = new ArrayCollection();
+        $this->aINotes = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function __toString()
@@ -401,6 +412,75 @@ class Identity implements Serializable
     {
         $this->fileName = base64_decode($this->fileName);
 
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AINote>
+     */
+    public function getAINotes(): Collection
+    {
+        return $this->aINotes;
+    }
+
+    public function addAINote(AINote $aINote): static
+    {
+        if (!$this->aINotes->contains($aINote)) {
+            $this->aINotes->add($aINote);
+            $aINote->addIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAINote(AINote $aINote): static
+    {
+        if ($this->aINotes->removeElement($aINote)) {
+            $aINote->removeIdentity($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getIdentity() === $this) {
+                $note->setIdentity(null);
+            }
+        }
+
+        return $this;
     }
 
 }
