@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AIcoresRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AIcoresRepository::class)]
 class AIcores
@@ -15,12 +16,15 @@ class AIcores
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['identity'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['identity'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -30,6 +34,7 @@ class AIcores
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255, nullable: true)]

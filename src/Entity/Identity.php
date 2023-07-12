@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Serializable;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: IdentityRepository::class)]
 #[Vich\Uploadable]
@@ -18,72 +19,90 @@ class Identity implements Serializable
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['identity'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $avatar = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $mainColor = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $bio = null;
 
     #[ORM\ManyToOne(inversedBy: 'identities')]
     private ?Account $account = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['identity'])]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $templateProfile = null;
 
     #[ORM\ManyToMany(targetEntity: AIcores::class, inversedBy: 'identities')]
+    #[Groups(['identity'])]
     private Collection $aicores;
 
     #[ORM\OneToOne(inversedBy: 'identity', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Sector::class, inversedBy: 'identity')]
+    #[Groups(['identity'])]
     private Collection $sectors;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $country = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['identity'])]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $username = null;
 
     #[Vich\UploadableField(mapping: 'cv_expert', fileNameProperty: 'fileName')]
+    #[Groups(['identity'])]
     private ?File $file = null;
     
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $fileName = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $tarif = null;
 
     #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Experience::class, cascade: ['persist', 'remove'])]
+    #[Groups(['identity'])]
     private Collection $experiences;
 
     #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Language::class, cascade: ['persist', 'remove'])]
+    #[Groups(['identity'])]
     private Collection $languages;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $phone = null;
 
     #[ORM\ManyToMany(targetEntity: AINote::class, mappedBy: 'identities')]
     private Collection $aINotes;
 
     #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Note::class)]
+    #[Groups(['identity'])]
     private Collection $notes;
 
 
