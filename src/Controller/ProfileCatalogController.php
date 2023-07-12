@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sector;
 use App\Entity\Identity;
 use App\Repository\IdentityRepository;
+use App\Repository\SectorRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +20,7 @@ class ProfileCatalogController extends AbstractController
         Request $request,
         PaginatorInterface $paginatorInterface
     ): Response {
-        $data = $identityRepository->findAll();
+        $data = $identityRepository->findAllValid();
         $identities = $paginatorInterface->paginate(
             $data,
             $request->query->getInt('page', 1),
@@ -38,12 +39,13 @@ class ProfileCatalogController extends AbstractController
         ]);
     }
 
-    #[Route('/experts/{username}', name: 'app_profile_expert')]
-    public function expert(Identity $identity, Sector $sector, IdentityRepository $identityRepository): Response
+    #[Route('/experts/{username}/identity', name: 'app_profile_expert')]
+    public function expert(Identity $identity, SectorRepository $sectorRepository, IdentityRepository $identityRepository): Response
     {
         return $this->render('profile_catalog/show.html.twig', [
-            'identities' => $identityRepository->findBySector($sector->getSlug()),
-            'identity' => $identityRepository->findByUsername($identity->getUsername()),
+            'identity' => $identity,
+            'sectors' => $identity->getSectors(),
+            'aicors' => $identity->getAicores(),
         ]);
     }
 }

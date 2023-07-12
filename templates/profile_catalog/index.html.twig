@@ -16,9 +16,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {% for identity in identities %}
                     <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                        <img class="w-full" src="{{vich_uploader_asset(identity, 'file')}}" alt="Image de la card">
+                        <a href="{{path('app_profile_expert', {'username' : identity.username} )}}">
+                            <img class="w-full" src="{{vich_uploader_asset(identity, 'file')}}" alt="Image de la card">
+                        </a>
                         <div class="px-6 py-4">
-                            <div class="font-bold text-xl mb-2">{{ identity.firstName }} {{ identity.lastName }}</div>
+                            <a href="{{path('app_profile_expert', {'username' : identity.username} )}}">
+                                <div class="font-bold text-xl mb-2">
+                                    {{ identity.firstName }} {{ identity.lastName }}
+                                </div>
+                            </a>
                             <p class="text-gray-700 text-xs">
                                 Tarif moyenne journalier: <br> <span class="font-bold">€ {{ identity.tarif / 100}}</span>
                             </p>

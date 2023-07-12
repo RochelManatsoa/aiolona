@@ -30,7 +30,7 @@
                                     {{ form_label(sector, sector.vars.label, {'attr': {'class': 'block text-sm font-medium leading-6 text-gray-900'}}) }}
                                 </div>
                                 {% endfor %}
-                                </div>
+                                </div>  
                             </fieldset>
                         </div>
 
@@ -45,16 +45,7 @@
                         <fieldset>
                             <legend class="text-sm font-semibold leading-6 text-gray-900"></legend>
                             <div class="mt-6 space-y-6">
-                            {% for account in form.aicores %}
-                            <div class="relative flex gap-x-3">
-                            <div class="flex h-6 items-center">
-                                {{ form_widget(account, {'attr': {'class': 'h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600'}}) }}
-                            </div>
-                            <div class="text-sm leading-6">
-                            {{ form_label(account, account, {'attr': {'class': 'font-medium text-gray-900'}}) }}
-                            </div>
-                            </div>
-                            {% endfor %}
+                            {{form_widget(form.aicores)}}
                             </div>
                         </fieldset>
                         </div>
@@ -83,12 +74,6 @@
                                 {{ form_widget(form.bio, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6', 'rows':'3'}}) }}
                             </div>
                             <p class="mt-3 text-sm leading-6 text-gray-600">Écrivez quelques phrases sur vous-même.</p>
-                            </div>
-
-                            <div class="sm:col-span-6">
-                                <div class="mt-2">
-                                {{ form_widget(form.country, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6', 'autocomplete':'country-name'}}) }}
-                                </div>
                             </div>
                         </div>
                     </div>

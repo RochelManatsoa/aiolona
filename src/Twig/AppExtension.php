@@ -20,6 +20,8 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('show_account_desc', [$this, 'showAccountDesc']),
             new TwigFunction('show_country', [$this, 'showCountry']),
+            new TwigFunction('getNote', [$this, 'getNote']),
+            new TwigFunction('checkNotNull', [$this, 'checkNotNull']),
         ];
     }
 
@@ -30,6 +32,21 @@ class AppExtension extends AbstractExtension
 
     public function showCountry($countryCode)
     {
-        return \Symfony\Component\Intl\Countries::getName($countryCode);
+        if(null !== $countryCode){
+            return \Symfony\Component\Intl\Countries::getName($countryCode);
+        }
+        return null;
+    }
+
+    public function getNote(string $note)
+    {
+        return (int)$note;
+    }
+    public function checkNotNull($variable)
+    {
+        if(null !== $variable){
+            return $variable;
+        }
+        return null;
     }
 }

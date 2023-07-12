@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AIcoresRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AIcoresRepository::class)]
 class AIcores
@@ -15,12 +16,15 @@ class AIcores
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['identity'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['identity'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $slug = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -30,6 +34,7 @@ class AIcores
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $type = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -41,6 +46,12 @@ class AIcores
     #[ORM\ManyToMany(targetEntity: Identity::class, mappedBy: 'aicores')]
     private Collection $identities;
 
+    #[ORM\ManyToMany(targetEntity: AINote::class, mappedBy: 'aiCores')]
+    private Collection $aINotes;
+
+    #[ORM\OneToMany(mappedBy: 'aiCore', targetEntity: Note::class)]
+    private Collection $notes;
+
     public function __toString()
     {
         return $this->name;
@@ -50,6 +61,8 @@ class AIcores
     {
         $this->aIcategories = new ArrayCollection();
         $this->identities = new ArrayCollection();
+        $this->aINotes = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,5 +209,62 @@ class AIcores
     {
         $slugify = new Slugify();
         $this->slug = $slugify->slugify($this->name);
+    }
+
+    /**
+     * @return Collection<int, AINote>
+     */
+    public function getAINotes(): Collection
+    {
+        return $this->aINotes;
+    }
+
+    public function addAINote(AINote $aINote): static
+    {
+        if (!$this->aINotes->contains($aINote)) {
+            $this->aINotes->add($aINote);
+            $aINote->addAiCore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAINote(AINote $aINote): static
+    {
+        if ($this->aINotes->removeElement($aINote)) {
+            $aINote->removeAiCore($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setAiCore($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getAiCore() === $this) {
+                $note->setAiCore(null);
+            }
+        }
+
+        return $this;
     }
 }

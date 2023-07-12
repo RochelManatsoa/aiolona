@@ -2,107 +2,145 @@
 
 {% block title %}
     Mon compte
+        
+    
 {% endblock %}
 
 {% block body %}
     <div class="bg-gray-100 min-h-screen">
-        <div class="container mx-auto p-4">
+        <div class="max-w-xl mx-auto bg-white rounded-lg p-4 shadow-md text-xs">
             <h1 class="text-2xl font-bold mb-4">
-                Mon profil
+                {{ identity.firstName | upper }}
+                {{ identity.lastName }}
             </h1>
+            <a href="{{path('app_edit_contact')}}">
+                <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
+                    <div class="w-5/6 lg:w-7/8">
+                        <div class="flex items-center">
+                            <svg class="w-[12px] h-[12px] mr-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2" />
+                            </svg>
+                            <p class="text-gray-600">
+                                {{ identity.user.email }}
+                            </p>
+                        </div>
 
-            <div class="flex">
-                <div class="w-3/5 lg:w-2/3 bg-white rounded-lg p-4 shadow-md mr-2">
-                    <h2 class="text-lg font-bold mb-2">
-                        Compte
-                    </h2>
-                    <p class="text-gray-600">
-                        {{ identity.account.name }}
-                    </p>
-                    <div class="flex items-center justify-center mt-4">
-                        <div class="border-t border-gray-300 flex-grow"></div>
+                        <div class="flex items-center mt-4">
+                            <svg class="w-[12px] h-[12px] mr-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16.344 12.168-1.4-1.4a1.98 1.98 0 0 0-2.8 0l-.7.7a1.98 1.98 0 0 1-2.8 0l-2.1-2.1a1.98 1.98 0 0 1 0-2.8l.7-.7a1.981 1.981 0 0 0 0-2.8l-1.4-1.4a1.828 1.828 0 0 0-2.8 0C-.638 5.323 1.1 9.542 4.78 13.22c3.68 3.678 7.9 5.418 11.564 1.752a1.828 1.828 0 0 0 0-2.804Z" />
+                            </svg>
+                            <p class="text-gray-600">
+                                {{ checkNotNull(identity.phone) }}                                                    
+                            </p>
+                        </div>
+
+                        <div class="flex items-center mt-4">
+                            <svg class="w-[12px] h-[12px] mr-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                    <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z" />
+                                </g>
+                            </svg>
+                            <p class="text-gray-600">
+                                {{ show_country(identity.country) }}
+                            </p>
+                        </div>
                     </div>
-                    <h2 class="text-lg font-bold mb-2">
-                        Secteurs
-                    </h2>
-                    <ul class="text-gray-600">
-                        <!-- Remplacez `userInfos` par votre liste d'objets -->
-                        {% for sector in identity.sectors %}
-                            <li class="mb-1">
-                                {{ sector.name }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="flex items-center justify-center mt-4">
-                        <div class="border-t border-gray-300 flex-grow"></div>
+                    <div class="w-1/6 lg:w-1/8 ml-auto">
+                        <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1" />
+                        </svg>
                     </div>
-                    <h2 class="text-lg font-bold mb-2">
-                        AI maîtrisés
-                    </h2>
-                    <ul class="text-gray-600">
-                        <!-- Remplacez `userInfos` par votre liste d'objets -->
-                        {% for aicore in identity.aicores %}
-                            <li class="mb-1">
-                                {{ aicore.name }}
-                                <div class="flex items-center">
-                                    {% for i in 1..5 %}
-                                        {% if i <= aicore.id %}
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
-                                            </svg>
-                                        {% else %}
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                                <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
-                                            </svg>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="flex items-center justify-center mt-4">
-                        <div class="border-t border-gray-300 flex-grow"></div>
-                    </div>
-                    <h2 class="text-lg font-bold mb-2">
-                        Membre depuis
-                    </h2>
-                    <p class="text-gray-600">
-                        {{ identity.createdAt | date('Y-m-d') }}
-                    </p>
                 </div>
-                <div class="w-2/5 lg:w-1/3 bg-white rounded-lg p-4 shadow-md">
-                    <h2 class="text-lg font-bold mb-2">
-                        Mes infos
-                    </h2>
-                    <ul>
-                        <!-- Remplacez `userInfos` par votre liste d'objets -->
-                        <li class="mb-1">
-                            <span class="font-bold">
-                                Nom :
-                            </span>
-                            {{ identity.firstName }}
-                        </li>
-                        <li class="mb-1">
-                            <span class="font-bold">
-                                Prénom :
-                            </span>
-                            {{ identity.lastName }}
-                        </li>
-                        <li class="mb-1">
-                            <span class="font-bold">
-                                Email :
-                            </span>
-                            {{ identity.user.email }}
-                        </li>
-                        <li class="mb-1">
-                            <span class="font-bold">
-                                Pays :
-                            </span>
-                            {{ show_country(identity.country) }}
-                        </li>
-                    </ul>
+            </a>
+            <h2 class="text-lg font-bold mb-4">
+                CV
+            </h2>
+            <a href="{{path('app_resume')}}">
+                <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
+                    <div class="w-5/6 lg:w-7/8">
+                        <div class="flex items-center">
+                            <div>
+                                <svg class="w-[12px] h-[12px] mr-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-gray-600">
+                                    CV Olona Expert IA
+                                </p>
+                                <p class="text-gray-400">
+                                    Mis à jour aujourd'hui
+                                </p>
+                                <p class="text-gray-800">
+                                    Public 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-1/6 lg:w-1/8 ml-auto">
+                        <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1" />
+                        </svg>
+                    </div>
                 </div>
-            </div>
+            </a>
+            <h2 class="text-lg font-bold mb-4">
+            Améliorez la pertinence de vos offres
+            </h2>
+            <a href="{{path('app_edit_resume')}}">
+                <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
+                    <div class="w-5/6 lg:w-7/8">
+                    <h3 class="text-md font-bold mb-2">
+                        Qualifications
+                    </h3>
+                    <p class="text-gray-600">
+                        Mettez vos competences et votre experience en avant
+                    </p>
+                    </div>
+                    <div class="w-1/6 lg:w-1/8 ml-auto">
+                        <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{path('app_edit_contact')}}">
+                <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
+                    <div class="w-5/6 lg:w-7/8">
+                    <h3 class="text-md font-bold mb-2">
+                        Préférence emploi
+                    </h3>
+                    <p class="text-gray-600">
+                        Préciser certains informations, telles que salaire minimum et l'horaire désiré
+                    </p>
+                    </div>
+                    <div class="w-1/6 lg:w-1/8 ml-auto">
+                        <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{path('app_edit_contact')}}">
+                <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
+                    <div class="w-5/6 lg:w-7/8">
+                    <h3 class="text-md font-bold mb-2">
+                        Masquer les offres avec ces détails
+                    </h3>
+                    <p class="text-gray-600">
+                        Mettez vos competences et votre experience en avant
+                    </p>
+                    </div>
+                    <div class="w-1/6 lg:w-1/8 ml-auto">
+                        <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
         </div>
     </div>
 

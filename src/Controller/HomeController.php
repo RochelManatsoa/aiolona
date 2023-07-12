@@ -26,9 +26,15 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/rc/profile', name: 'app_profile')]
+    #[Route('/rc/profile', name: 'app_old_profile')]
     public function profile(Request $request, IdentityManager $identityManager, AccountRepository $accountRepository, SessionInterface $sessionInterface): Response
     {
+        // if($this->getUser()->getIdentity() !== null){
+        //     return $this->redirectToRoute('app_dashboard', [
+        //         'identity' => $this->getUser()->getIdentity()
+        //     ]);
+        // }
+        
         $identity = $identityManager->init();
         $form = $this->createForm(IdentityType::class, $identity, []);
         $form->handleRequest($request);

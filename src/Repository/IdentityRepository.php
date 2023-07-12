@@ -54,6 +54,35 @@ class IdentityRepository extends ServiceEntityRepository
        ;
    }
 
+   /**
+    * @return Identity[] Returns an array of Identity objects
+    */
+   public function findAllValid(): array
+   {
+       return $this->createQueryBuilder('i')
+           ->andWhere('i.fileName IS NOT NULL')
+           ->orderBy('i.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
+   /**
+    * @return Identity[] Returns an array of Identity objects
+    */
+   public function getIdentityByIa(string $tools): array
+   {
+       return $this->createQueryBuilder('i')
+           ->innerJoin('i.aicores', 'a')
+           ->where('a.slug = :val')
+           ->andWhere('i.fileName IS NOT NULL')
+           ->setParameter('val', $tools)
+           ->orderBy('i.id', 'ASC')
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 //    public function findOneBySomeField($value): ?Identity
 //    {
 //        return $this->createQueryBuilder('i')
