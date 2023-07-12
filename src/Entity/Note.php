@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\NoteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: NoteRepository::class)]
 class Note
@@ -11,15 +12,18 @@ class Note
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['identity'])]
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['identity'])]
     private ?int $note = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
     private ?Identity $identity = null;
 
     #[ORM\ManyToOne(inversedBy: 'notes')]
+    #[Groups(['identity'])]
     private ?AIcores $aiCore = null;
 
     public function __toString()

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ExperienceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ExperienceRepository::class)]
 class Experience
@@ -12,33 +13,42 @@ class Experience
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['identity'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['identity'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['identity'])]
     private ?string $company = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['identity'])]
     private ?bool $currently = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['identity'])]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['identity'])]
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'experiences', cascade: ['persist', 'remove'])]
     private ?Identity $identity = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $location = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['identity'])]
     private ?string $country = null;
 
     public function getId(): ?int
