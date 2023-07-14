@@ -84,7 +84,7 @@ class AccountController extends AbstractController
     ): Response
     {
         $identity = $this->getUser()->getIdentity();
-        $form = $this->createForm(ExperienceType::class, $experience);
+        $form = $this->createForm(ExperienceType::class, $experience, ['edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($form->getData());
@@ -110,15 +110,15 @@ class AccountController extends AbstractController
     ): Response
     {
         $identity = $this->getUser()->getIdentity();
-        $form = $this->createForm(LanguageType::class, $language, []);
+        $form = $this->createForm(LanguageType::class, $language, ['edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($form->getData());
             $em->flush();
-
+            
             return $this->redirectToRoute('app_resume', [
-                'identity' => $this->getUser()->getIdentity()
-            ]);            
+                'identity' => $identity
+            ]);          
         }
 
         return $this->render('account/edit_resume.html.twig', [

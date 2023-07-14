@@ -39,6 +39,12 @@ class Language
     #[ORM\ManyToOne(inversedBy: 'languages', cascade: ['persist', 'remove'])]
     private ?Identity $identity = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $code = null;
+
+    #[ORM\ManyToOne(inversedBy: 'languages')]
+    private ?Lang $lang = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +82,30 @@ class Language
     public function setIdentity(?Identity $identity): static
     {
         $this->identity = $identity;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): static
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getLang(): ?Lang
+    {
+        return $this->lang;
+    }
+
+    public function setLang(?Lang $lang): static
+    {
+        $this->lang = $lang;
 
         return $this;
     }

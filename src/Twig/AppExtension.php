@@ -25,6 +25,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getNote', [$this, 'getNote']),
             new TwigFunction('getIdentityAiNote', [$this, 'getIdentityAiNote']),
             new TwigFunction('checkNotNull', [$this, 'checkNotNull']),
+            new TwigFunction('isoToEmoji', [$this, 'isoToEmoji']),
         ];
     }
 
@@ -64,5 +65,16 @@ class AppExtension extends AbstractExtension
             return $variable;
         }
         return null;
+    }
+
+    public function isoToEmoji(string $code)
+    {
+        return implode(
+            '',
+            array_map(
+                fn ($letter) => mb_chr(ord($letter) % 32 + 0x1F1E5),
+                str_split($code)
+            )
+        );
     }
 }
