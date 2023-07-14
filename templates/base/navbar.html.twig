@@ -74,11 +74,9 @@
                                             <a href="{{ path('app_account') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-4">
                                                 {{ 'menu.notifications'|trans }}
                                             </a>
-                                            {% if not is_granted('ROLE_ADMIN') %}
                                             <a href="{{ path('admin') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-5">
                                                 {{ 'menu.admin'|trans }}
                                             </a>
-                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
