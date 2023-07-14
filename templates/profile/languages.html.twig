@@ -1,11 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Créer mon profil
-        
-      
-    
-  
+{{ 'menu.profile'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -15,23 +11,12 @@
       {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
       ) }} 
                               
-                                  
-                              
-                        
-                  
-            
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
-          C'est bien. Ensuite, indiquez-nous quelles langues vous parlez.
-                                      
-                            
-                  
+        {{ 'language.label'|trans }} 
         </h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">
-          Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
-                                      
-                            
-                  
+        {{ 'language.intro'|trans }} 
         </p>
         <div class="mt-10 space-y-10">
           <div class="overflow-x-auto">
@@ -94,7 +79,7 @@
                 </div>
               </div>
               <button type="button" data-modal-target="defaultModal" data-modal-toggle="defaultModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" {{ stimulus_action('form-collection', 'addCollectionElement') }}>
-                Add a language                                                                
+              {{ 'profile.add.language'|trans }}                                                                 
               </button>
             </div>
           <div style="display:none;">
@@ -103,10 +88,10 @@
         </div>
       </div>
       <a class="mx-5" href="{{ path('app_profile_rate') }}">
-        Skip for now
+      {{ 'profile.skip'|trans }} 
       </a>
       <a href="{{ path('app_profile_rate') }}" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Next, set your rate
+      {{ 'profile.next.rate'|trans }} 
       </a>
       {{ form_end(form) }}
     </div>

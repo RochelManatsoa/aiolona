@@ -1,9 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Mon compte
-        
-    
+{{ 'menu.profile'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -26,15 +24,6 @@
                         </div>
 
                         <div class="flex items-center mt-4">
-                            <svg class="w-[12px] h-[12px] mr-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16.344 12.168-1.4-1.4a1.98 1.98 0 0 0-2.8 0l-.7.7a1.98 1.98 0 0 1-2.8 0l-2.1-2.1a1.98 1.98 0 0 1 0-2.8l.7-.7a1.981 1.981 0 0 0 0-2.8l-1.4-1.4a1.828 1.828 0 0 0-2.8 0C-.638 5.323 1.1 9.542 4.78 13.22c3.68 3.678 7.9 5.418 11.564 1.752a1.828 1.828 0 0 0 0-2.804Z" />
-                            </svg>
-                            <p class="text-gray-600">
-                                {{ checkNotNull(identity.phone) }}                                                    
-                            </p>
-                        </div>
-
-                        <div class="flex items-center mt-4">
                             <svg class="w-[12px] h-[12px] mr-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
                                 <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                     <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
@@ -43,6 +32,15 @@
                             </svg>
                             <p class="text-gray-600">
                                 {{ show_country(identity.country) }}
+                            </p>
+                        </div>
+
+                        <div class="flex items-center mt-4">
+                            <svg class="w-[12px] h-[12px] mr-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16.344 12.168-1.4-1.4a1.98 1.98 0 0 0-2.8 0l-.7.7a1.98 1.98 0 0 1-2.8 0l-2.1-2.1a1.98 1.98 0 0 1 0-2.8l.7-.7a1.981 1.981 0 0 0 0-2.8l-1.4-1.4a1.828 1.828 0 0 0-2.8 0C-.638 5.323 1.1 9.542 4.78 13.22c3.68 3.678 7.9 5.418 11.564 1.752a1.828 1.828 0 0 0 0-2.804Z" />
+                            </svg>
+                            <p class="text-gray-600">
+                                {{ checkNotNull(identity.phone) }}                                                    
                             </p>
                         </div>
                     </div>
@@ -86,16 +84,16 @@
                 </div>
             </a>
             <h2 class="text-lg font-bold mb-4">
-            Améliorez la pertinence de vos offres
+            {{ 'account.offer'|trans }}
             </h2>
             <a href="{{path('app_edit_resume')}}">
                 <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
                     <div class="w-5/6 lg:w-7/8">
                     <h3 class="text-md font-bold mb-2">
-                        Qualifications
+                    {{ 'account.qualification'|trans }}
                     </h3>
                     <p class="text-gray-600">
-                        Mettez vos competences et votre experience en avant
+                    {{ 'account.skills'|trans }}
                     </p>
                     </div>
                     <div class="w-1/6 lg:w-1/8 ml-auto">
@@ -110,10 +108,10 @@
                 <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
                     <div class="w-5/6 lg:w-7/8">
                     <h3 class="text-md font-bold mb-2">
-                        Préférence emploi
+                    {{ 'account.job'|trans }}
                     </h3>
                     <p class="text-gray-600">
-                        Préciser certains informations, telles que salaire minimum et l'horaire désiré
+                    {{ 'account.info'|trans }}
                     </p>
                     </div>
                     <div class="w-1/6 lg:w-1/8 ml-auto">
@@ -128,10 +126,10 @@
                 <div class="flex items-center rounded-lg shadow-md my-6 p-4 bg-gray-50">
                     <div class="w-5/6 lg:w-7/8">
                     <h3 class="text-md font-bold mb-2">
-                        Masquer les offres avec ces détails
+                    {{ 'account.details'|trans }}
                     </h3>
                     <p class="text-gray-600">
-                        Mettez vos competences et votre experience en avant
+                    {{ 'account.exp'|trans }}
                     </p>
                     </div>
                     <div class="w-1/6 lg:w-1/8 ml-auto">

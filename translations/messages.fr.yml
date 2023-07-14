@@ -1,0 +1,98 @@
+menu:
+  home: Accueil
+  profiles: Profils
+  about: A propos
+  contact: Contact
+  dashboard: Tableau de bord
+  profile: Mon profil
+  settings: Mes paramètres
+  messages: Mes messages
+  notifications: Mes notifications
+  admin: Administration
+  login: Connexion
+  logout: Déconnexion
+  register: Inscription
+
+security:
+  title: Se connecter!
+  login: Connexion
+  logout: Se déconnecter
+  logged: Vous êtes connecté en tant que
+  email: Adresse éléctronique
+  password: Mot de passe
+  forgotten: Mot de passe oublié?
+  google: Continuer avec Google
+  signin: Se connecter
+  or: OU
+
+registration:
+  title: Inscription
+  button: S'inscrire
+  firstname: Nom
+  lastname: Prénom
+  agree: Accepter les conditions
+
+profile:
+  hey: Salut
+  ready: Prêt(e) pour votre prochaine grande opportunité ?
+  answer: Répondez à quelques questions et commencez à construire votre profil.
+  apply: Postulez pour des postes ouverts ou répertoriez des services que les clients peuvent acheter.
+  getpaid: Recevez un paiement sécurisé et sachez que nous sommes là pour vous aider.
+  start: Commencer
+  skip: Passer
+  add:
+    experience: Ajouter
+    language: Ajouter
+  next:
+    ia: Ensuite, ajoutez vos outils d'IA
+    experience: Ensuite, ajoutez vos expériences
+    language: Ensuite, ajoutez les langues
+    rate: Ensuite, définissez votre tarif
+    overview: Ensuite, rédigez un aperçu
+    photo: Ensuite, ajoutez votre photo
+    profile: Vérifiez votre profil
+
+sector:
+  intro: Veuillez indiquer votre secteur d'activité
+  label: Secteurs
+    
+ia:
+  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
+  label: Quels outils AI maitrisez-vous?
+
+experience:
+  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
+  label: Si vous avez une expérience pertinente, ajoutez-la ici.
+
+language:
+  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
+  label: C'est bien. Ensuite, indiquez-nous quelles langues vous parlez.
+
+rate:
+  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
+  label: C'est bien. Ensuite, indiquez-nous tarif moyen journalier.
+
+overview:
+  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
+  label: Génial ! Maintenant rédigez une biographie pour vous présenter au monde.
+
+photo:
+  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
+  label: Quelques derniers détails, ensuite vous pourrez vérifier et publier votre profil.
+
+account:
+  offer: Améliorez la pertinence de vos offres
+  qualification: Qualifications
+  skills: Mettez vos competences et votre experience en avant
+  job: Préférence emploi
+  info: Préciser certains informations, telles que salaire minimum et l'horaire désiré
+  details: Masquer les offres avec ces détails
+  exp: Mettez vos competences et votre experience en avant
+  resume:
+    recap: Récapitulatif
+    exp: Expérience professionnelle
+    lang: Langues
+    skills: Competences sur les IA
+
+footer:
+  copyright: © 2023 PostIn Experts IA. Tous droits réservés.

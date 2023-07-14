@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Créer mon profil
+{{ 'menu.profile'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -10,24 +10,29 @@
     <div class="w-full max-w-lg">
       {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
       ) }} 
-      
-          
+
       <div class="border-b border-gray-900/10 pb-12" id="nav">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Quels outils AI maitrisez-vous?</h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.</p>
+        <h2 class="text-base font-semibold leading-7 text-gray-900">
+          {{ 'ia.label'|trans }}
+        </h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">
+          {{ 'ia.intro'|trans }}
+        </p>
         <div class="mt-10 space-y-10">
           <fieldset>
-              <legend class="text-sm font-semibold leading-6 text-gray-900"></legend>
-              <div class="mt-6 space-y-6">
-              {{form_widget(form)}}
-              </div>
+            <legend class="text-sm font-semibold leading-6 text-gray-900"></legend>
+            <div class="mt-6 space-y-6">
+              {{ form_widget(form) }}
+            </div>
           </fieldset>
         </div>
 
       </div>
-    <a class="mx-5" href="{{path('app_profile_experience')}}">Skip for now</a>
+      <a class="mx-5" href="{{ path('app_profile_experience') }}">
+        {{ 'profile.skip'|trans }}
+      </a>
       <button type="submit" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Next, add your AI experiences
+        {{ 'profile.next.experience'|trans }}              
       </button>
       {{ form_end(form) }}
     </div>
