@@ -13,6 +13,7 @@ class LangType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add('languages', CollectionType::class, [
                 'entry_type' => LanguageType::class,
                 'entry_options' => ['label' => false],

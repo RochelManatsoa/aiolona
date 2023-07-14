@@ -28,7 +28,7 @@
                                 Tarif moyenne journalier: <br> <span class="font-bold">€ {{ identity.tarif / 100}}</span>
                             </p>
                             {% for lang in identity.languages %}
-                            <span class="bg-red-700 rounded-full px-3 my-2 text-xs font-base text-gray-100 mr-2">{{ lang.title }} </span>
+                            {{ isoToEmoji(lang.code) }}
                             {% endfor %}
                         </div>
                         <div class="px-6 py-4">

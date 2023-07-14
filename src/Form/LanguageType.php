@@ -2,24 +2,46 @@
 
 namespace App\Form;
 
+use App\Entity\Lang;
 use App\Entity\Language;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LanguageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
+            ->add('lang', EntityType::class, [
+                'class' => Lang::class,
+                'choice_label' => 'name',
+                'autocomplete' => true
+            ])
             ->add('level', ChoiceType::class, [
                 'choices' => Language::CHOICE_LEVEL
             ])
         ;
-        if($options['action'] !== 'edit'){
+        
+        $builder->addEventListener(
+            FormEvents::SUBMIT,
+            function (FormEvent $event): void {
+
+                $data = $event->getData();
+                $lang = $data->getLang()->getName();
+                $code = $data->getLang()->getCode();
+                
+                $data->setTitle($lang);
+                $data->setCode($code);
+            }
+        );
+
+        if(!$options['edit']){
 
             $builder->add('submit', SubmitType::class, [
                 'attr' => [
@@ -34,8 +56,9 @@ class LanguageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Language::class,
+            'edit' => false,
         ]);
 
-        $resolver->setRequired('action');
+        $resolver->setAllowedTypes('edit', 'bool');
     }
 }
