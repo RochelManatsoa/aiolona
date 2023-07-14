@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Créer mon profil
-  
+{{ 'menu.profile'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -14,10 +13,10 @@
             
       <div class="border-b border-gray-900/10 pb-12">
         <h2 class="text-base font-semibold leading-7 text-gray-900">
-          Secteur                  
+          {{ 'sector.label'|trans }}                  
         </h2>
         <p class="mt-1 text-sm leading-6 text-gray-600">
-          Veuillez indiquer votre secteur d'activité:                  
+          {{ 'sector.intro'|trans }}                 
         </p>
         <div class="space-y-10">
           <div class="mt-4">
@@ -26,10 +25,10 @@
         </div>
       </div>
       <a class="mx-5" href="{{ path('app_profile_ia') }}">
-        Skip for now              
+        {{ 'profile.skip'|trans }}             
       </a>
       <button type="submit" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Next, add your AI tools favorite              
+        {{ 'profile.next.ia'|trans }}     
       </button>
       {{ form_end(form) }}
     </div>

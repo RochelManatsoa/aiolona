@@ -1,0 +1,102 @@
+menu:
+  home: Home
+  profiles: Profiles
+  about: About
+  contact: Contact
+  dashboard: Dashboard
+  profile: My profile
+  settings: Settings
+  messages: Messages
+  notifications: Notifications
+  admin: Administration
+  login: Login
+  logout: Logout
+  register: Register
+
+security:
+  title: Log in!
+  login: Sign in
+  logout: Logout
+  logged: You are logged in as
+  email: Email
+  password: Password
+  forgotten: Password forgotten?
+  google: Sign in with Google
+  signin: Sign in
+  or: OR
+
+registration:
+  title: Registration
+  button: Register
+  firstname: First name
+  lastname: Last name
+  agree: Agree with terms
+
+profile:
+  hey: Hey
+  ready: Ready for your big next opportunity?
+  answer: Answer a few questions and start building your profile
+  apply: Apply for open roles or list services for clients to buy
+  getpaid: Get paid safely and know we're there to help
+  start: Get started
+  skip: Skip for now 
+  add:
+    experience: Add an experience
+    language: Add a language
+  next:
+    ia: Next, add your AI tools favorite 
+    experience: Next, add your AI experiences
+    language: Next, add languages 
+    rate: Next, set your rate
+    overview: Next, write an overview
+    photo: Next, add your photo
+    profile: Check your profile
+
+sector:
+  intro: Please specify your industry sector
+  label: Sectors
+
+ia:
+  intro: This information will be displayed publicly, so please be mindful of what you share.
+  label: What AI tools are you proficient in?
+
+experience:
+  intro: This information will be displayed publicly, so please be mindful of what you share.
+  label: If you have relevant experience, please add it here.
+
+language:
+  intro: This information will be displayed publicly, so please be mindful of what you share.
+  label: Great. Next, please indicate which languages you speak.
+
+rate:
+  intro: This information will be displayed publicly, so please be mindful of what you share.
+  label: Great. Next, please indicate your average daily rate.
+
+overview:
+  intro: This information will be displayed publicly, so please be mindful of what you share.
+  label: Great! Now, write a biography to introduce yourself to the world.
+
+photo:
+  intro: This information will be displayed publicly, so please be mindful of what you share.
+  label: Just a few final details, then you'll be able to review and publish your profile.
+
+account:
+  offer: Improve the relevance of your offers
+  qualification: Qualifications
+  skills: Highlight your skills and experience
+  job: Job Preferences
+  info: Specify certain information, such as minimum salary and desired schedule
+  details: Hide offers with these details
+  exp: Highlight your skills and experience
+  resume:
+    recap: Recap
+    exp: Professional Experience
+    lang: Languages
+    skills: AI Skills
+
+footer:
+  copyright: © 2023 PostIn Experts IA. All rights reserved.
+
+
+
+
