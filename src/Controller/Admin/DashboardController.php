@@ -7,6 +7,7 @@ use App\Entity\Account;
 use App\Entity\AIcores;
 use App\Entity\AINote;
 use App\Entity\Identity;
+use App\Entity\Lang;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -33,6 +34,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('AI', 'fas fa-robot', AIcores::class);
+        yield MenuItem::linkToCrud('Language', 'fas fa-globe', Lang::class);
         yield MenuItem::linkToCrud('AI Note', 'fas fa-robot', AINote::class);
         yield MenuItem::linkToCrud('Secteur', 'fas fa-list', Sector::class);
         yield MenuItem::linkToCrud('Comptes', 'fas fa-id-card', Account::class);

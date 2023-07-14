@@ -27,8 +27,19 @@ class AiNoteManager
         $this->aINoteRepository = $aINoteRepository;
     }
 
-    public function init(Identity $identity, AIcores $aIcores){
-        $note = new Note();
+    public function init(Identity $identity, AIcores $aIcores){ 
+        $notes = $identity->getNotes(); 
+        if($notes->isEmpty()){
+            $note = new Note();
+        }else{
+            foreach($notes as $value){
+                if($value->getAiCore() == $aIcores){
+                    $note = $value;
+                }else{
+                    $note = new Note();
+                }
+            }
+        }
         $note->setIdentity($identity)->setAiCore($aIcores);
 
         return $note;

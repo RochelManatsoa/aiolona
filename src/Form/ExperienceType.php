@@ -39,7 +39,8 @@ class ExperienceType extends AbstractType
                 'placeholder' => 'Sélectionnez un pays',
             ])
         ;
-        // if($options['action'] !== 'edit'){
+
+        if(!$options['edit']){
 
             $builder->add('submit', SubmitType::class, [
                 'attr' => [
@@ -47,15 +48,16 @@ class ExperienceType extends AbstractType
                 ]
             ])
             ;
-        // }
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Experience::class,
+            'edit' => false,
         ]);
 
-        // $resolver->setRequired('action');
+        $resolver->setAllowedTypes('edit', 'bool');
     }
 }
