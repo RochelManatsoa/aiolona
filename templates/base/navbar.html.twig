@@ -4,22 +4,22 @@
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <a href="{{ path('app_home') }}" class="text-gray-800 font-bold text-xl" style="font-family:Belanosima;">
-                        Olona Experts IA
+                        PostIn Experts IA
                     </a>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="{{ path('app_home') }}" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">
-                            Accueil
+                            {{'menu.home'|trans }}
                         </a>
                         <a href="{{ path('app_profile_catalog') }}" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">
-                            Profils
+                            {{'menu.profiles'|trans }}
                         </a>
                         <a href="{{ path('app_profile_catalog') }}" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">
-                            À Propos
+                            {{'menu.about'|trans }}
                         </a>
                         <a href="{{ path('app_profile_catalog') }}" class="text-gray-600 hover:text-gray-800 px-3 py-2 rounded-md text-sm font-medium" style="font-family: 'Poppins', sans-serif;">
-                            Contact
+                            {{'menu.contact'|trans }}  
                         </a>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                                         </p>
                                         <p class="text-xs text-gray-500">
                                             <a href="{{ path('app_logout') }}" class="text-gray-600">
-                                                Déconnexion
+                                                {{ 'menu.logout'|trans }}
                                             </a>
                                         </p>
                                     </div>
@@ -60,23 +60,25 @@
                                     <div class="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-menu-button" tabindex="-1" id="dropdown-menu">
                                         <div class="py-1" role="none">
                                             <a href="{{ path('app_dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-0">
-                                                Tableau de bord
+                                                {{ 'menu.dashboard'|trans }}
                                             </a>
                                             <a href="{{ path('app_account') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-1">
-                                                Mon profil
+                                                {{ 'menu.profile'|trans }}
                                             </a>
                                             <a href="{{ path('app_account') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-2">
-                                                Mes paramètres
+                                                {{ 'menu.settings'|trans }}
                                             </a>
                                             <a href="{{ path('app_account') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-3">
-                                                Mes messages
+                                                {{ 'menu.messages'|trans }}
                                             </a>
                                             <a href="{{ path('app_account') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-4">
-                                                Mes notifications
+                                                {{ 'menu.notifications'|trans }}
                                             </a>
+                                            {% if not is_granted('ROLE_ADMIN') %}
                                             <a href="{{ path('admin') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" tabindex="-1" id="dropdown-menu-item-5">
-                                                Administration
+                                                {{ 'menu.admin'|trans }}
                                             </a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -92,13 +94,13 @@
                         {% else %}
                             <div class="bg-blue-500 text-white font-bold px-4 py-2 rounded-md">
                                 <a href="{{ path('app_login') }}" class="text-white">
-                                    Connexion
+                                    {{ 'menu.login'|trans }}
                                 </a>
                             </div>
 
                             <div class="bg-green-500 text-white font-bold px-4 py-2 rounded-md">
                                 <a href="{{ path('app_register') }}" class="text-white">
-                                    Inscription
+                                    {{ 'menu.register'|trans }}
                                 </a>
                             </div>
                         {% endif %}

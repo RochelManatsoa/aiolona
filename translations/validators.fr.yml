@@ -1,0 +1,4 @@
+There is already an account with this email: Il existe déjà un compte avec cette adresse e-mail 
+You should agree to our terms.: Vous devez accepter nos conditions générales d'utilisation
+Please enter a password : Veuillez saisir un mot de passe 
+Your password should be at least {{ limit }} characters: Votre mot de passe doit comporter au moins {{ limit }} caractères 
