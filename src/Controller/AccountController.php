@@ -2,15 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Note;
-use App\Form\ExpType;
-use App\Form\LangType;
 use App\Form\NoteType;
 use App\Entity\AIcores;
 use App\Entity\Identity;
 use App\Entity\Language;
-use App\Form\AIcoreType;
-use App\Form\SkillsType;
 use App\Entity\Experience;
 use App\Form\LanguageType;
 use App\Form\OverviewType;
