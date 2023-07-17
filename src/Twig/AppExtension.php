@@ -5,16 +5,19 @@ namespace App\Twig;
 use App\Entity\AIcores;
 use App\Entity\Identity;
 use App\Repository\AccountRepository;
+use App\Repository\AINoteRepository;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
     private $accountRepository;
+    private $aINoteRepository;
 
-    public function __construct(AccountRepository $accountRepository)
+    public function __construct(AccountRepository $accountRepository, AINoteRepository $aINoteRepository)
     {
         $this->accountRepository = $accountRepository;
+        $this->aINoteRepository = $aINoteRepository;
     }
 
     public function getFunctions(): array
@@ -26,6 +29,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getIdentityAiNote', [$this, 'getIdentityAiNote']),
             new TwigFunction('checkNotNull', [$this, 'checkNotNull']),
             new TwigFunction('isoToEmoji', [$this, 'isoToEmoji']),
+            new TwigFunction('getNoteDesc', [$this, 'getNoteDesc']),
         ];
     }
 
@@ -42,8 +46,9 @@ class AppExtension extends AbstractExtension
         return null;
     }
 
-    public function getNote(string $note)
+    public function getNote($note)
     {
+        if($note == null) return 0;
         return (int)$note;
     }
 
@@ -76,5 +81,11 @@ class AppExtension extends AbstractExtension
                 str_split($code)
             )
         );
+    }
+
+    public function getNoteDesc(int $note)
+    {
+        if($note == 0) return 'Veuillez noter votre comptetence sur cet outil';
+        return $this->aINoteRepository->findBy(['note' => $note])[0]->getDescription();
     }
 }

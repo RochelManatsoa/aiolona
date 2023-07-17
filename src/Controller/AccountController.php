@@ -14,6 +14,7 @@ use App\Form\ExperienceType;
 use App\Form\EditContactType;
 use App\Manager\AiNoteManager;
 use App\Manager\IdentityManager;
+use App\Repository\AINoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -128,16 +129,19 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/account/edit/skills/{slug}', name: 'app_edit_skills')]
+    #[Route('/account/edit/skills/{slug}/', name: 'app_edit_skills')]
     public function editSkills(
         Request $request, 
         AIcores $aIcores, 
         AiNoteManager $aiNoteManager,
+        AINoteRepository $aINoteRepository,
         EntityManagerInterface $em
     ): Response
     {
         $identity = $this->getUser()->getIdentity();
         $note = $aiNoteManager->init($identity, $aIcores);
+        $aicoreNote = $aiNoteManager->getNoteOrNull($identity, $aIcores);
+
         $form = $this->createForm(NoteType::class, $note);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -153,6 +157,7 @@ class AccountController extends AbstractController
         return $this->render('account/edit_resume.html.twig', [
             'identity' => $identity,
             'title' => 'AI Tools',
+            'aIcores' => $aIcores,
             'form' => $form->createView(),
         ]);
     }

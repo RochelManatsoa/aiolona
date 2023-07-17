@@ -2,6 +2,7 @@
 {% set aiNote = 0 %}
 {% block title %}
     Editer mon profil    
+    
 {% endblock %}
 
 {% block body %}
@@ -39,7 +40,7 @@
             </div>
 
             <h2 class="text-lg font-bold m-3">
-            {{ 'account.resume.recap'|trans }}
+                {{ 'account.resume.recap'|trans }}
             </h2>
             <div class="flex border p-4 m-2 rounded-lg">
                 <div class="w-5/6 lg:w-7/8">
@@ -60,72 +61,77 @@
             <div class="flex m-2">
                 <div class="w-5/6 lg:w-7/8">
                     <h2 class="text-lg font-bold m-3">
-                    {{ 'account.resume.exp'|trans }}   
+                        {{ 'account.resume.exp'|trans }}
                     </h2>
                 </div>
                 <div class="w-1/6 lg:w-1/8 ml-auto">
-                <button data-modal-target="defaultExp" data-modal-toggle="defaultExp" class="" type="button">
-                    <svg class="w-[12px] h-[12px] m-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                    </svg>
-                </button>
+                    <button data-modal-target="defaultExp" data-modal-toggle="defaultExp" class="" type="button">
+                        <svg class="w-[12px] h-[12px] m-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                        </svg>
+                    </button>
                 </div>
             </div>
 
             <div class=" border p-2 rounded-lg">
-            {% if identity.experiences is not empty %}
-                {% for experience in identity.experiences %}
-                    <div class="flex p-4 m-2">
-                        <div class="w-5/6 lg:w-7/8">
-                            <p class="text-gray-900 text-lg font-bold">
-                                {{ experience.title }}
-                            </p>
-                            <p class="text-gray-400">
-                                {{ experience.company }}
-                                -                         
-                                {{ experience.location }}
-                            </p>
-                            <p class="text-gray-900">
-                                {{ experience.startDate | date('M Y') }}
-                                -                           
-                                {{ experience.endDate | date('M Y') }}
-                            </p>
-                            <p class="text-gray-700">
-                                {{ experience.description | raw }}
-                            </p>
-                        </div>
-                        <div class="w-1/6 lg:w-1/8 ml-auto">
-                            <a href="{{ path('app_edit_experience', {'id': experience.id}) }}" class="p-4 m-6">
-                                <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z" />
+                {% if identity.experiences is not empty %}
+                    {% for experience in identity.experiences %}
+                        <div class="flex p-4 m-2">
+                            <div class="w-5/6 lg:w-7/8">
+                                <p class="text-gray-900 text-lg font-bold">
+                                    {{ experience.title }}
+                                </p>
+                                <p class="text-gray-400">
+                                    {{ experience.company }}
+                                    -                         
+                                                                    
+                                    {{ experience.location }}
+                                </p>
+                                <p class="text-gray-900">
+                                    {{ experience.startDate | date('M Y') }}
+                                    -                           
+                                                                    
+                                    {{ experience.endDate | date('M Y') }}
+                                </p>
+                                <p class="text-gray-700">
+                                    {{ experience.description | raw }}
+                                </p>
+                            </div>
+                            <div class="w-1/6 lg:w-1/8 ml-auto">
+                                <a href="{{ path('app_edit_experience', {'id': experience.id}) }}" class="p-4 m-6">
+                                    <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z" />
+                                    </svg>
+                                </a>
+                                <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
                                 </svg>
-                            </a>
-                            <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-                            </svg>
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-            {% else %}   
-            <p class="text-gray-500 text-xs p-5">
-             Aucune expérience à afficher
-            </p>   
-            {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <p class="text-gray-500 text-xs p-5">
+                        Aucune expérience à afficher
+                                    
+                    </p>
+                {% endif %}
             </div>
+
             <div class="flex m-2">
                 <div class="w-5/6 lg:w-7/8">
                     <h2 class="text-lg font-bold m-3">
-                    {{ 'account.resume.lang'|trans }}
+                        {{ 'account.resume.lang'|trans }}
                     </h2>
                 </div>
                 <div class="w-1/6 lg:w-1/8 ml-auto">
-                <button data-modal-target="defaultLang" data-modal-toggle="defaultLang" class="" type="button">
-                    <svg class="w-[12px] h-[12px] m-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                    </svg>
-                </button>
+                    <button data-modal-target="defaultLang" data-modal-toggle="defaultLang" class="" type="button">
+                        <svg class="w-[12px] h-[12px] m-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                        </svg>
+                    </button>
                 </div>
             </div>
+
             <div class=" border p-2 rounded-lg">
                 {% if identity.languages is not empty %}
                     {% for language in identity.languages %}
@@ -147,125 +153,135 @@
                                         <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z" />
                                     </svg>
                                 </a>
-                                <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
-                                </svg>  
+                                <a href="{{ path('app_edit_language', { 'id': language.id }) }}" class="p-4 m-6">
+                                    <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                     {% endfor %}
-                {% else %}     
-                <p class="text-gray-500 text-xs p-5">
-                 Aucune langue à afficher
-                </p> 
+                {% else %}
+                    <p class="text-gray-500 text-xs p-5">
+                        Aucune langue à afficher
+                                        
+                    </p>
                 {% endif %}
             </div>
 
             <div class="flex m-2">
                 <div class="w-5/6 lg:w-7/8">
                     <h2 class="text-lg font-bold m-3">
-                    {{ 'account.resume.skills'|trans }}
+                        {{ 'account.resume.skills'|trans }}
                     </h2>
                 </div>
                 <div class="w-1/6 lg:w-1/8 ml-auto">
-                <a class="" href="{{path('app_profile_ia')}}">
-                    <svg class="w-[12px] h-[12px] m-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                    </svg>
-                </a>
+                    <a class="" href="{{ path('app_profile_ia') }}">
+                        <svg class="w-[12px] h-[12px] m-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                        </svg>
+                    </a>
                 </div>
             </div>
-            <div class=" border p-2 rounded-lg">
-            {% if identity.aicores is not empty %}
-                {% for aicore in identity.aicores %}
-                    <div class="flex p-2 m-2">
-                        <div class="w-5/6 lg:w-7/8">
-                            <p class="text-gray-900 font-bold mt-4">
-                                {{ aicore.name }}
-                            {% for note in aicore.notes %}
-                            {% set aiNote = note %}
-                            {% endfor %}
-                            </p>
-                            <div class="flex items-center">
-                                {% for i in 1..5 %}
-                                    {% if i <= getNote(aiNote) %}
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
-                                        </svg>
-                                    {% else %}
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
-                                        </svg>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="w-1/6 lg:w-1/8 ml-auto">
-                            <a href="{{ path('app_edit_skills', {'slug': aicore.slug} ) }}" class="p-4 m-6">
-                                <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z" />
-                                </svg>
-                            </a>
-                        </div>
 
-                    </div>
-                {% endfor %}
-            {% else %}     
-                <p class="text-gray-500 text-xs p-5">
-                    Aucun outil IA à afficher
-                </p> 
-            {% endif %}
+            <div class=" border p-2 rounded-lg">
+                {% if identity.aicores is not empty %}
+                    {% for aicore in identity.aicores %}
+                        <div class="flex p-2 m-2">
+                            <div class="w-5/6 lg:w-7/8">
+                                <p class="text-gray-900 font-bold mt-4">
+                                    {{ aicore.name }}
+                                </p>
+                                <div class="flex items-center">
+                                    {% for i in 1..5 %}
+                                        {% if i <= getIdentityAiNote(aicore, identity) %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" data-id="{{ i }}" id="{{ aicore.slug }}-{{ i }}-stars" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                                            </svg>
+                                        {% else %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" data-id="{{ i }}" id="{{ aicore.slug }}-{{ i }}-stars" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                                            </svg>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="w-1/6 lg:w-1/8 ml-auto">
+                                <a href="{{ path('app_edit_skills', {'slug': aicore.slug } ) }}" class="p-4 m-6">
+                                    <svg class="w-[12px] h-[12px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z" />
+                                    </svg>
+                                </a>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-gray-500 text-xs p-5">
+                        Aucun outil IA à afficher                                        
+                    </p>
+                {% endif %}
             </div>
-<!-- Main modal -->
-<div id="defaultLang" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Add new language
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultLang">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="p-6 space-y-6">
-            {{ form_start(formLang)}}
-            {{ form_widget(formLang)}}
-            {{ form_end(formLang)}}
+
+        </div>
+    </div>
+            <!-- Main modal -->
+    <div id="defaultLang" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Add new language
+                                        
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultLang">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">
+                            Close modal
+                        </span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                    {{ form_start(formLang) }}
+                    {{ form_widget(formLang) }}
+                    {{ form_end(formLang) }}
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Main modal -->
-<div id="defaultExp" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative w-full max-w-2xl max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Add new experience
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultExp">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class="p-6 space-y-6">
-            {{ form_start(formExp)}}
-            {{ form_widget(formExp)}}
-            {{ form_end(formExp)}}
+    <!-- Main modal -->
+    <div id="defaultExp" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Add new experience
+                                        
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="defaultExp">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">
+                            Close modal
+                        </span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                    {{ form_start(formExp) }}
+                    {{ form_widget(formExp) }}
+                    {{ form_end(formExp) }}
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% endblock %}
         
