@@ -10,3 +10,5 @@ import './bootstrap.js';
 import './styles/app.css';
 import './styles/app.scss';
 import 'flowbite';
+import $ from 'jquery';
+import './js/main.js';

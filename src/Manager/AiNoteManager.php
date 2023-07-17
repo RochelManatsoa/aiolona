@@ -44,4 +44,19 @@ class AiNoteManager
 
         return $note;
     }
+
+    public function getNoteOrNull(Identity $identity, AIcores $aIcores){ 
+        $notes = $identity->getNotes(); 
+        if($notes->isEmpty()){
+            return 0;
+        }
+        
+        foreach($notes as $value){
+            if($value->getAiCore() == $aIcores){
+                return $value->getNote();
+            }
+        }
+        
+        return 0;
+    }
 }
