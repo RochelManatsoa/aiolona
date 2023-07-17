@@ -18,11 +18,76 @@
             <h1 class="text-2xl font-bold mb-4">
                {{ title }}                          
             </h1>
-            {{form_start(form)}}
-            {{form_widget(form)}}
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">Modifier</button>
-            {{form_end(form)}}
+            {% if aIcores is defined %}
+            <h2 class="text-xl font-bold mb-4">
+            {{ aIcores.name }}
+            </h2>
+
+            <div class="flex items-center">
+                {% for i in 1..5 %}
+                    {% if i <= getIdentityAiNote(aIcores, identity) %}
+                    <a href="{{ path('ajax_stars', {'slug': aIcores.slug, 'star': i}) }}" class="js-stars">
+                        <svg xmlns="http://www.w3.org/2000/svg"  class="h-10 w-10 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                        </svg>
+                    </a>
+                    {% else %}
+                    <a href="{{ path('ajax_stars', {'slug': aIcores.slug, 'star': i}) }}" class="js-stars">
+                        <svg xmlns="http://www.w3.org/2000/svg"  class="h-10 w-10 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                        </svg>
+                    {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="flexitems-center justify-center">
+                <div class="w-full p-4">
+                    <div class="bg-gray-200 rounded-lg p-4">
+                        <!-- Colonne pour la description -->
+                        <p id="desc">{{ getNoteDesc(getIdentityAiNote(aIcores, identity)) }}</p>
+                    </div>
+                </div>
+            </div>
+          
+
+            {% else %}
+                {{form_start(form)}}
+                {{form_widget(form)}}
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 w-full">Modifier</button>
+                {{form_end(form)}}
+            {% endif %}
         </div>
     </div>
 
+<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+    document.querySelectorAll(".js-stars").forEach(function (link) {
+        link.addEventListener('click', function(e){
+            e.preventDefault();
+            const url = this.href;
+            const icon = this.querySelector('svg')
+            const paragraph = document.getElementById('desc')
+            var siblings = Array.from(this.parentNode.children);   
+
+            var currentIndex = siblings.indexOf(this);        
+            var nextSiblings = siblings.slice(currentIndex + 1);
+            var previousSiblings = siblings.slice(0, currentIndex);
+        
+            axios.post(url).then(function(response){
+                if(icon.classList.contains('text-gray-300')){ 
+                    icon.classList.replace('text-gray-300', 'text-yellow-500')
+                }
+                nextSiblings.forEach(function(nextSibling) {
+                    nextSibling.querySelector('svg').classList.replace('text-yellow-500', 'text-gray-300')
+                });
+                previousSiblings.forEach(function(previousSibling) {
+                    previousSibling.querySelector('svg').classList.replace('text-gray-300', 'text-yellow-500')
+                });
+                paragraph.textContent = response.data.desc
+            })
+        })
+    })
+
+</script>
 {% endblock %}
