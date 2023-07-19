@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+    {{ form_row(form.q) }}
+    <h4 class="text-md font-semibold"> Secteurs </h4>    
+    {{ form_row(form.sectors) }}
+    <h4 class="text-md font-semibold"> Outils IA </h4>    
+    {{ form_row(form.aicores) }}
+    <h4 class="text-md font-semibold"> Tarif journalier </h4>
+    <div class="flex">
+        <div class="w-1/2 p-2">
+        {{ form_row(form.min) }}
+        </div>
+        <div class="w-1/2 p-2">
+        {{ form_row(form.max) }}
+        </div>
+    </div>
+    <h4 class="text-md font-semibold"> Langues </h4>    
+    {{ form_row(form.langues) }}
+    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full">
+    Filtrer
+    </button>
+{{ form_end(form) }}

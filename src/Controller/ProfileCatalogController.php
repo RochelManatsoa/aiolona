@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Data\SeachData;
 use App\Entity\Sector;
 use App\Entity\Identity;
+use App\Form\Search\SearchType;
 use App\Repository\IdentityRepository;
 use App\Repository\SectorRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,14 +22,19 @@ class ProfileCatalogController extends AbstractController
         Request $request,
         PaginatorInterface $paginatorInterface
     ): Response {
-        $data = $identityRepository->findAllValid();
+
+        $dataType = new SeachData();
+        $form = $this->createForm(SearchType::class, $dataType);
+        $form->handleRequest($request);
+        $data = $identityRepository->findSearch($dataType);
         $identities = $paginatorInterface->paginate(
             $data,
             $request->query->getInt('page', 1),
-            8
+            9
         );
         return $this->render('profile_catalog/index.html.twig', [
             'identities' => $identities,
+            'form' => $form->createView()
         ]);
     }
 
