@@ -24,7 +24,6 @@ class IdentityCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->onlyOnIndex(),
-            TextField::new('user'),
             TextField::new('firstName'),
             TextField::new('lastName'),
             TextField::new('username'),
