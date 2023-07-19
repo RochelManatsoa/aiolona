@@ -19,7 +19,7 @@
   {% include 'base/navbar.html.twig' %}
 
   <body 
-  {# {{ stimulus_controller('symfony/ux-swup/swup', {
+  {{ stimulus_controller('symfony/ux-swup/swup', {
     containers: ['#swup', '#nav'],
     animateHistoryBrowsing: true,
     animationSelector: '[class*="transition-"]',
@@ -30,11 +30,11 @@
     },
     theme: 'fade',
     debug: true,
-  }) }} #}
+  }) }}
   >
-    {# <main id="swup"> #}
+    <main id="swup">
       {% block body %}{% endblock %}
-    {# </main> #}
+    </main>
   </body>
   
   {% include 'base/footer.html.twig' %}
