@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SeachData;
 use App\Entity\Identity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -65,6 +66,57 @@ class IdentityRepository extends ServiceEntityRepository
            ->getQuery()
            ->getResult()
        ;
+   }
+
+   /**
+    * @return Identity[] Returns an array of Identity objects
+    */
+   public function findSearch(SeachData $seachData): array
+   {
+        $query = $this->createQueryBuilder('i')
+            ->select('s', 'i')
+            ->join('i.sectors', 's')
+            ->join('i.aicores', 'a')
+            ->join('i.languages', 'la')
+            ->join('la.lang', 'l')
+        ;
+        if(!empty($seachData->q)){
+            $query = $query
+                ->andWhere('i.firstName LIKE :q')
+                ->setParameter('q', "%{$seachData->q}%");
+        }
+
+        if(!empty($seachData->min)){
+            $query = $query
+                ->andWhere('i.tarif >= :min')
+                ->setParameter('min', $seachData->min);
+        }
+
+        if(!empty($seachData->max)){
+            $query = $query
+                ->andWhere('i.tarif < :max')
+                ->setParameter('max', $seachData->max);
+        }
+
+        if(!empty($seachData->sectors)){
+            $query = $query
+                ->andWhere('s.id IN (:sectors)')
+                ->setParameter('sectors', $seachData->sectors);
+        }
+
+        if(!empty($seachData->aicores)){
+            $query = $query
+                ->andWhere('a.id IN (:aicores)')
+                ->setParameter('aicores', $seachData->aicores);
+        }
+
+        if(!empty($seachData->langues)){
+            $query = $query
+                ->andWhere('l.id IN (:langues)')
+                ->setParameter('langues', $seachData->langues);
+        }
+
+       return $query->getQuery()->getResult();
    }
 
    /**
