@@ -23,14 +23,15 @@
               {{ form_widget(form) }}
         </div>
       </div>
-    <a class="mx-5" href="{{path('app_profile_avatar')}}">
-    {{ 'profile.skip'|trans }} 
-    </a>
-    <button type="submit" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    {{ 'profile.next.photo'|trans }} 
-    </button>
+      <a class="mx-5" href="{{path('app_profile_avatar')}}">
+      {{ 'profile.skip'|trans }} 
+      </a>
+      <button type="submit" class="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      {{ 'profile.next.photo'|trans }} 
+      </button>
       {{ form_end(form) }}
     </div>
   </div>
+</div>
 
 {% endblock %}
