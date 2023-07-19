@@ -25,7 +25,7 @@
                                 </div>
                             </a>
                             <p class="text-gray-700 text-xs">
-                                Tarif moyenne journalier: <br> <span class="font-bold">€ {{ identity.tarif / 100}}</span>
+                                Tarif moyenne journalier: <br> <span class="font-bold">€ {{ identity.tarif }}</span>
                             </p>
                             {% for lang in identity.languages %}
                             {{ isoToEmoji(lang.code) }}

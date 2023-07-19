@@ -14,7 +14,7 @@
                             <div class="col-span-4 flex flex-col items-center justify-center">
                                 <img src="{{vich_uploader_asset(identity, 'file')}}" alt="Avatar" class="w-40 h-40 rounded-full">
                                 <p class="text-base mt-2 text-md text-gray-400 font-bold mt-2">Tarif moyenne journalier</p>
-                                <p class="text-base mt-2">{{ identity.tarif / 100 }} €</p>
+                                <p class="text-base mt-2">{{ identity.tarif }} €</p>
                                 <div class="col-span-2 flex flex-col items-center justify-center mt-8">
                                     <button class="bg-white hover:bg-gray-100 text-blue-500 font-semibold py-2 px-4 rounded-full border border-blue-500 mb-2">Me contacter</button>
                                     <button class="bg-white hover:bg-gray-100 text-green-500 font-semibold py-2 px-4 rounded-full border border-green-500">Télécharger en PDF</button>
@@ -34,7 +34,7 @@
                                     </a>
                                     <div class="flex items-center">
                                         {% for i in 1..5 %}
-                                            {% if i <= aicore.id %}
+                                            {% if i <= getIdentityAiNote(aicore, identity) %}
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
                                                 </svg>
