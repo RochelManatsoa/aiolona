@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+{% if success %}
+{{ 'payment.success.title'|trans }}
+{% else %}
+{{ 'payment.failed.title'|trans }}
+{% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="bg-gray-100 flex items-center justify-center  ">
+  <div class="bg-white shadow p-6 rounded-lg">
+    <div class="p-8">
+      {% if success %}
+        {% include "stripe/_success.html.twig" %}
+      {% else %}
+        {% include "stripe/_cancel.html.twig" %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

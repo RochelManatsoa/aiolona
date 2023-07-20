@@ -39,11 +39,13 @@ profile:
   apply: Apply for open roles or list services for clients to buy
   getpaid: Get paid safely and know we're there to help
   start: Get started
+  create: Create an account
   skip: Skip for now 
   add:
     experience: Add an experience
     language: Add a language
   next:
+    sector: Next, select your industry 
     ia: Next, add your AI tools favorite 
     experience: Next, add your AI experiences
     language: Next, add languages 
@@ -51,6 +53,10 @@ profile:
     overview: Next, write an overview
     photo: Next, add your photo
     profile: Check your profile
+
+select:
+  intro: Please select your account
+  label: Join us as a ressource ou expert
 
 sector:
   intro: Please specify your industry sector
@@ -97,6 +103,14 @@ account:
 footer:
   copyright: © 2023 PostIn Experts IA. All rights reserved.
 
+payment:
+  success: 
+    title: Successful payment
+    message: Access exclusive and in-depth information to enrich your experience and make informed decisions.
+    button: Catalog of profiles
+  failed: 
+    title: Failed payment
+    message: 
 
 
 

@@ -1,0 +1,25 @@
+<h3 class="text-lg text-gray-400 font-bold mt-2">Cordonnées</h3>
+<a href="maito:{{ identity.user.email }}" target=_blank>
+    <p class="text-base mt-2">{{ identity.user.email }}</p>
+</a>
+<a href="tel:{{ identity.phone }}" target=_blank>
+    <p class="text-base mt-2">{{ identity.phone }}</p>
+</a>
+{% for aicore in identity.experiences %}
+    <a href="{{ aicore.url }}" target=_blank>
+        <p class="text-base mt-2">{{ aicore.name }}</p>
+    </a>
+    <div class="flex items-center">
+    
+    </div>
+{% endfor %}
+
+<h3 class="text-lg text-gray-400 font-bold mt-2">Expériences</h3>
+{% for aicore in identity.experiences %}
+    <a href="{{ aicore.url }}" target=_blank>
+        <p class="text-base mt-2">{{ aicore.name }}</p>
+    </a>
+    <div class="flex items-center">
+    
+    </div>
+{% endfor %}

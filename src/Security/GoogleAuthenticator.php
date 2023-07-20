@@ -50,8 +50,8 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $existingUser->setGoogleId($googleUser->getId());
                     $this->em->persist($existingUser);
                 }
-                $existingUser->setFirstName($googleUser->getName());
-                $existingUser->setLastName($googleUser->getName());
+                $existingUser->setFirstName($googleUser->getFirstName());
+                $existingUser->setLastName($googleUser->getLastName());
                 $this->em->flush();
 
                 return $existingUser;
