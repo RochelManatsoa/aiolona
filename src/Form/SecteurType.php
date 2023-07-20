@@ -15,9 +15,9 @@ class SecteurType extends AbstractType
     {
         $builder
             ->add('sectors', EntityType::class, [
+                'label' => false,
                 'class' => Sector::class, 
                 'choice_label' => 'name', 
-                'label' => null,
                 'multiple' => true, 
                 'expanded' => true, 
             ])

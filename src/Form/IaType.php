@@ -13,7 +13,9 @@ class IaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('aicores', AiAutocompleteField::class, [])
+            ->add('aicores', AiAutocompleteField::class, [
+                'label' => false
+            ])
         ;
     }
 

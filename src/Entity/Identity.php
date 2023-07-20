@@ -105,6 +105,21 @@ class Identity implements Serializable
     #[Groups(['identity'])]
     private Collection $notes;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cv = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $active = null;
+
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Social::class)]
+    private Collection $socials;
+
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Pack::class)]
+    private Collection $packs;
+
+    #[ORM\OneToOne(mappedBy: 'identity', cascade: ['persist', 'remove'])]
+    private ?Compagny $compagny = null;
+
 
     public function __construct()
     {
@@ -114,6 +129,8 @@ class Identity implements Serializable
         $this->languages = new ArrayCollection();
         $this->aINotes = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->socials = new ArrayCollection();
+        $this->packs = new ArrayCollection();
     }
 
     public function __toString()
@@ -498,6 +515,112 @@ class Identity implements Serializable
                 $note->setIdentity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCv(): ?string
+    {
+        return $this->cv;
+    }
+
+    public function setCv(?string $cv): static
+    {
+        $this->cv = $cv;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): static
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Social>
+     */
+    public function getSocials(): Collection
+    {
+        return $this->socials;
+    }
+
+    public function addSocial(Social $social): static
+    {
+        if (!$this->socials->contains($social)) {
+            $this->socials->add($social);
+            $social->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSocial(Social $social): static
+    {
+        if ($this->socials->removeElement($social)) {
+            // set the owning side to null (unless already changed)
+            if ($social->getIdentity() === $this) {
+                $social->setIdentity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Pack>
+     */
+    public function getPacks(): Collection
+    {
+        return $this->packs;
+    }
+
+    public function addPack(Pack $pack): static
+    {
+        if (!$this->packs->contains($pack)) {
+            $this->packs->add($pack);
+            $pack->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removePack(Pack $pack): static
+    {
+        if ($this->packs->removeElement($pack)) {
+            // set the owning side to null (unless already changed)
+            if ($pack->getIdentity() === $this) {
+                $pack->setIdentity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCompagny(): ?Compagny
+    {
+        return $this->compagny;
+    }
+
+    public function setCompagny(?Compagny $compagny): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($compagny === null && $this->compagny !== null) {
+            $this->compagny->setIdentity(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($compagny !== null && $compagny->getIdentity() !== $this) {
+            $compagny->setIdentity($this);
+        }
+
+        $this->compagny = $compagny;
 
         return $this;
     }

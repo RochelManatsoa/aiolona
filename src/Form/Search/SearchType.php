@@ -68,7 +68,10 @@ class SearchType extends AbstractType
             'csrf_=>protection' => false
         ]);
     }
-
+    
+    /**
+     * {@inheritdoc}
+     */
     public function getBlockPrefix()
     {
         return '';

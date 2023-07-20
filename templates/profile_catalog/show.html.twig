@@ -16,8 +16,12 @@
                                 <p class="text-base mt-2 text-md text-gray-400 font-bold mt-2">Tarif moyenne journalier</p>
                                 <p class="text-base mt-2">{{ identity.tarif }} €</p>
                                 <div class="col-span-2 flex flex-col items-center justify-center mt-8">
-                                    <button class="bg-white hover:bg-gray-100 text-blue-500 font-semibold py-2 px-4 rounded-full border border-blue-500 mb-2">Me contacter</button>
-                                    <button class="bg-white hover:bg-gray-100 text-green-500 font-semibold py-2 px-4 rounded-full border border-green-500">Télécharger en PDF</button>
+                                {% if app.user and app.user.identity.packs is defined and app.user.identity.packs is not empty %}
+                                    <a href="{{ path('app_profile_pdf', {'username': identity.username} ) }}" target="blank" class="bg-white hover:bg-gray-100 text-green-500 font-semibold py-2 px-4 rounded-full border border-green-500">Télécharger en PDF</a>
+                                {% else %}
+                                    <a href="{{ path('app_stripe_create_session') }}" class="bg-white hover:bg-gray-100 text-blue-500 font-semibold py-2 px-4 rounded-full border border-blue-500 mb-2">Me contacter</a>
+                                    <a href="{{ path('app_stripe_create_session') }}" class="bg-white hover:bg-gray-100 text-green-500 font-semibold py-2 px-4 rounded-full border border-green-500">Télécharger en PDF</a>
+                                {% endif %}
                                 </div>
                             </div>
                             <div class="col-span-8 flex flex-col items-start mt-4 mb-8">
@@ -46,6 +50,9 @@
                                         {% endfor %}
                                     </div>
                                 {% endfor %}
+                                {% if app.user and app.user.identity.packs is defined and app.user.identity.packs is not empty  %}
+                                    {% include "pack/_locked.html.twig" with {identity: identity} %}
+                                {% endif %}
                             </div>                        
                         </div>
                     </div>
@@ -53,7 +60,11 @@
             </div>
 
             <div class="w-2/5 lg:w-1/3 bg-white rounded-lg p-4 shadow-md">
-
+            {% if app.user and app.user.identity.packs is defined and app.user.identity.packs is not empty %}
+                {% include "pack/_pro.html.twig" %}
+            {% else %}
+                {% include "base/_sidebar.html.twig" %}
+            {% endif %}
             </div>
         </div>
     </div>
