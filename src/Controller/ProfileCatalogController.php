@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ProfileCatalogController extends AbstractController
 {
@@ -54,5 +55,17 @@ class ProfileCatalogController extends AbstractController
             'sectors' => $identity->getSectors(),
             'aicors' => $identity->getAicores(),
         ]);
+    }
+
+    #[Route('/experts/{username}/pdf', name: 'app_profile_pdf')]
+    public function cvExpert(
+        Identity $identity, 
+    ): BinaryFileResponse
+    {
+        $file = $this->getParameter('cv_directory').'/Profile-64b7b55eae3fd.pdf';
+        // $file = $this->getParameter('cv_directory').'/'.$identity->getCv();
+        // dd($file);
+
+        return new BinaryFileResponse($file);
     }
 }

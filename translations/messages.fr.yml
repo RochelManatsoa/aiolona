@@ -39,11 +39,13 @@ profile:
   apply: Postulez pour des postes ouverts ou répertoriez des services que les clients peuvent acheter.
   getpaid: Recevez un paiement sécurisé et sachez que nous sommes là pour vous aider.
   start: Commencer
+  create: Créer un compte
   skip: Passer
   add:
     experience: Ajouter
     language: Ajouter
   next:
+    sector: Ensuite, ajouter votre secteur d'activité
     ia: Ensuite, ajoutez vos outils d'IA
     experience: Ensuite, ajoutez vos expériences
     language: Ensuite, ajoutez les langues
@@ -51,6 +53,10 @@ profile:
     overview: Ensuite, rédigez un aperçu
     photo: Ensuite, ajoutez votre photo
     profile: Vérifiez votre profil
+
+select:
+  intro: Veuillez sélectionner votre compte
+  label: Rejoignez-nous en tant que ressource ou expert
 
 sector:
   intro: Veuillez indiquer votre secteur d'activité
@@ -96,3 +102,12 @@ account:
 
 footer:
   copyright: © 2023 PostIn Experts IA. Tous droits réservés.
+
+payment:
+  success: 
+    title: Paiement réussi
+    message: Accédez à des informations exclusives et approfondies pour enrichir votre expérience et prendre des décisions éclairées.
+    button: Catalogue de profils
+  failed: 
+    title: Paiement echoué
+    message: 

@@ -1,0 +1,31 @@
+{% if app.user %}
+<div class="p-8 mt-4">
+  <p class="text-lg text-center text-gray-800 font-bold mb-4">
+    Ne manquez pas une opportunité en or! Optez pour notre pack premium pour accéder à un réservoir complet d'informations sur les profils d'experts.
+  </p>
+  <p class="text-md text-center text-gray-600">
+    Explorez leur expertise, leurs réalisations et bien plus encore, le tout à portée de clic.
+  </p>
+
+  <div class="flex justify-center mt-6">
+    <a href="{{ path('app_stripe_create_session') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      PostIn Expert Pro
+    </a>
+  </div>
+</div>
+{% else %}    
+<div class="p-8">
+  <p class="text-lg text-center text-gray-800 font-bold mb-4">
+    Débloquez tout le potentiel des profils d'experts en vous connectant dès maintenant et en choisissant notre pack premium!
+  </p>
+  <p class="text-md text-center text-gray-600">
+    Accédez à des informations exclusives et approfondies pour enrichir votre expérience et prendre des décisions éclairées.
+  </p>
+
+  <div class="flex justify-center mt-6">
+    <a href="{{ path('app_login') }}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      Se connecter
+    </a>
+  </div>
+</div>
+{% endif %}

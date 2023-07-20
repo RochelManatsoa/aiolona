@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Compagny;
 use App\Form\IaType;
 use App\Form\ExpType;
 use App\Form\LangType;
 use App\Form\RateType;
 use App\Entity\Identity;
+use App\Form\AccType;
 use App\Form\AvatarType;
 use App\Form\SecteurType;
 use App\Form\OverviewType;
@@ -16,17 +18,52 @@ use App\Repository\ExperienceRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ProfileController extends AbstractController
 {
     #[Route('/create-profile', name: 'app_profile')]
     public function index(): Response
     {
+        /** @var User $user  */
         $user = $this->getUser();
 
         return $this->render('profile/index.html.twig', [
             'user' => $user,
+        ]);
+    }
+
+    #[Route('/create-profile/account', name: 'app_profile_account')]
+    public function account(
+        Request $request,
+        IdentityManager $identityManager,
+    ): Response {
+        /** @var User $user  */
+        $user = $this->getUser();
+
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
+
+        if (!$identity instanceof Identity) {
+            $identity = $identityManager->init();
+        }
+
+        if ($identity->getCompagny() instanceof Compagny) {
+            return $this->redirectToRoute('app_dashboard', []);
+        }
+
+        $form = $this->createForm(AccType::class, $identity, []);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $identity = $identityManager->saveForm($form);
+
+            return $this->redirectToRoute('app_profile_sector', []);
+        }
+
+        return $this->render('profile/account.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -35,9 +72,12 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
+        /** @var User $user  */
         $user = $this->getUser();
 
-        $identity = $this->getUser()->getIdentity();
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
+
         if (!$identity instanceof Identity) {
             $identity = $identityManager->init();
         }
@@ -45,10 +85,9 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
+            if($identity->getAccount()->getSlug() !== "expert" ) return $this->redirectToRoute('app_company_profile', []);
 
-            return $this->redirectToRoute('app_profile_ia', [
-                'identity' => $identity
-            ]);
+            return $this->redirectToRoute('app_profile_ia', []);
         }
 
         return $this->render('profile/sector.html.twig', [
@@ -61,16 +100,18 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
-        $identity = $this->getUser()->getIdentity();
+        /** @var User $user  */
+        $user = $this->getUser();
+
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
 
         $form = $this->createForm(IaType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
 
-            return $this->redirectToRoute('app_profile_experience', [
-                'identity' => $identity
-            ]);
+            return $this->redirectToRoute('app_profile_experience', []);
         }
 
         return $this->render('profile/ia.html.twig', [
@@ -84,7 +125,11 @@ class ProfileController extends AbstractController
         IdentityManager $identityManager,
         ExperienceRepository $experienceRepository
     ): Response {
-        $identity = $this->getUser()->getIdentity();
+        /** @var User $user  */
+        $user = $this->getUser();
+
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
         $expriences = $experienceRepository->findBy(['identity' => $identity]);
 
         $form = $this->createForm(ExpType::class, $identity);
@@ -92,9 +137,7 @@ class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
 
-            return $this->redirectToRoute('app_profile_experience', [
-                'identity' => $identity,
-            ]);
+            return $this->redirectToRoute('app_profile_experience', []);
         }
 
         return $this->render('profile/experience.html.twig', [
@@ -109,17 +152,19 @@ class ProfileController extends AbstractController
         IdentityManager $identityManager,
         LanguageRepository $languageRepository
     ): Response {
-        $identity = $this->getUser()->getIdentity();
-        $languages = $languageRepository->findBy(['identity' => $identity]);
+        /** @var User $user  */
+        $user = $this->getUser();
 
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
+
+        $languages = $languageRepository->findBy(['identity' => $identity]);
         $form = $this->createForm(LangType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
 
-            return $this->redirectToRoute('app_profile_language', [
-                'identity' => $identity
-            ]);
+            return $this->redirectToRoute('app_profile_language', []);
         }
 
         return $this->render('profile/languages.html.twig', [
@@ -133,16 +178,19 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
+        
+        /** @var User $user  */
         $user = $this->getUser();
 
-        $form = $this->createForm(RateType::class, $user = $this->getUser()->getIdentity(), []);
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
+
+        $form = $this->createForm(RateType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
 
-            return $this->redirectToRoute('app_profile_overview', [
-                'identity' => $identity
-            ]);
+            return $this->redirectToRoute('app_profile_overview', []);
         }
 
         return $this->render('profile/rate.html.twig', [
@@ -154,17 +202,38 @@ class ProfileController extends AbstractController
     public function overview(
         Request $request,
         IdentityManager $identityManager,
+        SluggerInterface $slugger
     ): Response {
+
+        /** @var User $user  */
         $user = $this->getUser();
 
-        $form = $this->createForm(OverviewType::class, $user = $this->getUser()->getIdentity(), []);
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
+
+        $form = $this->createForm(OverviewType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $identity = $identityManager->saveForm($form);
+            $identity = $form->getData();
+            $cvFile = $form->get('cv')->getData();
+            if ($cvFile) {
+                $originalFilename = pathinfo($cvFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$cvFile->guessExtension();
+                try {
+                    $cvFile->move(
+                        $this->getParameter('cv_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
 
-            return $this->redirectToRoute('app_profile_avatar', [
-                'identity' => $identity
-            ]);
+                $identity->setCv($newFilename);
+            }
+            $identity = $identityManager->save($identity);
+
+            return $this->redirectToRoute('app_profile_avatar', []);
         }
 
         return $this->render('profile/overview.html.twig', [
@@ -177,16 +246,18 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
+        /** @var User $user  */
         $user = $this->getUser();
 
-        $form = $this->createForm(AvatarType::class, $user = $this->getUser()->getIdentity(), []);
+        /** @var Identity $identity */
+        $identity = $user->getIdentity();
+
+        $form = $this->createForm(AvatarType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
 
-            return $this->redirectToRoute('app_account', [
-                'identity' => $identity
-            ]);
+            return $this->redirectToRoute('app_account', []);
         }
 
         return $this->render('profile/avatar.html.twig', [

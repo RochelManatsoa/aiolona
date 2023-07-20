@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\Compagny;
 use DateTime;
 use App\Entity\Identity;
 use Twig\Environment as Twig;
@@ -40,6 +41,14 @@ class IdentityManager
         $identity->setAccount($this->accountRepository->findOneBySomeField(2));
 
         return $identity;
+    }
+
+    public function createCompagny($identity)
+    {
+        $compagny = new Compagny();
+        $compagny->setIdentity($identity);
+
+        return $compagny;
     }
 
     public function save(Identity $identity)
