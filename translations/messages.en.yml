@@ -100,6 +100,19 @@ account:
     lang: Languages
     skills: AI Skills
 
+company:
+  intro: As you have never posted a job offer before, you will need to create an employer account.
+  label: Create a company account
+  name: Company name *
+  size: Number of employees in your company
+  about: Tell us about your company *
+  url: Website
+  country: Country
+  select:
+    country: Select
+  email: Your professionnal email *
+  phone: Your phone number *
+
 footer:
   copyright: © 2023 PostIn Experts IA. All rights reserved.
 

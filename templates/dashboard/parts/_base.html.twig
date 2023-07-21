@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      {% block title %}
+        {{ 'dashboard.title'|trans }}
+      {% endblock %}
+    </title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <main class="flex-grow">
+        <div class="w-1/5 bg-gray-800 text-white fixed h-full">
+            <div class="py-4 px-6">
+            <h2 class="text-lg font-bold mb-6"></h2>
+            <ul class="space-y-2">
+                <li><a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Publier une annonce</a></li>
+                <li><a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Emplois</a></li>
+                <li><a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Packs</a></li>
+                <li><a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Candidats</a></li>
+                <li><a href="#" class="block px-4 py-2 rounded hover:bg-gray-700">Recherche CV</a></li>
+            </ul>
+            </div>
+        </div>
+        <div class="w-4/5 bg-gray-100 p-8 ml-auto">
+            <!-- Le contenu du tableau de bord sera affiché ici -->
+
+            {% include 'base/navbar.html.twig' %}
+            {% block body %}{% endblock %}
+        </div>
+    </main>
+  </body>
