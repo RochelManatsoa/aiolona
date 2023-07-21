@@ -100,6 +100,19 @@ account:
     lang: Langues
     skills: Competences sur les IA
 
+company:
+  intro: Comme vous n'avez jamais publier d'offre d'emploi, vous devrez créer un compte employeur.
+  label: Créer un compte entreprise
+  name: Nom de votre entreprise *
+  size: Nombre d'employés au sein de votre entreprise
+  about: Description de votre entreprise *
+  url: Site web
+  country: Pays
+  select:
+    country: Séléctionner
+  email: Votre email professionnel *
+  phone: Votre numéro de téléphone *
+
 footer:
   copyright: © 2023 PostIn Experts IA. Tous droits réservés.
 
