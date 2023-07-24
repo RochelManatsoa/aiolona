@@ -30,6 +30,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('checkNotNull', [$this, 'checkNotNull']),
             new TwigFunction('isoToEmoji', [$this, 'isoToEmoji']),
             new TwigFunction('getNoteDesc', [$this, 'getNoteDesc']),
+            new TwigFunction('getStars', [$this, 'getStars']),
         ];
     }
 
@@ -87,5 +88,18 @@ class AppExtension extends AbstractExtension
     {
         if($note == 0) return 'Veuillez noter votre comptetence sur cet outil';
         return $this->aINoteRepository->findBy(['note' => $note])[0]->getDescription();
+    }
+
+    public function getStars(Identity $identity)
+    {
+        $stars = [];
+        foreach ($identity->getAicores() as $aicore) {
+            $stars[] = [
+                'name' => $aicore->getName(),
+                'note' => $this->getIdentityAiNote($aicore, $identity)
+            ];
+        }
+
+        return $stars;
     }
 }

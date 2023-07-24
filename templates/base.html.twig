@@ -19,18 +19,6 @@
   {% include 'base/navbar.html.twig' %}
 
   <body class="flex flex-col min-h-screen"
-  {{ stimulus_controller('symfony/ux-swup/swup', {
-    containers: ['#swup', '#nav'],
-    animateHistoryBrowsing: true,
-    animationSelector: '[class*="transition-"]',
-    cache: true,
-    requestHeaders: {
-      'X-Requested-With': 'swup',
-      'Accept': 'text/html, application/xhtml+xml'
-    },
-    theme: 'fade',
-    debug: true,
-  }) }}
   >
     <main id="swup" class="flex-grow">
       {% block body %}{% endblock %}

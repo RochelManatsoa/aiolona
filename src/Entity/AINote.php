@@ -99,4 +99,20 @@ class AINote
 
         return $this;
     }
+
+    public function addAiCore(AIcores $aiCore): static
+    {
+        if (!$this->aiCores->contains($aiCore)) {
+            $this->aiCores->add($aiCore);
+        }
+
+        return $this;
+    }
+
+    public function removeAiCore(AIcores $aiCore): static
+    {
+        $this->aiCores->removeElement($aiCore);
+
+        return $this;
+    }
 }

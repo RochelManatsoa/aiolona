@@ -40,6 +40,8 @@ security:
         - { path: ^/create-profile, roles: ROLE_USER }
         - { path: ^/create-session-stripe, roles: ROLE_USER }
         - { path: ^/compagny, roles: ROLE_USER }
+        - { path: ^/import, roles: ROLE_USER }
+        - { path: ^/posting, roles: ROLE_USER }
 
 when@test:
     security:
