@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompagnyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +39,19 @@ class Compagny
 
     #[ORM\OneToOne(inversedBy: 'compagny', cascade: ['persist', 'remove'])]
     private ?Identity $identity = null;
+
+    #[ORM\OneToMany(mappedBy: 'compagny', targetEntity: Posting::class)]
+    private Collection $posting;
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
+    public function __construct()
+    {
+        $this->posting = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -135,6 +150,36 @@ class Compagny
     public function setIdentity(?Identity $identity): static
     {
         $this->identity = $identity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Posting>
+     */
+    public function getPosting(): Collection
+    {
+        return $this->posting;
+    }
+
+    public function addPosting(Posting $posting): static
+    {
+        if (!$this->posting->contains($posting)) {
+            $this->posting->add($posting);
+            $posting->setCompagny($this);
+        }
+
+        return $this;
+    }
+
+    public function removePosting(Posting $posting): static
+    {
+        if ($this->posting->removeElement($posting)) {
+            // set the owning side to null (unless already changed)
+            if ($posting->getCompagny() === $this) {
+                $posting->setCompagny(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Experts    
+{% endblock %}
+
+{% block body %}
+
+<div class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto p-4">
+
+        <div class="flex">
+            <div class="w-3/5 lg:w-2/3 bg-white rounded-lg p-4 shadow-md mr-2">
+
+                        <h1 class="text-2xl font-bold mb-4">
+                            Experts
+                        </h1>   
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                            {% for identity in identities %}
+                                {{ component('simple_card',{
+                                        identity: identity,
+                                        url: path('app_profile_expert', {'username' : identity.username} ),
+                                        stars: getStars(identity),
+                                        imgUrl: vich_uploader_asset(identity, 'file')
+                                    })
+                                }}
+                            {% endfor %}
+                        </div>
+
+                        <nav class="flex items-center justify-center mt-4">
+                        {% do identities.setPageRange(2) %}
+                        {{ knp_pagination_render(identities, 'base/pagination.html.twig')}}
+                        </nav>
+            </div>
+
+            <div class="w-2/5 lg:w-1/3 bg-white rounded-lg p-4 shadow-md">
+            {% include "base/_filter.html.twig" with {form : form} %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+    

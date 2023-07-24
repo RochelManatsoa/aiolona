@@ -7,7 +7,6 @@ use App\Entity\Sector;
 use App\Entity\Identity;
 use App\Form\Search\SearchType;
 use App\Repository\IdentityRepository;
-use App\Repository\SectorRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +47,9 @@ class ProfileCatalogController extends AbstractController
     }
 
     #[Route('/experts/{username}/identity', name: 'app_profile_expert')]
-    public function expert(Identity $identity, SectorRepository $sectorRepository, IdentityRepository $identityRepository): Response
+    public function expert(
+        Identity $identity, 
+    ): Response
     {
         return $this->render('profile_catalog/show.html.twig', [
             'identity' => $identity,

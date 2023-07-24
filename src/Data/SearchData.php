@@ -5,12 +5,12 @@ namespace App\Data;
 class SeachData
 {
     /**
-     * @var string
+     * @var null|string
      */
     public $q = '';
 
     /**
-     * @var Category[]
+     * @var Sector[]
      */
     public $sectors = [];
 
@@ -30,7 +30,7 @@ class SeachData
     public $aicores = [];
 
     /**
-     * @var Languages[]
+     * @var Language[]
      */
     public $langues = [];
 }

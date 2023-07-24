@@ -22,6 +22,7 @@ class AjaxController extends AbstractController
         AiNoteManager $aiNoteManager
     ): Response
     {
+        /** @var User $user  */
         $user = $this->getUser();
         if(!$user) return $this->json([
             'code' => 403,

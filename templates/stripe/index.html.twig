@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}
 {% if success %}
@@ -9,8 +9,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="bg-gray-100 flex items-center justify-center  ">
-  <div class="bg-white shadow p-6 rounded-lg">
+<div class="flex items-center justify-center  ">
+  <div class="shadow p-8 rounded-lg">
     <div class="p-8">
       {% if success %}
         {% include "stripe/_success.html.twig" %}

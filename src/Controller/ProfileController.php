@@ -58,7 +58,8 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
-
+            if($identity->getAccount()->getSlug() !== "expert" ) return $this->redirectToRoute('app_company_profile', []);
+            
             return $this->redirectToRoute('app_profile_sector', []);
         }
 
@@ -85,7 +86,6 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
-            if($identity->getAccount()->getSlug() !== "expert" ) return $this->redirectToRoute('app_company_profile', []);
 
             return $this->redirectToRoute('app_profile_ia', []);
         }

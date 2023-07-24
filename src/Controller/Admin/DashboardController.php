@@ -7,9 +7,12 @@ use App\Entity\Account;
 use App\Entity\AIcores;
 use App\Entity\AINote;
 use App\Entity\Compagny;
+use App\Entity\HonoraryPosting;
 use App\Entity\Identity;
 use App\Entity\Lang;
 use App\Entity\PackName;
+use App\Entity\Posting;
+use App\Entity\TypePosting;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -41,7 +44,10 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Secteur', 'fas fa-list', Sector::class);
         yield MenuItem::linkToCrud('Comptes', 'fas fa-id-card', Account::class);
         yield MenuItem::linkToCrud('Packs', 'fas fa-gift', PackName::class);
-        yield MenuItem::linkToCrud('Company', 'fas fa-users', Compagny::class);
         yield MenuItem::linkToCrud('Identité', 'fas fa-fingerprint', Identity::class);
+        yield MenuItem::linkToCrud('Company', 'fas fa-users', Compagny::class);
+        yield MenuItem::linkToCrud('Annonces', 'fas fa-tag', Posting::class);
+        yield MenuItem::linkToCrud('Type d\'annonce', 'fas fa-tag', TypePosting::class);
+        yield MenuItem::linkToCrud('Honoraire d\'annonce', 'fas fa-tag', HonoraryPosting::class);
     }
 }

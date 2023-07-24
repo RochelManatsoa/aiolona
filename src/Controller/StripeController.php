@@ -42,8 +42,8 @@ class StripeController extends AbstractController
                     ],
                 ]
             ],
-            'success_url' => 'https://127.0.0.1:8000/success',
-            'cancel_url' => 'https://127.0.0.1:8000/cancel',
+            'success_url' => 'https://'.$_SERVER['HTTP_HOST'].'/success',
+            'cancel_url' => 'https://'.$_SERVER['HTTP_HOST'].'/cancel',
         ]);
 
         return $this->redirect($checkout_session->url);
@@ -67,15 +67,10 @@ class StripeController extends AbstractController
         $pack
             ->setCreatedAt(new DateTime())
             ->setPackName($packName[0])
-            ->setIdentity($identity)
+            ->setIdentity($user->getIdentity())
             ->setName($name)
         ;
-
-        $identity->addPack($pack);
-
         $em->persist($pack);
-        $em->persist($identity);
-
         $em->flush();
 
         return $this->render('stripe/index.html.twig', [

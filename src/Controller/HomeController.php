@@ -29,21 +29,12 @@ class HomeController extends AbstractController
     #[Route('/rc/profile', name: 'app_old_profile')]
     public function profile(Request $request, IdentityManager $identityManager, AccountRepository $accountRepository, SessionInterface $sessionInterface): Response
     {
-        // if($this->getUser()->getIdentity() !== null){
-        //     return $this->redirectToRoute('app_dashboard', [
-        //         'identity' => $this->getUser()->getIdentity()
-        //     ]);
-        // }
         
         $identity = $identityManager->init();
         $form = $this->createForm(IdentityType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $form->getData();
-            // if($identity->getUser()->getEmail() === null){
-            //     $identity->setUser(null);
-            // }
-            // dd($identity);
             $identityManager->save($identity);
             $sessionInterface->set('identity', $identity->getId());
 
@@ -91,12 +82,9 @@ class HomeController extends AbstractController
                 $entity->setDescription($row['Button text']);
                 $entityManager->persist($entity);
             }
-            // Exécutez les opérations d'écriture dans la base de données
+            
             $entityManager->flush();
             die;
-
-            // Redirigez ou effectuez toute autre action après l'importation réussie
-            return $this->redirectToRoute('nom_de_la_route');
         }
 
         return $this->render('home/import.html.twig', [
