@@ -1,0 +1,196 @@
+{% extends 'layout.html.twig' %}
+{% block title %}
+  {{ 'registration.title'|trans }}
+{% endblock %}
+
+{% block body %}
+
+<div class="flex items-center justify-center h-screen p-8">
+{{ form_start(registrationForm) }}
+<section class="h-screen">
+  <div class="h-full">
+    <!-- Left column container with background-->
+    <div
+      class="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
+      {% if app.user %}
+      <div
+      class="mb-3 hidden w-full items-center rounded-lg bg-warning-100 px-6 py-5 text-base text-warning-800 data-[te-alert-show]:inline-flex"
+      role="alert"
+      data-te-alert-init
+      data-te-alert-show>
+          {{ 'security.logged'|trans }} {{ app.user.userIdentifier }},  <strong class="ml-4"><a href="{{ path('app_logout') }}">{{ 'security.logout'|trans }}</a></strong>
+      <button
+          type="button"
+          class="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50 hover:text-warning-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+          data-te-alert-dismiss
+          aria-label="Close">
+          <span
+          class="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="h-6 w-6">
+              <path
+              fill-rule="evenodd"
+              d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+              clip-rule="evenodd" />
+          </svg>
+          </span>
+      </button>
+      </div>
+      {% endif %}
+      <div
+        class="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12">
+        <img
+          src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="w-full"
+          alt="Sample image" />
+      </div>
+
+      <!-- Right column container -->
+      <div class="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
+
+ 
+  
+      <div
+      class="block max-w-md rounded-lg bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+        <div
+          class="flex flex-row items-center justify-center lg:justify-start">
+          <p class="mb-0 mr-4 text-lg">{{ 'security.google'|trans }}</p>
+          
+            <!-- Google -->
+            <button
+            id="google_button"
+            type="button"
+            data-te-ripple-init
+            data-te-ripple-color="light"
+            class="mx-1 h-9 w-9 rounded-full bg-primary uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+            <!-- Google -->
+            <svg class="mx-auto h-3.5 w-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
+                <path fill-rule="evenodd" d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z" clip-rule="evenodd"/>
+            </svg>
+            </button>
+        </div>
+
+        <!-- Separator between social media sign in and email/password sign in -->
+        <div
+          class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+          <p
+            class="mx-4 mb-0 text-center font-semibold dark:text-white">
+            Or
+          </p>
+        </div>
+        <div class="grid grid-cols-2">
+          <!--First name input-->
+          <div class="relative mb-6" data-te-input-wrapper-init>
+            <input
+              type="text"
+              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              id="registration_form_firstName"
+              name="{{ field_name(registrationForm.firstName) }}"
+              aria-describedby="emailHelp123"
+              placeholder="{{ field_label(registrationForm.firstName) }}" />
+            <label
+              for="registration_form_firstName"
+              class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+              >First name
+            </label>
+          </div>
+    
+          <!--Last name input-->
+          <div class="relative mb-6" data-te-input-wrapper-init>
+            <input
+              type="text"
+              class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+              id="registration_form_lastName"
+              name="{{ field_name(registrationForm.lastName) }}"
+              aria-describedby="emailHelp124"
+              placeholder="{{ field_label(registrationForm.lastName) }}" />
+            <label
+              for="registration_form_lastName"
+              class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+              >Last name
+            </label>
+          </div>
+        </div>
+    
+        <!--Email input-->
+        <div class="relative mb-6" data-te-input-wrapper-init>
+          <input
+            type="email"
+            class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+            id="registration_form_email"
+            name="{{ field_name(registrationForm.email) }}"
+            placeholder="{{ field_label(registrationForm.email) }}" />
+          <label
+            for="registration_form_email"
+            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+            >Email address
+          </label>
+        </div>
+    
+        <!--Password input-->
+        <div class="relative mb-6" data-te-input-wrapper-init>
+          <input
+            type="password"
+            class="peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
+            id="registration_form_plainPassword"
+            name="{{ field_name(registrationForm.plainPassword) }}"
+            placeholder="{{ field_label(registrationForm.plainPassword) }}" />
+          <label
+            for="registration_form_plainPassword"
+            class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+            >Password
+          </label>
+        </div>
+    
+        <!--Subscribe newsletter checkbox-->
+        <div
+          class="mb-6 flex min-h-[1.5rem] items-center justify-center pl-[1.5rem]">
+          <input
+            class="relative float-left -ml-[1.5rem] mr-[6px] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary"
+            type="checkbox"
+            name="{{ field_name(registrationForm.agreeTerms) }}"
+            value="{{ field_value(registrationForm.agreeTerms) }}"
+            id="registration_form_agreeTerms" />
+          <label
+            class="inline-block pl-[0.15rem] hover:cursor-pointer"
+            for="registration_form_agreeTerms">
+            {{ 'registration.agree'|trans }}
+          </label>
+        </div>
+        <!--Submit button-->
+        <button
+          type="submit"
+          class="inline-block w-full rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+          data-te-ripple-init
+          data-te-ripple-color="light">
+          Sign up
+        </button>
+    </div>
+
+
+    </div>
+    </div>
+  </div>
+</section>
+<div style="display:none;">
+{{ form_row(registrationForm) }}
+</div>
+{{ form_end(registrationForm) }}
+</div>
+
+<script type="text/javascript">
+    
+    document.getElementById('google_button').addEventListener('click', function(e){
+        e.preventDefault();
+        const url = "{{ path('connect_google_start') }}";
+        const urlActuelle = window.location.origin;
+        const urlComplete = urlActuelle + url;
+        window.location.href = urlComplete;
+    })
+
+</script>
+
+{% endblock %}

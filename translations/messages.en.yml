@@ -20,7 +20,7 @@ security:
   logged: You are logged in as
   email: Email
   password: Password
-  forgotten: Password forgotten?
+  forgotten: Forgot password?
   google: Sign in with Google
   signin: Sign in
   or: OR

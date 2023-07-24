@@ -39,13 +39,14 @@ class AccountController extends AbstractController
             if($account instanceof Account && $account->getSlug() === $account::RESSOURCE){
                 return $this->redirectToRoute('app_dashboard');
             }
-
-            return $this->redirectToRoute('app_profile');
+            
+            return $this->render('account/index.html.twig', [
+                'identity' => $identity,
+            ]);
         }
+
+        return $this->redirectToRoute('app_profile');
         
-        return $this->render('account/index.html.twig', [
-            'identity' => $identity,
-        ]);
     }
 
     #[Route('/account/edit/contact', name: 'app_edit_contact')]

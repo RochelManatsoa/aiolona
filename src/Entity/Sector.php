@@ -33,6 +33,9 @@ class Sector
     #[ORM\ManyToMany(targetEntity: Identity::class, mappedBy: 'sectors')]
     private Collection $identity;
 
+    #[ORM\ManyToMany(targetEntity: Posting::class, mappedBy: 'sector')]
+    private Collection $postings;
+
     public function __toString()
     {
         return $this->name;
@@ -41,6 +44,7 @@ class Sector
     public function __construct()
     {
         $this->identity = new ArrayCollection();
+        $this->postings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,6 +108,33 @@ class Sector
     public function removeIdentity(Identity $identity): static
     {
         $this->identity->removeElement($identity);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Posting>
+     */
+    public function getPostings(): Collection
+    {
+        return $this->postings;
+    }
+
+    public function addPosting(Posting $posting): static
+    {
+        if (!$this->postings->contains($posting)) {
+            $this->postings->add($posting);
+            $posting->addSector($this);
+        }
+
+        return $this;
+    }
+
+    public function removePosting(Posting $posting): static
+    {
+        if ($this->postings->removeElement($posting)) {
+            $posting->removeSector($this);
+        }
 
         return $this;
     }

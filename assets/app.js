@@ -9,6 +9,21 @@ import './bootstrap.js';
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 import './styles/app.scss';
-import 'flowbite';
-import $ from 'jquery';
-import './js/main.js';
+import {
+    Collapse,
+    Dropdown,
+    Ripple,
+    Sidenav,
+    Modal,
+    Input,
+    Tab,
+    Alert,
+    initTE,
+  } from "tw-elements";
+  
+  initTE({ Collapse, Dropdown });
+  initTE({ Sidenav });
+  initTE({ Ripple, Input });
+  initTE({ Alert });
+  initTE({ Tab });
+  initTE({ Modal, Ripple });

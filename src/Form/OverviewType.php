@@ -23,7 +23,7 @@ class OverviewType extends AbstractType
                 ]
             ])
             ->add('cv', FileType::class, [
-                'label' => 'Brochure (PDF file)',
+                'label' => 'CV (PDF file)',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

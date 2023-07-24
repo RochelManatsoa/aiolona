@@ -36,6 +36,7 @@
     },
     "dependencies": {
         "flowbite": "^1.7.0",
-        "jquery": "^3.7.0"
+        "jquery": "^3.7.0",
+        "tw-elements": "^1.0.0-beta2"
     }
 }

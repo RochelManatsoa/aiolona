@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="dark">
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      {% block title %}
+        {{ 'dashboard.title'|trans }}
+      {% endblock %}
+    </title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+      {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+    {% block javascripts %}
+      {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+  </head>
+  <body class="dark:bg-zinc-800 [&>*]:leading-[1.6]">
+
+    {% include "dashboard/ressource/_sidenav.html.twig" with {
+      identity: identity,
+      compagny: compagny,
+    } %}
+    {% include "dashboard/ressource/_navbar.html.twig" with {
+      identity: identity
+    } %}
+
+    <!-- Content -->
+    <div
+      class="min-h-screen w-full bg-gray-50 !pl-0 sm:!pl-60"
+      id="content">
+      <div class="py-12">
+        <div>
+          {% block body %}{% endblock %} 
+        </div>
+        <button
+          id="toggler"
+          class="m-12 inline-block rounded bg-zinc-800 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-black hover:shadow-lg focus:bg-black focus:shadow-lg focus:outline-none focus:ring-0 active:bg-zinc-900 active:shadow-lg sm:hidden"
+          data-te-sidenav-toggle-ref
+          data-te-target="#full-screen-example"
+          data-te-ripple-init
+          data-te-ripple-color="white">
+          <span class="block [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              class="h-5 w-5">
+              <path
+                fill-rule="evenodd"
+                d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+                clip-rule="evenodd" />
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+    <!-- Content -->
+    {% include "dashboard/ressource/_footer.html.twig" %}
+  </body>
+  <script text="javascript">
+
+    const sidenav = document.getElementById("full-screen-example");
+    const sidenavInstance = Sidenav.getInstance(sidenav);
+    
+    let innerWidth = null;
+    
+    const setMode = (e) => {
+      // Check necessary for Android devices
+      if (window.innerWidth === innerWidth) {
+        return;
+      }
+    
+      innerWidth = window.innerWidth;
+    
+      if (window.innerWidth < sidenavInstance.getBreakpoint("sm")) {
+        sidenavInstance.changeMode("over");
+        sidenavInstance.hide();
+      } else {
+        sidenavInstance.changeMode("side");
+        sidenavInstance.show();
+      }
+    };
+    
+    if (window.innerWidth <script sidenavInstance.getBreakpoint("sm")) {
+      setMode();
+    }
+    
+    // Event listeners
+    window.addEventListener("resize", setMode);
+    
+    document
+    .getElementById("slim-toggler")
+    .addEventListener("click", () => {
+      const instance = Sidenav.getInstance(
+        document.getElementById("sidenav-4")
+      );
+      instance.toggleSlim();
+    });
+  </script>
+</html>

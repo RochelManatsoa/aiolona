@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 
@@ -26,13 +27,12 @@ class IdentityCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             TextField::new('firstName'),
             TextField::new('lastName'),
-            TextField::new('username'),
-            MoneyField::new('tarif')->setCurrency('EUR'),
+            TextField::new('username')->onlyOnForms(),
+            MoneyField::new('tarif')->setCurrency('EUR')->onlyOnForms(),
             TextEditorField::new('bio')->onlyOnForms(),
             AssociationField::new('account'),
-            AssociationField::new('sectors'),
+            AssociationField::new('sectors')->onlyOnForms(),
             TextField::new('file')->setFormType(VichImageType::class)->onlyOnForms(),
-            ImageField::new('fileName')->setBasePath('uploads/experts/')->onlyOnIndex(),
             CollectionField::new('aIcores')->onlyOnIndex()
         ];
     }
