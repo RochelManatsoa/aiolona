@@ -36,7 +36,7 @@ class AccountController extends AbstractController
             /** @var Account $account */
             $account = $identity->getAccount();
             
-            if($account instanceof Account && $account->getSlug() === $account::RESSOURCE){
+            if($account instanceof Account && $account->getSlug() !== $account::EXPERT){
                 return $this->redirectToRoute('app_dashboard');
             }
             
