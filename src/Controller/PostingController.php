@@ -50,6 +50,31 @@ class PostingController extends AbstractController
         ]);
     }
 
+    #[Route('/posting/edit/{jobId}', name: 'app_posting_edit')]
+    public function edit(
+        Posting $posting,
+        PostingManager $postingManager,
+        Request $request,
+        EntityManagerInterface $em
+    ): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        $form = $this->createForm(StepOneType::class, $posting);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $posting = $postingManager->saveForm($form);
+
+            return $this->redirectToRoute('app_posting_steptwo', [ 
+                'jobId' => $posting->getJobId()
+            ]);
+        }
+
+        return $this->render('posting/new.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/posting/job-details/{jobId}', name: 'app_posting_steptwo')]
     public function details(
         Request $request,
@@ -88,13 +113,25 @@ class PostingController extends AbstractController
             $em->persist($posting);
             $em->flush();
 
-            return $this->redirectToRoute('app_dashboard', [ 
+            return $this->redirectToRoute('app_posting_dashboard', [ 
                 'jobId' => $posting->getJobId()
             ]);
         }
 
         return $this->render('posting/new.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/posting/view/{jobId}', name: 'app_posting_view')]
+    public function view(
+        Request $request,
+        Posting $posting,
+        EntityManagerInterface $em
+    ): Response
+    {
+        return $this->render('posting/index.html.twig', [
+            'posting' => $posting,
         ]);
     }
 }

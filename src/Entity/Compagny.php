@@ -11,6 +11,22 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CompagnyRepository::class)]
 class Compagny
 {
+    use \App\Manager\Trait\CompanyTrait;
+
+    const SIZE_XSMALL = 'XS';
+    const SIZE_SMALL = 'SM';
+    const SIZE_MEDIUM = 'MD';
+    const SIZE_LARGE = 'LG';
+    const SIZE_XLARGE = 'XL';
+
+    const CHOICE_SIZE = [        
+         '1 to 49' => self::SIZE_XSMALL ,
+         '50 to 149' => self::SIZE_SMALL ,
+         '150 to 249' => self::SIZE_MEDIUM ,
+         '250 to 499' => self::SIZE_LARGE ,
+         '500 +' => self::SIZE_XLARGE ,
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,8 +35,8 @@ class Compagny
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $size = null;
+    #[ORM\Column(length: 255)]
+    private ?string $size = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -70,12 +86,12 @@ class Compagny
         return $this;
     }
 
-    public function getSize(): ?int
+    public function getSize(): ?string
     {
         return $this->size;
     }
 
-    public function setSize(int $size): static
+    public function setSize(string $size): static
     {
         $this->size = $size;
 

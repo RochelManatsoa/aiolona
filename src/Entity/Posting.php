@@ -59,10 +59,18 @@ class Posting
     #[ORM\ManyToOne(inversedBy: 'posting')]
     private ?Compagny $compagny = null;
 
+    #[ORM\ManyToMany(targetEntity: SchedulePosting::class, inversedBy: 'posting')]
+    private Collection $schedulePostings;
+
+    #[ORM\ManyToMany(targetEntity: AIcores::class, inversedBy: 'postings')]
+    private Collection $skills;
+
     public function __construct()
     {
         $this->sector = new ArrayCollection();
         $this->jobId = new Uuid(Uuid::v1());
+        $this->schedulePostings = new ArrayCollection();
+        $this->skills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -246,6 +254,57 @@ class Posting
     public function setCompagny(?Compagny $compagny): static
     {
         $this->compagny = $compagny;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SchedulePosting>
+     */
+    public function getSchedulePostings(): Collection
+    {
+        return $this->schedulePostings;
+    }
+
+    public function addSchedulePosting(SchedulePosting $schedulePosting): static
+    {
+        if (!$this->schedulePostings->contains($schedulePosting)) {
+            $this->schedulePostings->add($schedulePosting);
+            $schedulePosting->addPosting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchedulePosting(SchedulePosting $schedulePosting): static
+    {
+        if ($this->schedulePostings->removeElement($schedulePosting)) {
+            $schedulePosting->removePosting($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AIcores>
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(AIcores $skill): static
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills->add($skill);
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(AIcores $skill): static
+    {
+        $this->skills->removeElement($skill);
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Compagny;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,7 +19,11 @@ class CompagnyType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'company.name',])
-            ->add('size', NumberType::class, ['label' => 'company.size'])
+            ->add('size', ChoiceType::class, [
+                'choices' => Compagny::CHOICE_SIZE,
+                'label' => 'Your company\'s number of employees',
+                'required' => true,
+                ])
             ->add('description', TextareaType::class, [
                 'label' => 'company.about',
                 'attr' => [

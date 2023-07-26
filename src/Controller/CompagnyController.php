@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Compagny;
 use App\Entity\Identity;
 use App\Form\CompagnyType;
-use App\Form\CompagnyIdType;
 use App\Manager\IdentityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

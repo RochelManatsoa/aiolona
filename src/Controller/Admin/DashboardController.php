@@ -12,6 +12,7 @@ use App\Entity\Identity;
 use App\Entity\Lang;
 use App\Entity\PackName;
 use App\Entity\Posting;
+use App\Entity\SchedulePosting;
 use App\Entity\TypePosting;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -48,6 +49,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Company', 'fas fa-users', Compagny::class);
         yield MenuItem::linkToCrud('Annonces', 'fas fa-tag', Posting::class);
         yield MenuItem::linkToCrud('Type d\'annonce', 'fas fa-tag', TypePosting::class);
-        yield MenuItem::linkToCrud('Honoraire d\'annonce', 'fas fa-tag', HonoraryPosting::class);
+        yield MenuItem::linkToCrud('Horaire d\'annonce', 'fas fa-tag', SchedulePosting::class);
     }
 }

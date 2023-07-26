@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block title %}
     Experts    
@@ -16,7 +16,7 @@
                             Experts
                         </h1>   
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3">
                             {% for identity in identities %}
                                 {{ component('simple_card',{
                                         identity: identity,
