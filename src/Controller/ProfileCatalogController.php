@@ -32,7 +32,7 @@ class ProfileCatalogController extends AbstractController
             $request->query->getInt('page', 1),
             9
         );
-        return $this->render('profile_catalog/index.html.twig', [
+        return $this->render('profile_catalog/catalog.html.twig', [
             'identities' => $identities,
             'form' => $form->createView()
         ]);

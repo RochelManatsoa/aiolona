@@ -1,76 +1,129 @@
 {% extends 'dashboard/ressource/_base.html.twig' %}
 
-{% block title %}Mes annonces{% endblock %}
+{% block title %}
+  Mes annonces 
+{% endblock %}
 
 {% block body %}
 
+  <div class="container mx-8">
 
-<div class="container mx-8">
+    <!-- Jumbotron -->
+    <div class="rounded-lg bg-neutral-100 p-6 my-6 text-neutral-700 shadow-lg dark:bg-neutral-600 dark:text-neutral-200 dark:shadow-black/30">
+      <h2 class="mb-5 text-3xl font-semibold">
+        Mes annonces
+      </h2>
+      <p>
+        Gestion de vos annonces.
+      </p>
+    </div>
+    <!-- Jumbotron -->
 
-<!-- Jumbotron -->
-<div
-  class="rounded-lg bg-neutral-100 p-6 my-6 text-neutral-700 shadow-lg dark:bg-neutral-600 dark:text-neutral-200 dark:shadow-black/30">
-  <h2 class="mb-5 text-3xl font-semibold">Mes annonces</h2>
-  <p>
-    Gestion de vos annonces.
-  </p>
-</div>
-<!-- Jumbotron -->
+    <!--Pills navigation-->
+    <ul class="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row" id="pills-tab" role="tablist" data-te-nav-ref>
+      <li role="presentation">
+        <a href="#pills-home" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-home-tab" data-te-toggle="pill" data-te-target="#pills-home" data-te-nav-active role="tab" aria-controls="pills-home" aria-selected="true">
+          Annonces
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#pills-profile" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-profile-tab" data-te-toggle="pill" data-te-target="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">
+          Communication                  
+        </a>
+      </li>
+    </ul>
 
-<!--Pills navigation-->
-<ul
-  class="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row"
-  id="pills-tab"
-  role="tablist"
-  data-te-nav-ref>
-  <li role="presentation">
-    <a
-      href="#pills-home"
-      class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-      id="pills-home-tab"
-      data-te-toggle="pill"
-      data-te-target="#pills-home"
-      data-te-nav-active
-      role="tab"
-      aria-controls="pills-home"
-      aria-selected="true"
-      >Annonces</a
-    >
-  </li>
-  <li role="presentation">
-    <a
-      href="#pills-profile"
-      class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-      id="pills-profile-tab"
-      data-te-toggle="pill"
-      data-te-target="#pills-profile"
-      role="tab"
-      aria-controls="pills-profile"
-      aria-selected="true"
-      >Communication</a
-    >
-  </li>
-</ul>
+    <!--Pills content-->
+    <div class="mb-6">
+      <div class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" data-te-tab-active>
 
-<!--Pills content-->
-<div class="mb-6">
-  <div
-    class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-    id="pills-home"
-    role="tabpanel"
-    aria-labelledby="pills-home-tab"
-    data-te-tab-active>
-    Tab 1 content
+        {% if annonces is defined and annonces is not empty %}
+
+          {% for annonce in annonces %}
+            <div class="bg-white shadow-sm rounded p-4 m-4 grid grid-cols-5 gap-4">
+              <div class="p-4">
+                <p class="text-indigo-500 font-medium">
+                  <a href="#">
+                    {{ annonce.title }}
+                  </a>
+                </p>
+                <small class="text-gray-500">
+                  {{ annonce.typePosting.name }}
+                </small>
+              </div>
+              <div class="p-4 col-span-3">
+                {% if checkInfo(annonce) %}
+                  <p class="mb-2">
+                    {% for horaire in annonce.schedulePostings %}
+
+                      <span class="inline-block whitespace-nowrap rounded-full bg-success-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-success-700">
+                        {{ horaire.name }}
+                      </span>
+
+                    {% endfor %}
+                  </p>
+                  <p class="mb-2">
+                    <span class="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]">
+                      {{ annonce.tarif }}
+                      € per hour                                        
+                    </span>
+                  </p>
+                {% else %}
+                  <div class=" inline-flex w-full items-center rounded-lg bg-warning-100 px-6 py-5 text-base text-warning-800" role="alert">
+                    <span class="mr-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                        <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                      </svg>
+                    </span>
+                    Your job posting is incomplete.                                   
+                                    
+                    <a href="{{ path('app_posting_edit', {'jobId': annonce.jobId } ) }}" data-te-ripple-init data-te-ripple-color="light" class="inline-block rounded bg-primary mx-6 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                      Finish job posting                                  
+                                      
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="p-4">
+                {% if checkInfo(annonce) %}
+                  <a href="{{ path('app_posting_edit', {'jobId': annonce.jobId } ) }}" class="inline-block rounded border-2 border-info px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-info transition duration-150 ease-in-out hover:border-info-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-info-600 focus:border-info-600 focus:text-info-600 focus:outline-none focus:ring-0 active:border-info-700 active:text-info-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10" data-te-ripple-init>
+                    Edit
+                  </a>
+                {% else %}
+                  <a onclick="return confirm('Are you sure you want to delete this Job posting?');" href="{{ path('ajax_posting_delete', {'jobId': annonce.jobId } ) }}" class="edit-js inline-block rounded bg-primary-accent-200 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200">
+                    Delete draft                                
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+
+        {% else %}
+          Aucune annonce publié                     
+        {% endif %}
+
+      </div>
+      <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        Tab 2 content
+      </div>
+    </div>
+
   </div>
-  <div
-    class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-    id="pills-profile"
-    role="tabpanel"
-    aria-labelledby="pills-profile-tab">
-    Tab 2 content
-  </div>
-</div>
 
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <script type="text/javascript">
 
+    document.querySelectorAll("a.delete-js").forEach(function (link) {
+        link.addEventListener('click', function(e){
+            e.preventDefault();
+            const url = this.href;        
+            const element = this.parentElement.parentElement
+
+            axios.post(url).then(function(response){
+              element.remove()
+            })
+        })
+    })
+
+</script>
 {% endblock %}

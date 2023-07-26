@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\AIcores;
+use App\Entity\Posting;
 use App\Manager\AiNoteManager;
+use App\Manager\PostingManager;
 use App\Repository\AINoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AjaxController extends AbstractController
 {
@@ -43,6 +45,24 @@ class AjaxController extends AbstractController
             'message' => 'Note ajouté',
             'note' => $note->getNote(),
             'desc' => $desc[0]->getDescription()
+        ], 200);
+    }
+
+    #[Route('/ajax/posting/delete/{jobId}', name: 'ajax_posting_delete')]
+    public function deletePosting(
+        Posting $posting,
+        PostingManager $postingManager,
+        Request $request,
+        EntityManagerInterface $em
+    ): Response
+    {
+        
+        $em->persist($posting);
+        $em->flush();    
+
+        $this->addFlash('warning', 'Posting deleted');
+        return $this->json([
+            'message' => 'Posting deleted',
         ], 200);
     }
 

@@ -12,6 +12,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class AiNoteManager
 {
+    private $em;
+    private $twig;
+    private $sluggerInterface;
+    private $security;
+    private $aINoteRepository;
+    
     public function __construct(
         EntityManagerInterface $em,
         Twig $twig,

@@ -36,7 +36,6 @@ class PostingCrudController extends AbstractCrudController
             DateTimeField::new('startDate')->onlyOnForms(),
             AssociationField::new('compagny'),
             AssociationField::new('typePosting'),
-            AssociationField::new('honoraryPosting'),
         ];
     }
 }

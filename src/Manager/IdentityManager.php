@@ -14,6 +14,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class IdentityManager
 {
+    private $em;
+    private $twig;
+    private $sluggerInterface;
+    private $accountRepository;
+    private $security;
+
     public function __construct(
         EntityManagerInterface $em,
         Twig $twig,

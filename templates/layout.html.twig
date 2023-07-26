@@ -18,12 +18,12 @@
 
   {% include 'layout/_navbar.html.twig' %}
 
-  <body class="flex flex-col min-h-screen"
-  >
-    <main id="swup" class="flex-grow mt-8">
-      {% block body %}{% endblock %}
+  <body class="flex flex-col min-h-screen">
+    <main id="swup" class="flex-grow bg-[#FBFBFB]">
+      <div class=" container mx-auto">
+        {% block body %}{% endblock %}
+      </div>
     </main>
   </body>
-  
   {% include 'layout/_footer.html.twig' %}
 </html>

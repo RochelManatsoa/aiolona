@@ -24,7 +24,7 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_account');
         }
         
-        if($identity->getAccount()->getSlug() !== Account::RESSOURCE) return $this->render('dashboard/expert.html.twig', ['identity' => $identity]);
+        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->render('dashboard/expert.html.twig', ['identity' => $identity]);
         
         return $this->render('dashboard/ressource.html.twig', [
             'identity' => $identity,
@@ -53,7 +53,7 @@ class DashboardController extends AbstractController
             $this->redirectToRoute('app_dashboard');
         }
         
-        if($identity->getAccount()->getSlug() !== Account::RESSOURCE) return $this->render('dashboard/expert.html.twig', ['identity' => $identity]);
+        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->render('dashboard/expert.html.twig', ['identity' => $identity]);
         
         return $this->render('dashboard/ressource/posting.html.twig', [
             'annonces' => $repository->findAll(),
@@ -83,7 +83,7 @@ class DashboardController extends AbstractController
             $this->redirectToRoute('app_dashboard');
         }
         
-        if($identity->getAccount()->getSlug() !== Account::RESSOURCE) return $this->render('dashboard/expert.html.twig', ['identity' => $identity]);
+        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->render('dashboard/expert.html.twig', ['identity' => $identity]);
         
         return $this->render('dashboard/ressource/candidates.html.twig', [
             'annonces' => $repository->findAll(),

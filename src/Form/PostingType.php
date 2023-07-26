@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Posting;
+use App\Entity\SchedulePosting;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +20,12 @@ class PostingType extends AbstractType
             ->add('number')
             ->add('sector')
             ->add('typePosting')
-            ->add('honoraryPosting')
+            ->add('schedulePosting', EntityType::class, [
+                'label' => 'Type d\'horaire',
+                'class' => SchedulePosting::class,
+                'expanded' => true,
+                'multiple' => true,
+            ])
         ;
     }
 

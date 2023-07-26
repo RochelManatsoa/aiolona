@@ -6,6 +6,7 @@ use App\Form\IdentityType;
 use App\Entity\AIcores;
 use App\Manager\IdentityManager;
 use App\Repository\AccountRepository;
+use App\Repository\PostingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,34 +20,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(
+        PostingRepository $postingRepository
+    ): Response
     {
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
-
-    #[Route('/rc/profile', name: 'app_old_profile')]
-    public function profile(Request $request, IdentityManager $identityManager, AccountRepository $accountRepository, SessionInterface $sessionInterface): Response
-    {
-        
-        $identity = $identityManager->init();
-        $form = $this->createForm(IdentityType::class, $identity, []);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $identity = $form->getData();
-            $identityManager->save($identity);
-            $sessionInterface->set('identity', $identity->getId());
-
-            return $this->redirectToRoute('app_account', [
-                'identity' => $identity
-            ]);
-            
-        }
-
-        return $this->render('home/profile.html.twig', [
-            'form' => $form->createView(),
-            'accountRepository' => $accountRepository->findAll(),
+            'postings' => $postingRepository->findValid(),
         ]);
     }
 

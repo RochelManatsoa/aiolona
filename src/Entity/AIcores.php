@@ -52,6 +52,9 @@ class AIcores
     #[ORM\OneToMany(mappedBy: 'aiCore', targetEntity: Note::class)]
     private Collection $notes;
 
+    #[ORM\ManyToMany(targetEntity: Posting::class, mappedBy: 'skills')]
+    private Collection $postings;
+
     public function __toString()
     {
         return $this->name;
@@ -63,6 +66,7 @@ class AIcores
         $this->identities = new ArrayCollection();
         $this->aINotes = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->postings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -263,6 +267,33 @@ class AIcores
             if ($note->getAiCore() === $this) {
                 $note->setAiCore(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Posting>
+     */
+    public function getPostings(): Collection
+    {
+        return $this->postings;
+    }
+
+    public function addPosting(Posting $posting): static
+    {
+        if (!$this->postings->contains($posting)) {
+            $this->postings->add($posting);
+            $posting->addSkill($this);
+        }
+
+        return $this;
+    }
+
+    public function removePosting(Posting $posting): static
+    {
+        if ($this->postings->removeElement($posting)) {
+            $posting->removeSkill($this);
         }
 
         return $this;

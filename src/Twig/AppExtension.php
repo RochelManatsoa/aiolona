@@ -4,6 +4,8 @@ namespace App\Twig;
 
 use App\Entity\AIcores;
 use App\Entity\Identity;
+use App\Entity\Posting;
+use App\Manager\PostingManager;
 use App\Repository\AccountRepository;
 use App\Repository\AINoteRepository;
 use Twig\Extension\AbstractExtension;
@@ -14,10 +16,15 @@ class AppExtension extends AbstractExtension
     private $accountRepository;
     private $aINoteRepository;
 
-    public function __construct(AccountRepository $accountRepository, AINoteRepository $aINoteRepository)
+    public function __construct(
+        AccountRepository $accountRepository, 
+        AINoteRepository $aINoteRepository,
+        PostingManager $postingManager
+        )
     {
         $this->accountRepository = $accountRepository;
         $this->aINoteRepository = $aINoteRepository;
+        $this->postingManager = $postingManager;
     }
 
     public function getFunctions(): array
@@ -31,6 +38,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('isoToEmoji', [$this, 'isoToEmoji']),
             new TwigFunction('getNoteDesc', [$this, 'getNoteDesc']),
             new TwigFunction('getStars', [$this, 'getStars']),
+            new TwigFunction('checkInfo', [$this, 'checkInfo']),
         ];
     }
 
@@ -101,5 +109,10 @@ class AppExtension extends AbstractExtension
         }
 
         return $stars;
+    }
+
+    public function checkInfo(Posting $posting): bool
+    {
+        return $this->postingManager->checkInfo($posting);
     }
 }
