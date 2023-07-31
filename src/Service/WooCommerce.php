@@ -67,4 +67,44 @@ class WooCommerce
 
         return $values;
     }
+
+    public function importFixturesProduct(){
+
+        $url = $this->endpoint.'?per_page=100';
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        
+        curl_setopt($ch, CURLOPT_USERPWD, $this->key . ':' . $this->secret);
+        
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+
+        $responses = json_decode($result);
+        $values = [];
+        $resp = [];
+
+        foreach ($responses as $key => $response) {
+            $resp['id'] = $response->id;
+            $resp['name'] = $response->name;
+            $resp['slug'] = $response->slug;
+            $resp['categories'] = $response->categories;
+            $resp['external_url'] = $response->external_url;
+            $resp['images'] = $response->images;
+            $resp['related_ids'] = $response->related_ids;
+            $resp['short_description'] = $response->short_description;
+            $resp['status'] = $response->status;
+            // $resp['meta_data'] = $response->meta_data[105];
+
+            $values[] = $resp;
+        }
+
+        return $values;
+    }
 }

@@ -4,15 +4,21 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\Lang;
+use App\Entity\Note;
 use App\Entity\User;
+use App\Entity\AINote;
 use App\Entity\Sector;
 use League\Csv\Reader;
 use App\Entity\Account;
 use App\Entity\AIcores;
-use App\Entity\AINote;
+use App\Entity\Posting;
+use App\Entity\Compagny;
 use App\Entity\Identity;
 use App\Entity\Language;
-use App\Entity\Note;
+use App\Entity\SchedulePosting;
+use App\Entity\TypePosting;
+use App\Service\WooCommerce;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -21,14 +27,27 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(UserPasswordHasherInterface $encoder, ParameterBagInterface $parameterBag, SluggerInterface $sluggerInterface)
+    private $encoder;
+    private $parameterBag;
+    private $sluggerInterface;
+    private $wooCommerce;
+
+    public function __construct(
+        UserPasswordHasherInterface $encoder, 
+        ParameterBagInterface $parameterBag, 
+        SluggerInterface $sluggerInterface,
+        WooCommerce $wooCommerce
+        )
     {
         $this->encoder = $encoder;
         $this->parameterBag = $parameterBag;
         $this->sluggerInterface = $sluggerInterface;
+        $this->wooCommerce = $wooCommerce;
     }
 
-    public function load(ObjectManager $manager): void
+    public function load(
+        ObjectManager $manager
+    ): void
     {        
         $faker = Factory::create('fr_FR');
         $csvReader = Reader::createFromPath($this->parameterBag->get('kernel.project_dir').'/public/ai.csv');
@@ -36,17 +55,28 @@ class AppFixtures extends Fixture
         $allFiles = scandir($this->parameterBag->get('kernel.project_dir').'/public/uploads/experts/');
         $images = array_diff($allFiles, array('.', '..'));
         
+        $products = $this->wooCommerce->importFixturesProduct();
+
         $aiCores = [];
-        foreach ($csvReader as $row) {
+
+
+        foreach ($products as $product) {
+
+            if ($product['status'] !== 'publish') { // skip even members
+                continue;
+            }
             $entity = new AIcores();
-            $entity->setName($row['Name']);
-            $entity->setSlug($this->sluggerInterface->slug(strtolower($row['Name'])));
-            $entity->setType($row['Type']);
-            $entity->setUrl($row['External URL']);
-            $entity->setDescription($row['Button text']);
+
+            $entity->setName($product['name']);
+            $entity->setSlug($product['slug']);
+            $entity->setType($product['status']);
+            $entity->setUrl($product['external_url']);
+            $entity->setDescription($product['short_description']);
+
             $manager->persist($entity);
             $aiCores[] = $entity;
         }
+
 
         $s = [
             0 => [
@@ -73,7 +103,7 @@ class AppFixtures extends Fixture
 
         $a = [
             0 => [
-                'name' => 'Ressource',
+                'name' => 'Entreprise',
                 'slug' => 'ressource'
             ],
             1 => [
@@ -130,6 +160,59 @@ class AppFixtures extends Fixture
             "NATIVE",
         ];
 
+        $tp = [
+            0 => [
+                'name' => 'Freelance',
+            ],
+            1 => [
+                'name' => 'Temps plein',
+            ],
+            2 => [
+                'name' => 'Temps partiel',
+            ],
+            3 => [
+                'name' => 'CDI',
+            ],
+        ];
+
+        $sp = [
+            0 => [
+                'name' => 'Horaire flexible',
+            ],
+            1 => [
+                'name' => 'Travail en journée',
+            ],
+            2 => [
+                'name' => 'Temps partiel',
+            ],
+            3 => [
+                'name' => 'CDI',
+            ],
+        ];
+
+        $typePosts = [];
+        foreach($tp as $key => $value){
+            $typePost = new TypePosting();
+            $typePost
+                ->setName($value['name'])
+                ->setSlug($this->sluggerInterface->slug($value['name']))
+                ;
+            $manager-> persist($typePost);
+            $typePosts[] = $typePost;
+        }
+
+        $schedulePosts = [];
+        foreach($sp as $key => $value){
+            $schedulePost = new SchedulePosting();
+            $schedulePost
+                ->setName($value['name'])
+                ->setSlug($this->sluggerInterface->slug($value['name']))
+                ->setDescription($faker->paragraph(1))
+                ;
+            $manager-> persist($schedulePost);
+            $schedulePosts[] = $schedulePost;
+        }
+
         $sectors = [];
         foreach($s as $key => $value){
             $sector = new Sector();
@@ -168,7 +251,7 @@ class AppFixtures extends Fixture
         foreach($n as $key => $value){
             $ainote = new AINote();
             $ainote
-            ->setNote($key)
+            ->setNote($key + 1)
             ->setDescription($value)
             ;
             $manager-> persist($ainote);
@@ -198,7 +281,8 @@ class AppFixtures extends Fixture
                 ->setFirstName($faker->firstName)
                 ->setEmail($faker->email)
                 ->setPassword($this->encoder->hashPassword($user, $plainPassword))
-                ->setLocale(($faker->countryCode));
+                ->setLocale(($faker->countryCode))
+            ;
 
             $identity = new Identity();
             $identity->setUser($user)
@@ -236,6 +320,90 @@ class AppFixtures extends Fixture
                 ;
                 $manager-> persist($note);
             }
+        }
+
+
+        $companies = [];
+
+        for($i=0; $i<10; $i++){
+            $user = new User();
+            $plainPassword = '000000';
+            $user->setLastName($faker->lastName)
+                ->setFirstName($faker->firstName)
+                ->setEmail($faker->email)
+                ->setPassword($this->encoder->hashPassword($user, $plainPassword))
+                ->setLocale(($faker->countryCode));
+
+            $identity = new Identity();
+            $identity->setUser($user)
+                ->setFirstName($user->getFirstName())
+                ->setLastName($user->getLastName())
+                ->setUsername($faker->uuid)
+                ->setBio($faker->paragraph(3))
+                ->setFileName($faker->randomElement($images))
+                ->setAccount($accounts[0])
+                ->setCountry($user->getLocale())
+                ->setCreatedAt($faker->dateTime)
+                ->setPhone($faker->e164PhoneNumber);
+
+            $company = new Compagny();
+            $company
+                ->setIdentity($identity)
+                ->setName($faker->company)
+                ->setSize($faker->randomElement(['XS', 'SM', 'MD', 'LG', 'XL']))
+                ->setDescription($faker->paragraph(3))
+                ->setCountry($user->getLocale())
+                ->setEmail($user->getEmail())
+                ->setPhone($identity->getPhone())
+            ;
+
+            $manager->persist($company);
+            $manager->persist($user);
+            $manager->persist($identity);
+
+            $companies[] = $company;
+        }
+
+        $postings = [];
+
+        $job = [
+            'Développeur mobile',
+            'Développeur web',
+            'Administrateur réseau',
+            'Consultant SEO',
+            'Graphiste',
+            'Monteur vidéo',
+            'Rédacteur web',
+            'Community manager',
+            'Assistant virtuel',
+            'Traducteur',
+            'Correcteur',
+            'Développeur full stack',
+        ];
+
+        for($i=0; $i<20; $i++){
+            $posting = new Posting();
+            $posting
+                ->setTitle($faker->randomElement($job))
+                ->addSector($faker->randomElement($sectors))
+                ->setTarif($faker->numberBetween(200, 600))
+                ->setDesctiption($faker->paragraph(3))
+                ->setCreatedAt($faker->dateTime())
+                ->setNumber($faker->numberBetween(1, 5))
+                ->setValid($faker->boolean())
+                ->setJobId(new Uuid(Uuid::v1()))
+                ->setPlannedDate($faker->boolean())
+                ->setCompagny($faker->randomElement($companies))
+                ->addSkill($faker->randomElement($aiCores))
+                ->addSkill($faker->randomElement($aiCores))
+                ->addSector($faker->randomElement($sectors))
+                ->addSchedulePosting($faker->randomElement($schedulePosts))
+                ->setTypePosting($faker->randomElement($typePosts))
+            ;
+
+            $manager->persist($posting);
+
+            $postings[] = $posting;
         }
 
         $manager->flush();

@@ -119,7 +119,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/ia.html.twig', [
             'form' => $form->createView(),
             'identity' => $identity,
-            'aIcores' => $aIcoresRepository->findOneBy(['slug' => 'synthesia'])
+            'aIcores' => $aIcoresRepository->findOneBy(['slug' => 'rocketreach'])
         ]);
     }
 
