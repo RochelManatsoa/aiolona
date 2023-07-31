@@ -52,11 +52,10 @@ async function fetchData(id) {
     const url = "/ajax/" + id;
     const urlActuelle = window.location.origin;
     const urlComplete = urlActuelle + url;
-    const motAChanger = "synthesia";
     await axios.get(urlComplete).then(function(resp){
         title.textContent = resp.data.aicore.name
-        stars.forEach(function (link){
-            link.href = link.href.replace(new RegExp(motAChanger, 'g'), resp.data.aicore.slug);
+        stars.forEach((link, index) =>{
+            link.href = "/ajax/" + resp.data.aicore.slug + "/" + (index  + 1)
         })
     })
 }

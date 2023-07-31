@@ -2,36 +2,45 @@
 
 namespace App\Controller;
 
+use League\Csv\Reader;
+use App\Entity\AIcores;
 use App\Data\ImportData;
 use App\Entity\AIcategory;
 use App\Form\IdentityType;
-use App\Entity\AIcores;
+use App\Service\WooCommerce;
 use App\Form\Import\ImportType;
 use App\Manager\IdentityManager;
 use App\Repository\AccountRepository;
-use App\Repository\AIcategoryRepository;
 use App\Repository\AIcoresRepository;
 use App\Repository\PostingRepository;
-use App\Service\WooCommerce;
+use App\Repository\AIcategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use League\Csv\Reader;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     public function index(
-        PostingRepository $postingRepository
+        PostingRepository $postingRepository,
+        Request $request,
+        PaginatorInterface $paginatorInterface
     ): Response
     {
+        $data = $paginatorInterface->paginate(
+            $postingRepository->findValid(),
+            $request->query->getInt('page', 1),
+            6
+        );
+
         return $this->render('home/index.html.twig', [
-            'postings' => $postingRepository->findValid(),
+            'postings' => $data,
         ]);
     }
 
@@ -51,10 +60,6 @@ class HomeController extends AbstractController
         $products = $woocommerce->importProduct($importType);
             
             foreach ($products as $product) {
-
-                // if($product['status'] !== 'publish'){
-                //     return;
-                // }
 
                 $entity = $aIcoresRepository->findOneBy(['slug' => $product['slug']]);
 
