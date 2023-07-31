@@ -29,6 +29,11 @@ class AIcategory
     #[ORM\ManyToMany(targetEntity: AIcores::class, inversedBy: 'aIcategories')]
     private Collection $aicores;
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function __construct()
     {
         $this->aicores = new ArrayCollection();

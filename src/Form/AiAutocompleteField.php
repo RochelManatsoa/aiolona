@@ -15,7 +15,11 @@ class AiAutocompleteField extends AbstractType
     {
         $resolver->setDefaults([
             'class' => AIcores::class,
+            'attr' => [
+                'data-controller' => 'custom-autocomplete',
+            ],
             'choice_label' => 'name',
+            'placeholder' => 'Select your favorite AI tools',
             'multiple' => true,
         ]);
     }
