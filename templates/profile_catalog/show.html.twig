@@ -25,7 +25,7 @@
                                 </div>
                             </div>
                             <div class="col-span-8 flex flex-col items-start mt-4 mb-8">
-                                <h2 class="text-xl font-semibold">Expert N° {{ identity.id }}</h2>
+                                <h2 class="text-xl font-semibold">{{ identity.firstName }} {{ identity.lastName|slice(0, 1)|upper }}</h2>
                                     <p class="text-xs mt-2">{{ identity.bio | raw }}</p>
                                 <h3 class="text-lg text-gray-400 font-bold mt-2">Secteurs</h3>
                                 {% for sector in identity.sectors %}

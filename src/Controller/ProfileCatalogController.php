@@ -30,7 +30,7 @@ class ProfileCatalogController extends AbstractController
         $identities = $paginatorInterface->paginate(
             $data,
             $request->query->getInt('page', 1),
-            9
+            8
         );
         return $this->render('profile_catalog/catalog.html.twig', [
             'identities' => $identities,
