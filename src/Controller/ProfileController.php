@@ -13,6 +13,7 @@ use App\Form\AvatarType;
 use App\Form\SecteurType;
 use App\Form\OverviewType;
 use App\Manager\IdentityManager;
+use App\Repository\AIcoresRepository;
 use App\Repository\LanguageRepository;
 use App\Repository\ExperienceRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,6 +100,7 @@ class ProfileController extends AbstractController
     public function ia(
         Request $request,
         IdentityManager $identityManager,
+        AIcoresRepository $aIcoresRepository
     ): Response {
         /** @var User $user  */
         $user = $this->getUser();
@@ -116,6 +118,8 @@ class ProfileController extends AbstractController
 
         return $this->render('profile/ia.html.twig', [
             'form' => $form->createView(),
+            'identity' => $identity,
+            'aIcores' => $aIcoresRepository->findOneBy(['id' => 1155])
         ]);
     }
 
