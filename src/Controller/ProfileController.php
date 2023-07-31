@@ -119,7 +119,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/ia.html.twig', [
             'form' => $form->createView(),
             'identity' => $identity,
-            'aIcores' => $aIcoresRepository->findOneBy(['id' => 1155])
+            'aIcores' => $aIcoresRepository->findOneBy(['slug' => 'jasper-ai'])
         ]);
     }
 
