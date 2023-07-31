@@ -99,14 +99,6 @@
   </div>
 
   <script type="text/javascript">
-    
-  document.getElementById('next_rate').addEventListener('click', function(e){
-      e.preventDefault();
-      const url = "{{ path('app_profile_rate') }}";
-      const urlActuelle = window.location.origin;
-      const urlComplete = urlActuelle + url;
-      window.location.href = urlComplete;
-  })
       
   document.getElementById('next').addEventListener('click', function(e){
       e.preventDefault();
