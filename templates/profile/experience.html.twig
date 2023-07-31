@@ -97,14 +97,6 @@
 </div>
 
 <script type="text/javascript">
-  
-document.getElementById('next_lang').addEventListener('click', function(e){
-    e.preventDefault();
-    const url = "{{ path('app_profile_language') }}";
-    const urlActuelle = window.location.origin;
-    const urlComplete = urlActuelle + url;
-    window.location.href = urlComplete;
-})
 
 document.getElementById('next_languages').addEventListener('click', function(e){
     e.preventDefault();

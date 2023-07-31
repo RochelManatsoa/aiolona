@@ -60,7 +60,7 @@ class WooCommerce
             $resp['related_ids'] = $response->related_ids;
             $resp['short_description'] = $response->short_description;
             $resp['status'] = $response->status;
-            $resp['meta_data'] = $response->meta_data[105];
+            // $resp['meta_data'] = $response->meta_data[105];
 
             $values[] = $resp;
         }
