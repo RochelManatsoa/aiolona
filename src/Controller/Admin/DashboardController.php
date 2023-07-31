@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Sector;
 use App\Entity\Account;
+use App\Entity\AIcategory;
 use App\Entity\AIcores;
 use App\Entity\AINote;
 use App\Entity\Compagny;
@@ -40,6 +41,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('AI', 'fas fa-robot', AIcores::class);
+        yield MenuItem::linkToCrud('Catégorie', 'fas fa-tag', AIcategory::class);
         yield MenuItem::linkToCrud('Language', 'fas fa-globe', Lang::class);
         yield MenuItem::linkToCrud('AI Note', 'fas fa-note-sticky', AINote::class);
         yield MenuItem::linkToCrud('Secteur', 'fas fa-list', Sector::class);

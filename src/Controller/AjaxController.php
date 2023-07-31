@@ -6,6 +6,7 @@ use App\Entity\AIcores;
 use App\Entity\Posting;
 use App\Manager\AiNoteManager;
 use App\Manager\PostingManager;
+use App\Repository\AIcoresRepository;
 use App\Repository\AINoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,6 +65,18 @@ class AjaxController extends AbstractController
         return $this->json([
             'message' => 'Posting deleted',
         ], 200);
+    }
+    #[Route('/ajax/{str}', name: 'ajax_get_ia')]
+    public function getIaById(
+        AIcoresRepository $aIcoresRepository,
+        Request $request
+    ): Response
+    {
+        return $this->json([
+            'aicore' => $aIcoresRepository->findOneBy([
+                'id' => $request->get('str')
+            ]),
+        ], 200, [], ['groups' => 'identity']);
     }
 
 }

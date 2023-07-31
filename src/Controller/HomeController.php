@@ -2,11 +2,17 @@
 
 namespace App\Controller;
 
+use App\Data\ImportData;
+use App\Entity\AIcategory;
 use App\Form\IdentityType;
 use App\Entity\AIcores;
+use App\Form\Import\ImportType;
 use App\Manager\IdentityManager;
 use App\Repository\AccountRepository;
+use App\Repository\AIcategoryRepository;
+use App\Repository\AIcoresRepository;
 use App\Repository\PostingRepository;
+use App\Service\WooCommerce;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,44 +36,61 @@ class HomeController extends AbstractController
     }
 
     #[Route('/import', name: 'app_import')]
-    public function importCsvAction(Request $request, EntityManagerInterface $entityManager, SluggerInterface $sluggerInterface)
+    public function importCsvAction(
+        Request $request, 
+        AIcoresRepository $aIcoresRepository,
+        AIcategoryRepository $aIcategoryRepository,
+        EntityManagerInterface $entityManager, 
+        SluggerInterface $sluggerInterface,
+        WooCommerce $woocommerce
+    )
     {
-        $form = $this->createFormBuilder()
-            ->add('csvFile', FileType::class)
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $csvFile = $form->get('csvFile')->getData();
-
-            // Chemin complet vers le fichier CSV téléchargé
-            $csvFilePath = $csvFile->getPathname();
-
-            // Lire le fichier CSV avec la bibliothèque league/csv
-            $csvReader = Reader::createFromPath($csvFilePath);
-            $csvReader->setHeaderOffset(0); // Définir la ligne d'en-tête du CSV
+        $importType = new ImportData();
+        $formImport = $this->createForm(ImportType::class, $importType);
+        $formImport->handleRequest($request);
+        $products = $woocommerce->importProduct($importType);
             
-            foreach ($csvReader as $row) {
-                dump($row);
-                // Créer une nouvelle instance de votre entité
-                $entity = new AIcores();
+            foreach ($products as $product) {
 
-                // Affecter les valeurs du CSV aux propriétés de l'entité
-                $entity->setName($row['Name']);
-                $entity->setSlug($sluggerInterface->slug(strtolower($row['Name'])));
-                $entity->setType($row['Type']);
-                $entity->setUrl($row['External URL']);
-                $entity->setDescription($row['Button text']);
+                // if($product['status'] !== 'publish'){
+                //     return;
+                // }
+
+                $entity = $aIcoresRepository->findOneBy(['slug' => $product['slug']]);
+
+                if(!$entity instanceof AIcores){
+                    $entity = new AIcores();
+                }
+
+                $entity->setName($product['name']);
+                $entity->setSlug($sluggerInterface->slug(strtolower($product['name'])));
+                $entity->setType($product['status']);
+                $entity->setUrl($product['external_url']);
+                $entity->setDescription($product['short_description']);
+
+                foreach ($product['categories'] as $category) {
+
+                    $aIcategory = $aIcategoryRepository->findOneBy(['slug' => $category->slug]);
+
+                    if(!$aIcategory instanceof AIcategory){
+                        $aIcategory = new AIcategory();
+                    }
+
+                    $aIcategory->setName($category->name);
+                    $aIcategory->setSlug($category->slug);
+
+                    $entityManager->persist($aIcategory);
+                    $entity->addAIcategory($aIcategory);
+                }
+
                 $entityManager->persist($entity);
             }
-            
             $entityManager->flush();
-            die;
-        }
+            $this->addFlash('success', 'Les produits sont bien importés');
 
         return $this->render('home/import.html.twig', [
-            'form' => $form->createView(),
+            'formImport' => $formImport->createView(),
+            'products' => $products
         ]);
     }
 }
