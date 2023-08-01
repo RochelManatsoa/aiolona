@@ -1,7 +1,8 @@
 <?php
 namespace App\Security;
 
-use App\Entity\User; // your user entity
+use App\Entity\User; 
+use App\Manager\IdentityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +21,19 @@ class GoogleAuthenticator extends OAuth2Authenticator
     private $clientRegistry;
     private $em;
     private $router;
+    private $identityManager;
 
-    public function __construct(ClientRegistry $clientRegistry, EntityManagerInterface $em, RouterInterface $router)
+    public function __construct(
+        ClientRegistry $clientRegistry, 
+        EntityManagerInterface $em, 
+        RouterInterface $router,
+        IdentityManager $identityManager
+    )
     {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->router = $router;
+        $this->identityManager = $identityManager;
     }
 
     public function authenticate(Request $request): Passport
@@ -48,10 +56,12 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $existingUser = new User();
                     $existingUser->setEmail($email);
                     $existingUser->setGoogleId($googleUser->getId());
-                    $this->em->persist($existingUser);
+                    $existingUser->setIdentity($this->identityManager->init());
                 }
                 $existingUser->setFirstName($googleUser->getFirstName());
                 $existingUser->setLastName($googleUser->getLastName());
+                $existingUser->getIdentity()->setAvatar($googleUser->getAvatar());
+                $this->em->persist($existingUser);
                 $this->em->flush();
 
                 return $existingUser;
