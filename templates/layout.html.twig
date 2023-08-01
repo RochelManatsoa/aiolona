@@ -19,10 +19,14 @@
 
   {% include 'layout/_navbar.html.twig' %}
 
-  <body class="flex flex-col min-h-screen">
+  <body class="flex flex-col min-h-screen" {{ stimulus_controller('symfony/ux-swup/swup', {
+    containers: ['#swup'],
+    cache: false,
+}) }} >
     <main id="swup" class="flex-grow bg-[#FBFBFB]">
         {% block body %}{% endblock %}
     </main>
   </body>
+  {% block javascript %}{% endblock %}
   {% include 'layout/_footer.html.twig' %}
 </html>

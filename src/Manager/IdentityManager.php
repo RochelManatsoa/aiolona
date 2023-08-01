@@ -40,12 +40,7 @@ class IdentityManager
         $identity = new Identity();
         $identity->setCreatedAt(new DateTime());
         $identity->setAvatar("https://www.jea.com/cdn/images/avatar-gray.png");
-        $identity->setUser($this->security->getUser());
-        $identity->setFirstName($this->security->getUser()->getFirstName());
-        $identity->setLastName($this->security->getUser()->getLastName());
-        $identity->setUsername($this->sluggerInterface->slug(strtolower($this->security->getUser()->getLastName().'-'.$this->security->getUser()->getFirstName().'-'.$this->security->getUser()->getId())));
-        $identity->setAccount($this->accountRepository->findOneBySomeField(2));
-
+        
         return $identity;
     }
 

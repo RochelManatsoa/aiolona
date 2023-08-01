@@ -31,12 +31,12 @@ class AccountController extends AbstractController
         $user = $this->getUser();
         /** @var Identity $identity */
         $identity = $user->getIdentity();
+        /** @var Account $account */
+        $account = $identity->getAccount();
 
-        if($identity instanceof Identity){
-            /** @var Account $account */
-            $account = $identity->getAccount();
+        if($account instanceof Account){
             
-            if($account instanceof Account && $account->getSlug() !== $account::EXPERT){
+            if($account->getSlug() !== $account::EXPERT){
                 return $this->redirectToRoute('app_dashboard');
             }
             
@@ -45,8 +45,7 @@ class AccountController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('app_profile');
-        
+        return $this->redirectToRoute('app_profile');        
     }
 
     #[Route('/account/edit/contact', name: 'app_edit_contact')]
