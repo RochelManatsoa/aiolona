@@ -33,8 +33,8 @@ export default class extends Controller {
     // TomSelect has not been initialized - options can be changed
     console.log(event.detail.options); // Options that will be used to initialize TomSelect
     const popup = document.getElementById("buttonModal");
-    event.detail.options.onChange = (value) => {
-      fetchData(value.slice(-1)[0]);
+    event.detail.options.onItemAdd = (value) => {
+      fetchData(value);
       popup.click();
     };
   }

@@ -305,12 +305,31 @@
               role="button"
               data-te-dropdown-toggle-ref
               aria-expanded="false">
+              {% if app.user.identity.fileName is defined and app.user.identity.fileName is not null %}
               <img
-                src="{{ vich_uploader_asset(identity, 'file') }}"
-                class="rounded-full"
-                style="height: 22px; width: 22px"
-                alt="Avatar"
-                loading="lazy" />
+              src="{{ vich_uploader_asset(app.user.identity, 'file') }}" 
+              class="rounded-full" 
+              style="height: 25px; width: 25px" 
+              alt="" 
+              loading="lazy" />
+              {% elseif app.user.identity.avatar is defined and app.user.identity.avatar is not null %}
+              <img
+              src="{{ app.user.identity.avatar }}" 
+              class="rounded-full" 
+              style="height: 25px; width: 25px" 
+              alt="" 
+              loading="lazy" />
+              {% else %}
+              <svg 
+              class="text-gray-800 dark:text-white" 
+              style="height: 25px; width: 25px" 
+              aria-hidden="true" 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill="none" 
+              viewBox="0 0 20 20">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 11 14H9a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 10 19Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+              {% endif %}
             </a>
             <ul
               class="absolute left-auto right-0 z-[1000] float-left m-0 mt-1 hidden min-w-[10rem] list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-zinc-700 [&[data-te-dropdown-show]]:block"

@@ -49,6 +49,7 @@ class ProfileController extends AbstractController
 
         if (!$identity instanceof Identity) {
             $identity = $identityManager->init();
+            $identity->setUser($this->getUser());
         }
 
         if ($identity->getCompagny() instanceof Compagny) {
@@ -82,6 +83,7 @@ class ProfileController extends AbstractController
 
         if (!$identity instanceof Identity) {
             $identity = $identityManager->init();
+            $identity->setUser($this->getUser());
         }
         $form = $this->createForm(SecteurType::class, $identity, []);
         $form->handleRequest($request);
@@ -119,7 +121,6 @@ class ProfileController extends AbstractController
         return $this->render('profile/ia.html.twig', [
             'form' => $form->createView(),
             'identity' => $identity,
-            'aIcores' => $aIcoresRepository->findOneBy(['slug' => 'rocketreach'])
         ]);
     }
 
