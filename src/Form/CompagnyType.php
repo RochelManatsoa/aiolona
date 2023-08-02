@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Entity\Compagny;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -24,10 +25,12 @@ class CompagnyType extends AbstractType
                 'label' => 'Your company\'s number of employees',
                 'required' => true,
                 ])
-            ->add('description', TextareaType::class, [
-                'label' => 'company.about',
+            ->add('description', CKEditorType::class, [
+                'config' => array('toolbar' => 'basic'),
+                'label' => 'Description of your company *',
+                'required' => true,
                 'attr' => [
-                    'rows' => 6
+                    'rows' => 8
                 ]
             ])
             ->add('website', TextType::class, ['label' => 'company.url'])
