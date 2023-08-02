@@ -1,0 +1,151 @@
+{% extends 'dashboard/ressource/_base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block body %}
+
+
+<div class="container mx-8">
+
+<!-- Jumbotron -->
+<div
+  class="rounded-lg bg-neutral-100 p-6 my-6 text-neutral-700 shadow-lg dark:bg-neutral-600 dark:text-neutral-200 dark:shadow-black/30">
+  <h2 class="mb-5 text-3xl font-semibold">Recherche</h2>
+  <p>
+    Trouver des profils.
+  </p>
+</div>
+<!-- Jumbotron -->
+
+<!--Pills navigation-->
+<ul
+  class="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row"
+  id="pills-tab"
+  role="tablist"
+  data-te-nav-ref>
+  <li role="presentation">
+    <a
+      href="#pills-home"
+      class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
+      id="pills-home-tab"
+      data-te-toggle="pill"
+      data-te-target="#pills-home"
+      data-te-nav-active
+      role="tab"
+      aria-controls="pills-home"
+      aria-selected="true"
+      >Search</a
+    >
+  </li>
+  <li role="presentation">
+    <a
+      href="#pills-profile"
+      class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
+      id="pills-profile-tab"
+      data-te-toggle="pill"
+      data-te-target="#pills-profile"
+      role="tab"
+      aria-controls="pills-profile"
+      aria-selected="true"
+      >Advanced search</a
+    >
+  </li>
+  <li role="presentation">
+    <a
+      href="#pills-saved"
+      class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
+      id="pills-saved-tab"
+      data-te-toggle="pill"
+      data-te-target="#pills-saved"
+      role="tab"
+      aria-controls="pills-saved"
+      aria-selected="true"
+      >Saved search</a
+    >
+  </li>
+</ul>
+
+<!--Pills content-->
+<div class="mb-6">
+  <div
+    class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+    id="pills-home"
+    role="tabpanel"
+    aria-labelledby="pills-home-tab"
+    data-te-tab-active>
+    {% if identities is defined and identities is not empty %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3">
+      {% for result in identities %}
+      {{ component('simple_card',{
+              identity: result,
+              url: path('app_profile_expert', {'username' : result.username} ),
+              stars: getStars(result),
+              imgUrl: vich_uploader_asset(result, 'file')
+          })
+      }}
+      {% endfor %}
+      </div>
+      <nav class="flex items-center justify-center mt-4">
+      {% do identities.setPageRange(2) %}
+      {{ knp_pagination_render(identities, 'base/pagination.html.twig')}}
+      </nav>
+    {% else %}
+    <div
+      class="mb-3 inline-flex w-full items-center rounded-lg bg-primary-100 px-6 py-5 text-base text-primary-700"
+      role="alert">
+      <span class="mr-2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="h-5 w-5">
+          <path
+            fill-rule="evenodd"
+            d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+            clip-rule="evenodd" />
+        </svg>
+      </span>
+      Désolé, nous n'avons pas trouvé de résultats correspondant à votre recherche. Veuillez réessayer avec des termes différents ou plus généraux.
+    </div>
+    {% endif %}
+  </div>
+  <div
+    class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+    id="pills-profile"
+    role="tabpanel"
+    aria-labelledby="pills-profile-tab">
+    {{ form_start(searchForm) }}
+    {{ form_widget(searchForm) }}
+
+    <div
+    class="flex flex-shrink-0 flex-wrap items-center justify-start rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+    <button
+      type="submit"
+      class="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+      data-te-ripple-init
+      data-te-ripple-color="light">
+      Find candidates
+    </button>
+    <button
+      type="reset"
+      class="inline-block rounded bg-primary-100 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-primary-700 transition duration-150 ease-in-out hover:bg-primary-accent-100 focus:bg-primary-accent-100 focus:outline-none focus:ring-0 active:bg-primary-accent-200"
+      data-te-modal-dismiss
+      data-te-ripple-init
+      data-te-ripple-color="light">
+      Clear
+    </button>
+  </div>
+    {{ form_end(searchForm) }}
+  </div>
+  <div
+    class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+    id="pills-saved"
+    role="tabpanel"
+    aria-labelledby="pills-saved-tab">
+    Tab 3 content
+  </div>
+</div>
+
+</div>
+
+{% endblock %}
