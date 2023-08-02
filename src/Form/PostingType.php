@@ -4,9 +4,10 @@ namespace App\Form;
 
 use App\Entity\Posting;
 use App\Entity\SchedulePosting;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PostingType extends AbstractType
@@ -15,7 +16,14 @@ class PostingType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('desctiption')
+            ->add('desctiption', CKEditorType::class, [
+                'config' => array('toolbar' => 'basic'),
+                'label' => 'Description du poste *',
+                'required' => true,
+                'attr' => [
+                    'rows' => 8
+                ]
+            ])
             ->add('tarif')
             ->add('number')
             ->add('sector')
