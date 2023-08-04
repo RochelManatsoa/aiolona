@@ -55,6 +55,9 @@ class AIcores
     #[ORM\ManyToMany(targetEntity: Posting::class, mappedBy: 'skills')]
     private Collection $postings;
 
+    #[ORM\ManyToMany(targetEntity: Experience::class, mappedBy: 'skills')]
+    private Collection $experiences;
+
     public function __toString()
     {
         return $this->name;
@@ -67,6 +70,7 @@ class AIcores
         $this->aINotes = new ArrayCollection();
         $this->notes = new ArrayCollection();
         $this->postings = new ArrayCollection();
+        $this->experiences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -294,6 +298,33 @@ class AIcores
     {
         if ($this->postings->removeElement($posting)) {
             $posting->removeSkill($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Experience>
+     */
+    public function getExperiences(): Collection
+    {
+        return $this->experiences;
+    }
+
+    public function addExperience(Experience $experience): static
+    {
+        if (!$this->experiences->contains($experience)) {
+            $this->experiences->add($experience);
+            $experience->addSkill($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExperience(Experience $experience): static
+    {
+        if ($this->experiences->removeElement($experience)) {
+            $experience->removeSkill($this);
         }
 
         return $this;
