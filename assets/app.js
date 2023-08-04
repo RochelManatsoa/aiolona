@@ -14,16 +14,21 @@ import {
     Dropdown,
     Ripple,
     Sidenav,
+    Select,
+    Datepicker,
     Modal,
     Input,
     Tab,
     Alert,
     initTE,
   } from "tw-elements";
-  
+
+
+  initTE({ Select });
   initTE({ Collapse, Dropdown });
   initTE({ Sidenav });
-  initTE({ Ripple, Input });
+  initTE({ Ripple, Input});
   initTE({ Alert });
+  initTE({ Datepicker, Input });
   initTE({ Tab });
   initTE({ Modal, Ripple });

@@ -1,0 +1,43 @@
+{% extends 'layout.html.twig' %}
+{% block title %}
+  {{ 'menu.profile'|trans }}
+{% endblock %}
+
+{% block body %}
+<div class="flex justify-center ">
+    <div class="w-full max-w-lg">
+        <div class="bg-white shadow-lg rounded p-8">
+            {% if experiences is not empty %}
+            <ul class="divide-y divide-gray-200">
+            {% for experience in experiences %}
+                <li class="py-2">
+                <div class="flex items-center space-x-4">
+                    <div class="flex-shrink-0">
+                    <img class="h-8 w-8 rounded-full" src="#" alt="{{ experience.title }}">
+                    </div>
+                    <div>
+                    <h3 class="text-lg font-medium">
+                        {{ experience.title }}
+                    </h3>
+                    <p class="text-gray-500 text-sm">
+                        {{ experience.company }}
+                    </p>
+                    <p class="text-gray-700 text-xs">
+                        {{ experience.startDate | date('M Y') }}
+                        -                                                    
+                        {{ experience.endDate | date('M Y') }}
+                    </p>
+                    <p class="text-gray-900 text-xs">
+                        {{ experience.description }}
+                    </p>
+                    </div>
+                </div>
+                </li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            {{ form(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

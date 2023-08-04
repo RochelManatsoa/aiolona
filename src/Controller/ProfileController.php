@@ -90,7 +90,7 @@ class ProfileController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $identity = $identityManager->saveForm($form);
 
-            return $this->redirectToRoute('app_profile_ia', []);
+            return $this->redirectToRoute('app_profile_experience', []);
         }
 
         return $this->render('profile/sector.html.twig', [

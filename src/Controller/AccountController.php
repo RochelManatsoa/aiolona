@@ -16,6 +16,7 @@ use App\Form\EditContactType;
 use App\Manager\AiNoteManager;
 use App\Manager\IdentityManager;
 use App\Repository\AINoteRepository;
+use App\Repository\ExperienceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -217,6 +218,7 @@ class AccountController extends AbstractController
     public function resume(
         Request $request, 
         EntityManagerInterface $em,
+        ExperienceRepository $experience,
         IdentityManager $identityManager
     ): Response
     {
@@ -224,6 +226,19 @@ class AccountController extends AbstractController
         $user = $this->getUser();
         /** @var Identity $identity */
         $identity = $user->getIdentity();
+
+        $experiences = $experience->findBy([
+            'identity' => $identity
+        ]);
+
+        $aiCores = [];
+
+        foreach ($experiences as $value) {
+            foreach ($value->getSkills() as $aicore) {
+                $aiCores[] = $aicore;
+            }
+        }
+
         $form = $this->createForm(EditResumeType::class, $identity, []);
         $formLang = $this->createForm(LanguageType::class, new Language(), []);
         $formExp = $this->createForm(ExperienceType::class, new Experience());
@@ -258,6 +273,7 @@ class AccountController extends AbstractController
 
         return $this->render('account/resume.html.twig', [
             'identity' => $identity,
+            'skills' => $aiCores,
             'form' => $form->createView(),
             'formLang' => $formLang->createView(),
             'formExp' => $formExp->createView(),
