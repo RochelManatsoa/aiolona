@@ -30,7 +30,7 @@ class DashboardController extends AbstractController
             return $this->redirectToRoute('app_account');
         }
         
-        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->render('dashboard/expert.html.twig', ['identity' => $identity]);
+        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->redirectToRoute('app_expert');
         
         return $this->render('dashboard/ressource.html.twig', [
             'identity' => $identity,
