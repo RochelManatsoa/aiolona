@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchPostData;
 use App\Entity\Posting;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,26 +40,45 @@ class PostingRepository extends ServiceEntityRepository
         }
     }
 
-   /**
-    * @return Posting[] Returns an array of Posting objects
-    */
-   public function findValid(): array
-   {
-       return $this->createQueryBuilder('p')
-           ->andWhere('p.valid = 1')
-           ->orderBy('p.id', 'ASC')
-           ->getQuery()
-           ->getResult()
-       ;
-   }
+    /**
+     * @return Posting[] Returns an array of Posting objects
+     */
+    public function findValid(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.valid = 1')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Posting
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findBySkills($value): array
+    {
+        // Convertir la collection en tableau si nécessaire
+        $skillIds = $value instanceof \Doctrine\Common\Collections\Collection ? $value->toArray() : $value;
+
+        return $this->createQueryBuilder('p')
+            ->select('s', 'p')
+            ->join('p.skills', 's')
+            ->andWhere('s.id IN (:skills)')
+            ->setParameter('skills', $skillIds)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findSearch(SearchPostData $seachData): array
+    {
+
+        $query = $this->createQueryBuilder('p')
+            ->select('s', 'p')
+            ->join('p.skills', 's')
+        ;
+        if(!empty($seachData->q)){
+            $query = $query
+                ->andWhere('p.title LIKE :q')
+                ->setParameter('q', "%{$seachData->q}%");
+        }
+
+        return $query->getQuery()->getResult();
+    }
 }
