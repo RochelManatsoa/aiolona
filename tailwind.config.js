@@ -24,7 +24,11 @@ module.exports = {
     './node_modules/tw-elements/dist/js/**/*.js'
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        '60': '240px',
+      },
+    },
   },
   plugins: [
     require('tw-elements/dist/plugin'),
