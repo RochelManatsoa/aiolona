@@ -10,6 +10,7 @@ use Stripe\StripeClient;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class StripeController extends AbstractController
 {
@@ -23,27 +24,34 @@ class StripeController extends AbstractController
 
 
     #[Route('/create-session-stripe', name: 'app_stripe_create_session')]
-    public function createCheckoutSession(): Response
+    public function createCheckoutSession(Request $request): Response
     {
         $stripe = new StripeClient('sk_test_51MKofmKp6gApFus8kcy3FoWI6d6mo8v7zPg9JY6L65ScWUnTE4bSQO7YMyuup3qH6aEgwUwedsoXheaUU6xLhmWe00QYTJWK4i');
+
+        $data = $request->request->all();        
+        $product = $data['product'] ?? 'Postin Expert PRO';
+        $quantity = $data['quantity'] ?? 1;
+        $price = $data['price'] ?? 100;
+        $success = $data['success'] ?? '/success';
+        $cancel = $data['cancel'] ?? '/cancel';
 
         $checkout_session = $stripe->checkout->sessions->create([
             'customer_email' => $this->getUser()->getUserIdentifier(),
             'mode' => 'payment',
             'line_items' => [
                 [
-                    'quantity' => 1,
+                    'quantity' => $quantity,
                     'price_data' => [
                         'currency' => 'EUR',
                         'product_data' => [
-                            'name' => 'Postin Expert Pro'
+                            'name' => $product
                         ],
-                        'unit_amount' => 100
+                        'unit_amount' => $price
                     ],
                 ]
             ],
-            'success_url' => 'https://'.$_SERVER['HTTP_HOST'].'/success',
-            'cancel_url' => 'https://'.$_SERVER['HTTP_HOST'].'/cancel',
+            'success_url' => 'https://'.$_SERVER['HTTP_HOST'].$success,
+            'cancel_url' => 'https://'.$_SERVER['HTTP_HOST'].$cancel,
         ]);
 
         return $this->redirect($checkout_session->url);
