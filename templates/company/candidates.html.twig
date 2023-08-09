@@ -1,0 +1,132 @@
+{% extends 'company/layout/_base.html.twig' %}
+
+{% block title %}Candidats{% endblock %}
+
+{% block body %}
+{% set success = app.request.query.get('success') %}
+
+<div class="xl:pl-60 xl:mr-0">
+
+  <!-- Jumbotron -->
+      {% include 'components/jumbotron.html.twig' with {
+        title: 'Candidats',
+        content: 'Gestion des profils.'
+      } 
+    %}
+  <!-- Jumbotron -->
+    
+    {% if success %}
+    <div
+        class="mb-3 hidden w-full items-center rounded-lg bg-warning-100 px-6 py-5 text-base text-warning-800 data-[te-alert-show]:inline-flex"
+        role="alert"
+        data-te-alert-init
+        data-te-alert-show>
+        <strong class="mr-1">Paiement reussi! </strong> Vous avez debloqué des informations exclusives et approfondies pour enrichir votre expérience et prendre des décisions éclairées.
+        <button
+            type="button"
+            class="ml-auto box-content rounded-none border-none p-1 text-warning-900 opacity-50 hover:text-warning-900 hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+            data-te-alert-dismiss
+            aria-label="Close">
+            <span
+            class="w-[1em] focus:opacity-100 disabled:pointer-events-none disabled:select-none disabled:opacity-25 [&.disabled]:pointer-events-none [&.disabled]:select-none [&.disabled]:opacity-25">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="h-6 w-6">
+                <path
+                fill-rule="evenodd"
+                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                clip-rule="evenodd" />
+            </svg>
+            </span>
+        </button>
+        </div>
+    {% endif %}
+
+  <!--Pills navigation-->
+  <ul
+    class="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row"
+    id="pills-tab"
+    role="tablist"
+    data-te-nav-ref>
+    <li role="presentation">
+      <a
+        href="#pills-home"
+        class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 md:mr-4"
+        id="pills-home-tab"
+        data-te-toggle="pill"
+        data-te-target="#pills-home"
+        data-te-nav-active
+        role="tab"
+        aria-controls="pills-home"
+        aria-selected="true"
+        >Debloqués</a
+      >
+    </li>
+    <li role="presentation">
+      <a
+        href="#pills-profile"
+        class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 md:mr-4"
+        id="pills-profile-tab"
+        data-te-toggle="pill"
+        data-te-target="#pills-profile"
+        role="tab"
+        aria-controls="pills-profile"
+        aria-selected="true"
+        >Communication</a
+      >
+    </li>
+    <li role="presentation">
+      <a
+        href="#pills-unlocked"
+        class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 md:mr-4"
+        id="pills-unlocked-tab"
+        data-te-toggle="pill"
+        data-te-target="#pills-unlocked"
+        role="tab"
+        aria-controls="pills-unlocked"
+        aria-selected="true"
+        >Annonces</a
+      >
+    </li>
+  </ul>
+
+  <!--Pills content-->
+  <div class="mb-6">
+    <div
+      class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+      id="pills-home"
+      role="tabpanel"
+      aria-labelledby="pills-home-tab"
+      data-te-tab-active>
+      <div class="text-center pt-6">
+          <p class="font-semibold">Aucun profil debloqué</p>
+          <p class="text-gray-500">Vos candidats debloqués sont affichées ici.</p>
+      </div>
+    </div>
+    <div
+      class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+      id="pills-profile"
+      role="tabpanel"
+      aria-labelledby="pills-profile-tab">
+      <div class="text-center pt-6">
+          <p class="font-semibold">Aucune communication à afficher</p>
+          <p class="text-gray-500">Les candidats qui ont repondu à vos offres sont affichées ici.</p>
+      </div>
+    </div>
+    <div
+      class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
+      id="pills-unlocked"
+      role="tabpanel"
+      aria-labelledby="pills-unlocked-tab">
+      <div class="text-center pt-6">
+          <p class="font-semibold">Aucun profil debloqué</p>
+          <p class="text-gray-500">Vos candidats debloqués sont affichées ici.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
