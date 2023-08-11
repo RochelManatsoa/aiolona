@@ -1,0 +1,44 @@
+<table class="min-w-full text-left text-sm font-light">
+    <tbody>
+        <tr class="border-b border-neutral-500 bg-neutral-600">
+            <td class="whitespace-nowrap px-6 py-4">
+                Projets réalisés
+            </td>
+            <td class="whitespace-nowrap px-6 py-4">
+                {{ identity.experiences|length }} projet
+            </td>
+        </tr>
+        <tr class="border-b border-neutral-500 bg-neutral-700">
+            <td class="whitespace-nowrap px-6 py-4">
+                Tarif horaire moyen
+            </td>
+            <td class="whitespace-nowrap px-6 py-4">
+                {{ identity.tarif }} €
+            </td>
+        </tr>
+        <tr class="border-b border-neutral-500 bg-neutral-600">
+            <td class="whitespace-nowrap px-6 py-4">
+                Dernière connexion
+            </td>
+            <td class="whitespace-nowrap px-6 py-4">
+                1 jour
+            </td>
+        </tr>
+        <tr class="border-b border-neutral-500 bg-neutral-700">
+            <td class="whitespace-nowrap px-6 py-4">
+                Membre depuis
+            </td>
+            <td class="whitespace-nowrap px-6 py-4">
+                {{ identity.createdAt|date('M Y')}}
+            </td>
+        </tr>
+        <tr class="border-b border-neutral-500 bg-neutral-600">
+            <td class="whitespace-nowrap px-6 py-4">
+                Profil vu
+            </td>
+            <td class="whitespace-nowrap px-6 py-4">
+                fois
+            </td>
+        </tr>
+    </tbody>
+</table>

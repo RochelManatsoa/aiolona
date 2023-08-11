@@ -1,0 +1,85 @@
+<!--Tabs navigation-->
+<ul class="mb-5 flex list-none flex-row flex-wrap border-b-0 pl-0" role="tablist" data-te-nav-ref>
+    <li role="presentation" class="flex-auto text-center">
+        <a href="#tabs-home01" class="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400" data-te-toggle="pill" data-te-target="#tabs-home01" data-te-nav-active role="tab" aria-controls="tabs-home01" aria-selected="true">
+            Présentation
+        </a>
+    </li>
+    <li role="presentation" class="flex-auto text-center">
+        <a href="#tabs-profile01" {% if not app.user %}data-te-toggle="modal" data-te-target="#loginModal"{% endif %} class="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400" data-te-toggle="pill" data-te-target="#tabs-profile01" role="tab" aria-controls="tabs-profile01" aria-selected="false">
+            Evaluation
+        </a>
+    </li>
+    <li role="presentation" class="flex-auto text-center">
+        <a href="#tabs-messages01" {% if not app.user %}data-te-toggle="modal" data-te-target="#loginModal"{% endif %} class="my-2 block border-x-0 border-b-2 border-t-0 border-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent data-[te-nav-active]:border-primary data-[te-nav-active]:text-primary dark:text-neutral-400 dark:hover:bg-transparent dark:data-[te-nav-active]:border-primary-400 dark:data-[te-nav-active]:text-primary-400" data-te-toggle="pill" data-te-target="#tabs-messages01" role="tab" aria-controls="tabs-messages01" aria-selected="false">
+            Référence
+        </a>
+    </li>
+    <li role="presentation" class="flex-auto text-center">
+        <a href="#tabs-contact01" class="disabled pointer-events-none my-2 block border-x-0 border-b-2 border-t-0 border-transparent bg-transparent px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-400 hover:isolate hover:border-transparent hover:bg-neutral-100 focus:isolate focus:border-transparent dark:text-neutral-600" data-te-toggle="pill" data-te-target="#tabs-contact01" role="tab" aria-controls="tabs-contact01" aria-selected="false">
+            Contact
+        </a>
+    </li>
+</ul>
+
+<!--Tabs content-->
+<div class="mb-6">
+    <div class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="tabs-home01" role="tabpanel" aria-labelledby="tabs-home-tab01" data-te-tab-active>
+       {% if not app.user %}
+        <!-- Alert -->
+            {% include 'components/alert/_locked.html.twig' with {
+                identity: identity,
+                } 
+            %}
+        <!-- Alert -->
+        {% endif %}
+
+        <div class="w-full p-4 my-8 shadow-lg rounded-lg">
+            <h2 class="text-2xl font-semibold">Présentation</h2>
+            <div class="p-4">
+                {{ identity.bio|raw }}
+            </div>
+        </div>
+
+        <div class="w-full p-4 my-8 shadow-lg rounded-lg">
+            <h2 class="text-2xl font-semibold">Outil maîtrisés</h2>
+            <div class="p-4 flex flex-col items-center">
+                {% for star in stars %}
+                <!-- Card Horizontal -->
+                    {% include 'components/card/_ai_horizontal.html.twig' with {
+                        identity: identity,
+                        star: star,
+                        } 
+                    %}
+                <!-- Card Horizontal -->
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="w-full p-4 my-8 shadow-lg rounded-lg">
+            <h2 class="text-2xl font-semibold">Recommandations</h2>
+            <div class="p-4">
+                {{ identity.bio|raw }}
+            </div>
+        </div>
+          
+    </div>
+    <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="tabs-profile01" role="tabpanel" aria-labelledby="tabs-profile-tab01">
+        Tab 2 content
+          
+    </div>
+    <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="tabs-messages01" role="tabpanel" aria-labelledby="tabs-profile-tab01">
+        
+        <div class="w-full p-4 my-8 shadow-lg rounded-lg">
+            <h2 class="text-2xl font-semibold">Expériences et références</h2>
+            <div class="p-4">
+                {{ identity.bio|raw }}
+            </div>
+        </div>
+          
+    </div>
+    <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="tabs-contact01" role="tabpanel" aria-labelledby="tabs-contact-tab01">
+        Tab 4 content
+          
+    </div>
+</div>

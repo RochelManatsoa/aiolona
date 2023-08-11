@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Identity;
+use Doctrine\DBAL\Types\BooleanType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -27,6 +28,7 @@ class IdentityCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             TextField::new('firstName'),
             TextField::new('lastName'),
+            BooleanField::new('active'),
             TextField::new('username')->onlyOnForms(),
             MoneyField::new('tarif')->setCurrency('EUR')->onlyOnForms(),
             TextEditorField::new('bio')->onlyOnForms(),

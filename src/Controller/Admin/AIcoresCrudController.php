@@ -24,6 +24,7 @@ class AIcoresCrudController extends AbstractCrudController
             TextField::new('type'),
             TextField::new('slug'),
             TextEditorField::new('url'),
+            TextEditorField::new('description'),
             CollectionField::new('aIcategories'),
         ];
     }

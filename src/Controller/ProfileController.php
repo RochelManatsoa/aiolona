@@ -50,6 +50,8 @@ class ProfileController extends AbstractController
         if (!$identity instanceof Identity) {
             $identity = $identityManager->init();
             $identity->setUser($this->getUser());
+            $identity->setFirstName($user->getFirstName());
+            $identity->setLastName($user->getLastName());
         }
 
         if ($identity->getCompagny() instanceof Compagny) {
