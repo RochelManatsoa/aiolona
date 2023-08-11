@@ -31,8 +31,9 @@ class CompanyController extends AbstractController
     #[Route('/dashboard/company', name: 'app_dashboard')]
     public function index(): Response
     {
-        $this->checkRedirect();
-
+        $identity = $this->userService->getCurrentIdentity();
+        if(!$identity instanceof Identity) return $this->redirectToRoute('app_account');
+        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->redirectToRoute('app_expert');
         return $this->render('company/index.html.twig', $this->checkUserInfo());
     }
 
@@ -109,12 +110,4 @@ class CompanyController extends AbstractController
         ];
     }
 
-    private function checkRedirect()
-    {
-        $identity = $this->userService->getCurrentIdentity();
-        if(!$identity instanceof Identity) return $this->redirectToRoute('app_account');
-        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->redirectToRoute('app_expert');
-        $company = $identity->getCompagny();
-        if(!$company instanceof Compagny) return $this->redirectToRoute('app_dashboard');
-    }
 }

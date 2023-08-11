@@ -38,16 +38,4 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  
-document.getElementById('next_photo').addEventListener('click', function(e){
-    e.preventDefault();
-    const url = "{{ path('app_profile_avatar') }}";
-    const urlActuelle = window.location.origin;
-    const urlComplete = urlActuelle + url;
-    window.location.href = urlComplete;
-})
-
-</script>
-
 {% endblock %}
