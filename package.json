@@ -38,6 +38,7 @@
         "ckeditor4": "^4.22.1",
         "flowbite": "^1.7.0",
         "jquery": "^3.7.0",
+        "nouislider": "^15.7.1",
         "tw-elements": "^1.0.0-beta2"
     }
 }

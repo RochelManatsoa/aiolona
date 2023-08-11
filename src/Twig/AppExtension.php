@@ -104,6 +104,9 @@ class AppExtension extends AbstractExtension
         foreach ($identity->getAicores() as $aicore) {
             $stars[] = [
                 'name' => $aicore->getName(),
+                'url' => $aicore->getUrl(),
+                'image' => $aicore->getImage(),
+                'slogan' => $aicore->getSlogan(),
                 'note' => $this->getIdentityAiNote($aicore, $identity)
             ];
         }

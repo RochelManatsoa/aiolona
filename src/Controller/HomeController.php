@@ -71,7 +71,9 @@ class HomeController extends AbstractController
                 $entity->setSlug($sluggerInterface->slug(strtolower($product['name'])));
                 $entity->setType($product['status']);
                 $entity->setUrl($product['external_url']);
+                $entity->setImage($product['images'][0]->src);
                 $entity->setDescription($product['short_description']);
+                $entity->setSlogan($product['slogan']);
 
                 foreach ($product['categories'] as $category) {
 

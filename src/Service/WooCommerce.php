@@ -60,7 +60,11 @@ class WooCommerce
             $resp['related_ids'] = $response->related_ids;
             $resp['short_description'] = $response->short_description;
             $resp['status'] = $response->status;
-            // $resp['meta_data'] = $response->meta_data[105];
+            foreach ($response->meta_data as $key => $value) {
+                if($value->key == 'slogan'){
+                    $resp['slogan'] = $value->value;
+                }
+            }
 
             $values[] = $resp;
         }

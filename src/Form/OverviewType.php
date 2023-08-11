@@ -9,17 +9,19 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class OverviewType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('bio', TextareaType::class, [
+            ->add('bio', CKEditorType::class, [
+                'config' => array('toolbar' => 'basic'),
                 'label' => false,
-                'required' => false,
+                'required' => true,
                 'attr' => [
-                    'rows' => 6
+                    'rows' => 8
                 ]
             ])
             ->add('cv', FileType::class, [

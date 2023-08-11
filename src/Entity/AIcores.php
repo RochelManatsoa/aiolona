@@ -58,6 +58,9 @@ class AIcores
     #[ORM\ManyToMany(targetEntity: Experience::class, mappedBy: 'skills')]
     private Collection $experiences;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $slogan = null;
+
     public function __toString()
     {
         return $this->name;
@@ -326,6 +329,18 @@ class AIcores
         if ($this->experiences->removeElement($experience)) {
             $experience->removeSkill($this);
         }
+
+        return $this;
+    }
+
+    public function getSlogan(): ?string
+    {
+        return $this->slogan;
+    }
+
+    public function setSlogan(?string $slogan): static
+    {
+        $this->slogan = $slogan;
 
         return $this;
     }

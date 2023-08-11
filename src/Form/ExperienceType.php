@@ -4,9 +4,10 @@ namespace App\Form;
 
 use App\Entity\AIcores;
 use App\Entity\Experience;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -56,12 +57,12 @@ class ExperienceType extends AbstractType
                     'class' => "flex w-full rounded p-2 m-1"
                 ]
             ])
-            ->add('description', TextareaType::class, [
-                'label' => false,
+            ->add('description', CKEditorType::class, [
+                'config' => array('toolbar' => 'basic'),
+                'label' => 'Description *',
+                'required' => true,
                 'attr' => [
-                    'rows' => 6,
-                    'placeholder' => 'Description',
-                    'class' => "border w-full rounded p-2 m-1"
+                    'rows' => 8
                 ]
             ])
             ->add('location', TextType::class, [

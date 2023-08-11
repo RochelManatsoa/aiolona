@@ -51,7 +51,7 @@ class ProfileCatalogController extends AbstractController
         Identity $identity, 
     ): Response
     {
-        return $this->render('profile_catalog/show.html.twig', [
+        return $this->render('profile_catalog/view.html.twig', [
             'identity' => $identity,
             'sectors' => $identity->getSectors(),
             'aicors' => $identity->getAicores(),
