@@ -75,6 +75,7 @@
         {% for result in identities %}
         {{ component('company_card',{
                 identity: result,
+                unlocked: unlocked,
                 url: path('app_profile_expert', {'username' : result.username} ),
                 add: path('app_cart_add', {'id' : result.id} ),
                 stars: getStars(result),

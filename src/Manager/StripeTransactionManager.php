@@ -42,4 +42,15 @@ class StripeTransactionManager
 
         return $stripeTransaction;
     }
+
+    public function getOrCreate(string $intent)
+    {
+        $stripeTransaction = $this->getByIntent($intent);
+        if(!$stripeTransaction instanceof StripeTransaction){
+            $stripeTransaction = $this->init();
+            $stripeTransaction->setIntentId($intent);
+        }
+
+        return $stripeTransaction;
+    }
 }

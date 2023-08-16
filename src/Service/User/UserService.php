@@ -45,7 +45,7 @@ class UserService
                 $items = $this->itemsRepository->findBy([
                     'commande' => $commande,
                 ]);
-                $identities += $items;
+                $identities = array_merge($identities, $items);
             }
             
             foreach ($identities as $identity) {
