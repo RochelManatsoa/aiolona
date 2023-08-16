@@ -7,6 +7,7 @@ use App\Entity\Account;
 use App\Entity\AIcategory;
 use App\Entity\AIcores;
 use App\Entity\AINote;
+use App\Entity\Commande;
 use App\Entity\Compagny;
 use App\Entity\HonoraryPosting;
 use App\Entity\Identity;
@@ -14,6 +15,7 @@ use App\Entity\Lang;
 use App\Entity\PackName;
 use App\Entity\Posting;
 use App\Entity\SchedulePosting;
+use App\Entity\StripeTransaction;
 use App\Entity\TypePosting;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,5 +54,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Annonces', 'fas fa-tag', Posting::class);
         yield MenuItem::linkToCrud('Type d\'annonce', 'fas fa-tag', TypePosting::class);
         yield MenuItem::linkToCrud('Horaire d\'annonce', 'fas fa-tag', SchedulePosting::class);
+        yield MenuItem::linkToCrud('Commandes', 'fas fa-cart-shopping', Commande::class);
+        yield MenuItem::linkToCrud('Transaction', 'fas fa-money-check-dollar', StripeTransaction::class);
     }
 }

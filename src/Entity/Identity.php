@@ -120,6 +120,9 @@ class Identity implements Serializable
     #[ORM\OneToOne(mappedBy: 'identity', cascade: ['persist', 'remove'])]
     private ?Compagny $compagny = null;
 
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Commande::class)]
+    private Collection $commandes;
+
 
     public function __construct()
     {
@@ -131,6 +134,7 @@ class Identity implements Serializable
         $this->notes = new ArrayCollection();
         $this->socials = new ArrayCollection();
         $this->packs = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
     }
 
     public function __toString()
@@ -621,6 +625,36 @@ class Identity implements Serializable
         }
 
         $this->compagny = $compagny;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getIdentity() === $this) {
+                $commande->setIdentity(null);
+            }
+        }
 
         return $this;
     }

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Data\SeachData;
 use App\Entity\Account;
-use App\Entity\Compagny;
 use App\Entity\Identity;
 use App\Service\User\UserService;
 use App\Repository\PostingRepository;
@@ -34,6 +33,7 @@ class CompanyController extends AbstractController
         $identity = $this->userService->getCurrentIdentity();
         if(!$identity instanceof Identity) return $this->redirectToRoute('app_account');
         if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->redirectToRoute('app_expert');
+
         return $this->render('company/index.html.twig', $this->checkUserInfo());
     }
 
@@ -50,11 +50,16 @@ class CompanyController extends AbstractController
 
     #[Route('/dashboard/company/canditates', name: 'app_canditates_dashboard')]
     public function canditates(
-        PostingRepository $repository,
+        PostingRepository $postingRepository,
+        UserService $userService
     ): Response
     {
         $params = $this->checkUserInfo();
-        $params += ['annonces' => $repository->findAll()];
+        $params += [
+            'annonces' => $postingRepository->findAll(),
+            'commandes' => $userService->getUserCommande(),
+            'identities' => $userService->getProfilesUnlocked(),
+        ];
         
         return $this->render('company/candidates.html.twig', $params);
     }
@@ -91,8 +96,9 @@ class CompanyController extends AbstractController
     {
         $params = $this->checkUserInfo();
         $params += [
-            'items' => $this->  cartService->getFullCart(),
-            'total' => $this->  cartService->getTotal()
+            'items' => $this->cartService->getFullCart(),
+            'total' => $this->cartService->getTotal(),
+            'json' => json_encode($this->cartService->getCartSession()),
         ];
 
         return $this->render('company/cart.html.twig', $params);
