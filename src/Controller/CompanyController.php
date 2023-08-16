@@ -86,6 +86,7 @@ class CompanyController extends AbstractController
             'annonces' => $repository->findAll(),
             'searchForm' => $form->createView(),
             'identities' => $identities,
+            'unlocked' => $this->userService->getProfilesUnlocked(),
         ];
 
         return $this->render('company/search.html.twig', $params);

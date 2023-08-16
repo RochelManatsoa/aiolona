@@ -12,6 +12,7 @@ class CompanyCardComponent
     public string $add;
     public string $imgUrl;
     public array $stars;
+    public array $unlocked;
     public Identity $identity;
 }
 
