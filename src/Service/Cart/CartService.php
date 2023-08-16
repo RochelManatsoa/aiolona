@@ -51,6 +51,10 @@ class CartService
         return $fullCart;
     }
 
+    public function getCartSession(){
+        return $this->requestStack->getSession()->get('cart', []);
+    }
+
     public function getTotal(): float
     {
         $total = 0;

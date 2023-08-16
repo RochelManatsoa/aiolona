@@ -2,15 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\Pack;
-use App\Repository\PackNameRepository;
+use App\Entity\Commande;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Pack;
 use Stripe\StripeClient;
+use App\Manager\CommandeManager;
+use App\Entity\StripeTransaction;
+use App\Repository\PackNameRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Manager\StripeTransactionManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Service\Stripe\StripeApi as StripeStripeApi;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class StripeController extends AbstractController
 {
@@ -92,5 +99,104 @@ class StripeController extends AbstractController
         return $this->render('stripe/index.html.twig', [
             'success' => false,
         ]);
+    }
+
+    #[Route('/payment', name: 'app_stripe_payment')]
+    public function payment(
+        StripeStripeApi $stripeApi,
+        Request $request
+    ): Response
+    {
+        $response = $stripeApi->startPayment($request);
+
+        return new RedirectResponse($response);
+    }
+
+    #[Route('/webhook/stripe', name: 'app_stripe_response')]
+    public function stripeWebhookAction(
+        StripeTransactionManager $stripeTransactionManager,
+        CommandeManager $commandeManager
+    ): JsonResponse
+    {
+        
+        // $endpoint_secret = $_ENV['STRIPE_WEBHOOK_SECRET_KEY'];
+        $endpoint_secret = 'whsec_2fdc95c60df6a37f0bdd6deea58867148cb7b32ff144a9d301024620192192f8';
+        $payload = file_get_contents('php://input');
+        $event = json_decode($payload);
+        \Stripe\Stripe::setApiKey($endpoint_secret);
+
+        switch ($event->type) {
+            case 'charge.succeeded':
+                $charge = $event->data->object;
+                $transaction = $stripeTransactionManager->getByIntent($charge->payment_intent);
+                if(!$transaction instanceof StripeTransaction){
+                    echo 'Charge sans transaction ' . $charge->id . ' - intentId : ' . $charge->payment_intent;
+                    break;
+                }
+                $commande = $transaction->getCommande();
+                $commande
+                    ->setStatus(Commande::STATUS_SUCCEEDED)
+                    ->setPaymentIntent($charge->payment_intent)
+                    ->setPaymentMethod($charge->payment_method)
+                    ;                
+                $transaction
+                    ->setPaymentMethod($charge->payment_method)
+                    ->setReceiptUrl($charge->receipt_url)
+                    ->setCommande($commande)
+                    ;
+                $commandeManager->save($commande);
+                $stripeTransactionManager->save($transaction);
+
+                echo 'Charge avec transaction ' . $charge->payment_intent . ' - Commande :' . $commande->getId();
+                break;
+                
+            case 'payment_intent.created':
+                $paymentIntent = $event->data->object;
+                $transaction = $stripeTransactionManager->getByIntent($paymentIntent->id);
+                if(!$transaction instanceof StripeTransaction){
+                    echo 'payment_intent.created sans transaction ' . $paymentIntent->id ;
+                    break;
+                }
+                $transaction->setCustomerId($paymentIntent->client_secret);
+                $stripeTransactionManager->save($transaction);
+
+                echo 'Transaction mis à jour  ' . $transaction->getIntentId(). ' - Status : ' . $paymentIntent->status;
+                break;
+                
+            case 'payment_intent.succeeded':
+                $paymentIntent = $event->data->object;
+                $transaction = $stripeTransactionManager->getByIntent($paymentIntent->id);
+                if(!$transaction instanceof StripeTransaction){
+                    echo 'payment_intent.succeeded sans transaction ' . $paymentIntent->id ;
+                    break;
+                }
+                $transaction->setCustomerId($paymentIntent->client_secret);
+                $transaction->setStatus($paymentIntent->status);
+                $stripeTransactionManager->save($transaction);
+
+                echo 'Transaction créé  ' . $transaction->getIntentId() . ' - Status : ' .$paymentIntent->status. ' - ';
+                break;
+                
+            case 'checkout.session.completed':
+                $session = $event->data->object;
+                $commande = $commandeManager->getById($session->metadata->order_id);
+                $transaction = $stripeTransactionManager->init();
+                $transaction->setIntentId($session->payment_intent);
+                $transaction->setAmount($session->amount_total);
+                $transaction->setCurrency($session->currency);
+                $transaction->setCommande($commande);
+                $stripeTransactionManager->save($transaction);
+
+                echo 'Session complète, commande n°' . $session->metadata->order_id . ' - ';
+                break;
+                
+            default:
+                echo 'Fin  ' . $event->type . ' - ';
+                break;
+        }
+
+        http_response_code(200);
+
+        return new JsonResponse(['status' => 'success']);
     }
 }
