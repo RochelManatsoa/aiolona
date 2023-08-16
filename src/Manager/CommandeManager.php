@@ -54,7 +54,7 @@ class CommandeManager
             $this->em->persist($cartItem);
             $commande->addItem($cartItem);
         }
-        $commande->setTotalAmount($total);
+        $commande->setTotalAmount((float)$total * 100);
         $this->save($commande);
 
         return $commande->getId();

@@ -128,26 +128,15 @@ class StripeController extends AbstractController
         switch ($event->type) {
             case 'charge.succeeded':
                 $charge = $event->data->object;
-                $transaction = $stripeTransactionManager->getByIntent($charge->payment_intent);
-                if(!$transaction instanceof StripeTransaction){
-                    echo 'Charge sans transaction ' . $charge->id . ' - intentId : ' . $charge->payment_intent;
-                    break;
-                }
-                $commande = $transaction->getCommande();
-                $commande
-                    ->setStatus(Commande::STATUS_SUCCEEDED)
-                    ->setPaymentIntent($charge->payment_intent)
-                    ->setPaymentMethod($charge->payment_method)
-                    ;                
+                $transaction = $stripeTransactionManager->getOrCreate($charge->payment_intent);
                 $transaction
+                    ->setIntentId($charge->payment_intent)
                     ->setPaymentMethod($charge->payment_method)
                     ->setReceiptUrl($charge->receipt_url)
-                    ->setCommande($commande)
                     ;
-                $commandeManager->save($commande);
                 $stripeTransactionManager->save($transaction);
 
-                echo 'Charge avec transaction ' . $charge->payment_intent . ' - Commande :' . $commande->getId();
+                echo 'Charge avec transaction ' . $charge->payment_intent ;
                 break;
                 
             case 'payment_intent.created':
@@ -170,8 +159,10 @@ class StripeController extends AbstractController
                     echo 'payment_intent.succeeded sans transaction ' . $paymentIntent->id ;
                     break;
                 }
-                $transaction->setCustomerId($paymentIntent->client_secret);
-                $transaction->setStatus($paymentIntent->status);
+                $transaction
+                    ->setCustomerId($paymentIntent->client_secret)
+                    ->setStatus($paymentIntent->status)
+                    ;
                 $stripeTransactionManager->save($transaction);
 
                 echo 'Transaction créé  ' . $transaction->getIntentId() . ' - Status : ' .$paymentIntent->status. ' - ';
@@ -180,11 +171,18 @@ class StripeController extends AbstractController
             case 'checkout.session.completed':
                 $session = $event->data->object;
                 $commande = $commandeManager->getById($session->metadata->order_id);
-                $transaction = $stripeTransactionManager->init();
-                $transaction->setIntentId($session->payment_intent);
-                $transaction->setAmount($session->amount_total);
-                $transaction->setCurrency($session->currency);
-                $transaction->setCommande($commande);
+                $commande
+                    ->setPaymentIntent($session->payment_intent)
+                    ->setStatus(Commande::STATUS_SUCCEEDED)
+                    ;
+                $commandeManager->save($commande);
+                $transaction = $stripeTransactionManager->getOrCreate($session->payment_intent);
+                $transaction
+                    ->setIntentId($session->payment_intent)
+                    ->setAmount($session->amount_total)
+                    ->setCurrency($session->currency)
+                    ->setCommande($commande)
+                    ;
                 $stripeTransactionManager->save($transaction);
 
                 echo 'Session complète, commande n°' . $session->metadata->order_id . ' - ';
