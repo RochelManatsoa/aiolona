@@ -39,7 +39,8 @@ class UserService
     {
         $profiles = [];
         $identities = [];
-        if($this->getCurrentIdentity()->getCompagny() instanceof Compagny){
+        
+        if($this->getCurrentIdentity() instanceof Identity && $this->getCurrentIdentity()->getCompagny() instanceof Compagny){
             foreach ($this->getUserCommande() as $commande) {
                 $items = $this->itemsRepository->findBy([
                     'commande' => $commande,
