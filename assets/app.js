@@ -21,6 +21,7 @@ import {
     Modal,
     Input,
     Tab,
+    Offcanvas,
     Alert,
     initTE,
   } from "tw-elements";
@@ -34,6 +35,7 @@ import {
   initTE({ Datepicker, Input });
   initTE({ Tab });
   initTE({ Modal, Ripple });
+  initTE({ Offcanvas, Ripple });
 
 const slider = document.getElementById('slider');
 

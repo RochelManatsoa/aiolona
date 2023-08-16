@@ -7,6 +7,7 @@ use App\Entity\Sector;
 use App\Entity\Identity;
 use App\Form\Search\SearchType;
 use App\Repository\IdentityRepository;
+use App\Service\User\UserService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,12 +50,21 @@ class ProfileCatalogController extends AbstractController
     #[Route('/experts/{username}/identity', name: 'app_profile_expert')]
     public function expert(
         Identity $identity, 
+        UserService $userService
     ): Response
     {
+        $profilesUnlocked = $userService->getProfilesUnlocked();
+        $class = false;
+
+        if(in_array($identity, $profilesUnlocked)){
+            $class = true;
+        }
+        
         return $this->render('profile_catalog/view.html.twig', [
             'identity' => $identity,
             'sectors' => $identity->getSectors(),
             'aicors' => $identity->getAicores(),
+            'class' => $class,
         ]);
     }
 
@@ -63,9 +73,8 @@ class ProfileCatalogController extends AbstractController
         Identity $identity, 
     ): BinaryFileResponse
     {
-        $file = $this->getParameter('cv_directory').'/Profile-64b7b55eae3fd.pdf';
+        $file = $this->getParameter('cv_directory').'/chris5-1-64c8af46d4b45.pdf';
         // $file = $this->getParameter('cv_directory').'/'.$identity->getCv();
-        // dd($file);
 
         return new BinaryFileResponse($file);
     }

@@ -74,7 +74,7 @@
         role="tab"
         aria-controls="pills-profile"
         aria-selected="true"
-        >Communication</a
+        >Commandes</a
       >
     </li>
     <li role="presentation">
@@ -101,8 +101,19 @@
       aria-labelledby="pills-home-tab"
       data-te-tab-active>
       <div class="text-center pt-6">
-          <p class="font-semibold">Aucun profil debloqué</p>
-          <p class="text-gray-500">Vos candidats debloqués sont affichées ici.</p>
+      {% if identities is defined and identities is not empty %}
+
+        <!-- Tables -->
+        {% include 'components/table/_profiles.html.twig' with {
+            identities: identities,
+          } 
+        %}
+        <!-- Tables -->
+
+      {% else %}
+        <p class="font-semibold">Aucun profil debloqué</p>
+        <p class="text-gray-500">Vos candidats debloqués sont affichées ici.</p>
+      {% endif %}
       </div>
     </div>
     <div
@@ -111,8 +122,19 @@
       role="tabpanel"
       aria-labelledby="pills-profile-tab">
       <div class="text-center pt-6">
-          <p class="font-semibold">Aucune communication à afficher</p>
-          <p class="text-gray-500">Les candidats qui ont repondu à vos offres sont affichées ici.</p>
+      {% if commandes is defined and commandes is not empty %}
+
+        <!-- Tables -->
+        {% include 'components/table/_commandes.html.twig' with {
+            commandes: commandes,
+          } 
+        %}
+        <!-- Tables -->
+
+      {% else %}
+        <p class="font-semibold">Vous n'avez aucune commande</p>
+        <p class="text-gray-500">Les prolils que vous avez debloqué seront affichées ici.</p>
+      {% endif %}
       </div>
     </div>
     <div

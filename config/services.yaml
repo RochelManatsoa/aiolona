@@ -29,6 +29,9 @@ services:
             
     App\Service\WooCommerce:
         arguments: ['%env(WC_CUSTOMER_ENDPOINT)%', '%env(WC_CUSTOMER_KEY)%', '%env(WC_CUSTOMER_SECRET)%']  
+
+    App\Service\Stripe\StripeApi:
+        arguments: ['%env(resolve:STRIPE_PAYMENT_SECRET_KEY)%', '%env(resolve:STRIPE_WEBHOOK_SECRET_KEY)%']  
     
 
     # add more service definitions when explicit configuration is needed
