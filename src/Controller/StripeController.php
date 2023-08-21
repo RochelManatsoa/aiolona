@@ -104,10 +104,11 @@ class StripeController extends AbstractController
     #[Route('/payment', name: 'app_stripe_payment')]
     public function payment(
         StripeStripeApi $stripeApi,
-        Request $request
+        Request $request,
+        CommandeManager $commandeManager
     ): Response
     {
-        $response = $stripeApi->startPayment($request);
+        $response = $stripeApi->startPayment($request, $commandeManager);
 
         return new RedirectResponse($response);
     }
