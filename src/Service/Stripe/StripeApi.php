@@ -10,19 +10,17 @@ use Symfony\Component\HttpFoundation\Request;
 class StripeApi
 {
     public function __construct(
-        private CommandeManager $commandeManager,
         private string $secretKey, 
-        private string $webhookSecret = ''
+        private string $webhookSecret = '',
     )
     {
-        $this->commandeManager = $commandeManager;
         $this->secretKey = $secretKey;
         $this->webhookSecret = $webhookSecret;
         Stripe::setApiKey($secretKey);
         Stripe::setApiVersion('2022-11-15');
     }
 
-    public function startPayment(Request $request)
+    public function startPayment(Request $request, CommandeManager $commandeManager)
     {
         $data = $request->request->all();        
         $product = $data['product'] ?? 'Postin Expert PRO';
@@ -35,7 +33,7 @@ class StripeApi
         $success = $data['success'] ?? '/success';
         $cancel = $data['cancel'] ?? '/cancel';
 
-        $id = $this->commandeManager->saveJson($json, $total);
+        $id = $commandeManager->saveJson($json, $total);
 
         $sessionStripe = Session::create([
             'customer_email' => $email,
