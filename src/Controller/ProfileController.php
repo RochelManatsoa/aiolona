@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Compagny;
 use App\Form\IaType;
+use App\Form\AccType;
 use App\Form\ExpType;
 use App\Form\LangType;
 use App\Form\RateType;
+use App\Entity\Compagny;
 use App\Entity\Identity;
-use App\Form\AccType;
 use App\Form\AvatarType;
 use App\Form\SecteurType;
 use App\Form\OverviewType;
 use App\Manager\IdentityManager;
+use App\Service\User\UserService;
 use App\Repository\AIcoresRepository;
 use App\Repository\LanguageRepository;
 use App\Repository\ExperienceRepository;
@@ -25,6 +26,11 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ProfileController extends AbstractController
 {
+    public function __construct(private UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+    
     #[Route('/create-profile', name: 'app_profile')]
     public function index(): Response
     {
@@ -77,11 +83,7 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
-        /** @var User $user  */
-        $user = $this->getUser();
-
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
 
         if (!$identity instanceof Identity) {
             $identity = $identityManager->init();
@@ -132,11 +134,7 @@ class ProfileController extends AbstractController
         IdentityManager $identityManager,
         ExperienceRepository $experienceRepository
     ): Response {
-        /** @var User $user  */
-        $user = $this->getUser();
-
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         $expriences = $experienceRepository->findBy(['identity' => $identity]);
 
         $form = $this->createForm(ExpType::class, $identity);
@@ -159,11 +157,7 @@ class ProfileController extends AbstractController
         IdentityManager $identityManager,
         LanguageRepository $languageRepository
     ): Response {
-        /** @var User $user  */
-        $user = $this->getUser();
-
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
 
         $languages = $languageRepository->findBy(['identity' => $identity]);
         $form = $this->createForm(LangType::class, $identity, []);
@@ -185,13 +179,7 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
-        
-        /** @var User $user  */
-        $user = $this->getUser();
-
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
-
+        $identity = $this->userService->getCurrentIdentity();
         $form = $this->createForm(RateType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -211,13 +199,7 @@ class ProfileController extends AbstractController
         IdentityManager $identityManager,
         SluggerInterface $slugger
     ): Response {
-
-        /** @var User $user  */
-        $user = $this->getUser();
-
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
-
+        $identity = $this->userService->getCurrentIdentity();
         $form = $this->createForm(OverviewType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -253,11 +235,7 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
-        /** @var User $user  */
-        $user = $this->getUser();
-
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
 
         $form = $this->createForm(AvatarType::class, $identity, []);
         $form->handleRequest($request);
