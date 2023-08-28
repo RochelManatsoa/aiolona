@@ -14,6 +14,7 @@
     {% block javascripts %}
       {{ encore_entry_script_tags('app') }}
     {% endblock %}
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   </head>
   <body class="dark:bg-zinc-800">
 
@@ -36,44 +37,5 @@
 
     {% include "dashboard/expert/_footer.html.twig" %}
   </body>
-  <script text="javascript">
-
-    const sidenav = document.getElementById("full-screen-example");
-    const sidenavInstance = Sidenav.getInstance(sidenav);
-    
-    let innerWidth = null;
-    
-    const setMode = (e) => {
-      // Check necessary for Android devices
-      if (window.innerWidth === innerWidth) {
-        return;
-      }
-    
-      innerWidth = window.innerWidth;
-    
-      if (window.innerWidth < sidenavInstance.getBreakpoint("sm")) {
-        sidenavInstance.changeMode("over");
-        sidenavInstance.hide();
-      } else {
-        sidenavInstance.changeMode("side");
-        sidenavInstance.show();
-      }
-    };
-    
-    if (window.innerWidth <script sidenavInstance.getBreakpoint("sm")) {
-      setMode();
-    }
-    
-    // Event listeners
-    window.addEventListener("resize", setMode);
-    
-    document
-    .getElementById("slim-toggler")
-    .addEventListener("click", () => {
-      const instance = Sidenav.getInstance(
-        document.getElementById("sidenav-4")
-      );
-      instance.toggleSlim();
-    });
-  </script>
+{% block javascript %}{% endblock %}
 </html>

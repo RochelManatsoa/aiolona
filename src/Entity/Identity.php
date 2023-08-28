@@ -79,7 +79,7 @@ class Identity implements Serializable
     private ?File $file = null;
     
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['identity'])]
+    #[Groups(['identity', 'message'])]
     private ?string $fileName = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]

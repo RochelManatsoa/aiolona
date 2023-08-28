@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\AIcores;
 use App\Entity\Posting;
+use App\Entity\Message;
 use App\Manager\AiNoteManager;
 use App\Manager\PostingManager;
 use App\Repository\AIcoresRepository;
 use App\Repository\AINoteRepository;
+use App\Repository\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,6 +79,24 @@ class AjaxController extends AbstractController
                 'id' => $request->get('str')
             ]),
         ], 200, [], ['groups' => 'identity']);
+    }
+
+    #[Route('/ajax/message/show/{message}', name: 'ajax_show_message')]
+    public function showMessage(
+        MessageRepository $messageRepository,
+        Message $message,
+        EntityManagerInterface $em
+    ): Response
+    {
+        $message->setIsRead(1);
+        $em->persist($message);
+        $em->flush();    
+
+        return $this->json([
+            'content' => $messageRepository->findOneBy([
+                'id' => $message->getId()
+            ]),
+        ], 200, [], ['groups' => 'message']);
     }
 
 }

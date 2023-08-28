@@ -1,0 +1,129 @@
+{% extends 'company/layout/_base.html.twig' %}
+
+{% block title %}
+  Messages
+{% endblock %}
+
+{% block body %}
+  {% set success = app.request.query.get('success') %}
+
+  <div class="xl:pl-60 xl:mr-0">
+
+    <!-- Jumbotron -->
+    {% include 'components/jumbotron.html.twig' with {
+        title: 'Messages',
+        content: 'Gestion des messageries.'
+      } %}
+    <!-- Jumbotron -->
+
+    <!--Pills navigation-->
+      <ul class="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row" id="pills-tab" role="tablist" data-te-nav-ref> <li role="presentation">
+        <a href="#pills-home" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-home-tab" data-te-toggle="pill" data-te-target="#pills-home" data-te-nav-active role="tab" aria-controls="pills-home" aria-selected="true">
+          Messages
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#pills-profile" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-profile-tab" data-te-toggle="pill" data-te-target="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">
+          Reçus
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#pills-unlocked" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-unlocked-tab" data-te-toggle="pill" data-te-target="#pills-unlocked" role="tab" aria-controls="pills-unlocked" aria-selected="true">
+          Envoyés
+        </a>
+      </li>
+    </ul>
+
+    <!--Pills content-->
+    <div class="mb-6">
+      <div class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" data-te-tab-active>
+        <div class="pt-6">
+        <div class="flex flex-1 justify-between">
+          <div class="w-full">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden dark:bg-gray-800 m-8">
+              <div class="p-6">
+                <p class="text-xl font-semibold mb-4 dark:text-white">
+                  Résumé de la messagerie
+                </p>
+                <div class="flex flex-col space-y-2">
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Reçus : 
+                                    
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                      {{ app.user.received|length }}
+                    </span>
+                  </p>
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Envoyés : 
+                                    
+                    <span class="font-semibold text-gray-900 dark:text-white">
+                      {{ app.user.sent|length }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="inline-block h-[250px] min-h-[1em] w-0.5 self-stretch bg-neutral-100 opacity-100 dark:opacity-50"></div>
+          <div class="w-full">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+              Send
+                        
+            </button>
+            {{ form_end(form) }}
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="text-center pt-6">
+
+          {% if received is defined and received is not empty %}
+
+            <!-- Tables -->
+            {% include 'components/table/_messages.html.twig' with {
+            received: received,
+          } %}
+          <!-- Tables -->
+
+            {% else %}
+            <p class="font-semibold">
+              Boîte de reception vide
+            </p>
+            <p class="text-gray-500">
+              Les messages que vous avez reçus seront affichées ici.
+            </p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-unlocked" role="tabpanel" aria-labelledby="pills-unlocked-tab">
+        <div class="text-center pt-6">
+
+          {% if sent is defined and sent is not empty %}
+
+            <!-- Tables -->
+            {% include 'components/table/_messages_sent.html.twig' with {
+            sent: sent,
+          } %}
+          <!-- Tables -->
+
+            {% else %}
+            <p class="font-semibold">
+              Vous n'avez pas encore envoyé de message
+            </p>
+            <p class="text-gray-500">
+              Les messages envoyés seront affichées ici.
+            </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %}
+{% block javascript %}
+  <script src="{{ asset('/assets/js/message.js') }}" type="text/javascript"></script>
+{% endblock %}
