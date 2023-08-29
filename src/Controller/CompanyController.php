@@ -4,16 +4,12 @@ namespace App\Controller;
 
 use App\Data\SeachData;
 use App\Entity\Account;
-use App\Entity\Compagny;
 use App\Entity\Identity;
-use App\Form\CompagnyType;
-use App\Manager\IdentityManager;
 use App\Service\Cart\CartService;
 use App\Service\User\UserService;
 use App\Repository\PostingRepository;
 use App\Repository\IdentityRepository;
 use App\Form\Search\AdvancedSearchType;
-use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,36 +25,6 @@ class CompanyController extends AbstractController
     {
         $this->cartService = $cartService;
         $this->userService = $userService;
-    }
-
-    #[Route('/company/profile', name: 'app_company_profile')]
-    public function profile(
-        IdentityManager $identityManager,
-        EntityManagerInterface $em,
-        Request $request
-    ): Response
-    {        
-        $identity = $this->userService->getCurrentIdentity();
-        /** @var Compagny $compagny */
-        $compagny = $identity->getCompagny();
-
-        if (!$compagny instanceof Compagny) {
-            $compagny = $identityManager->createCompagny($identity);
-        }
-
-        $form = $this->createForm(CompagnyType::class, $compagny, []);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $compagny = $form->getData();
-            $em->persist($compagny);
-            $em->flush();
-
-            return $this->redirectToRoute('app_dashboard', []);
-        }
-
-        return $this->render('compagny/index.html.twig', [
-            'form' => $form->createView(),
-        ]);
     }
 
     #[Route('/dashboard/company', name: 'app_dashboard')]
