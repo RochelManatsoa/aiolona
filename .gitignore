@@ -29,3 +29,5 @@ yarn-error.log
 /public/uploads/experts/*
 /public/uploads/cv/*
 !/public/uploads/experts/default.png
+
+/.mails

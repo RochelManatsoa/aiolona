@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Account;
 use App\Form\NoteType;
+use App\Entity\Account;
 use App\Entity\AIcores;
-use App\Entity\Identity;
 use App\Entity\Language;
 use App\Entity\Experience;
 use App\Form\LanguageType;
@@ -15,7 +14,7 @@ use App\Form\ExperienceType;
 use App\Form\EditContactType;
 use App\Manager\AiNoteManager;
 use App\Manager\IdentityManager;
-use App\Repository\AINoteRepository;
+use App\Service\User\UserService;
 use App\Repository\ExperienceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,13 +24,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AccountController extends AbstractController
 {
+    public function __construct(private UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     #[Route('/account', name: 'app_account')]
     public function index(): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         /** @var Account $account */
         $account = $identity->getAccount();
 
@@ -52,10 +53,7 @@ class AccountController extends AbstractController
     #[Route('/account/edit/contact', name: 'app_edit_contact')]
     public function editContact(Request $request, IdentityManager $identityManager): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         $form = $this->createForm(EditContactType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,10 +74,7 @@ class AccountController extends AbstractController
     #[Route('/account/edit/bio', name: 'app_edit_bio')]
     public function editBio(Request $request, IdentityManager $identityManager): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         $form = $this->createForm(OverviewType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -104,10 +99,7 @@ class AccountController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         $form = $this->createForm(ExperienceType::class, $experience, ['edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -133,10 +125,7 @@ class AccountController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         $form = $this->createForm(LanguageType::class, $language, ['edit' => true]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -160,16 +149,11 @@ class AccountController extends AbstractController
         Request $request, 
         AIcores $aIcores, 
         AiNoteManager $aiNoteManager,
-        AINoteRepository $aINoteRepository,
         EntityManagerInterface $em
     ): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         $note = $aiNoteManager->init($identity, $aIcores);
-        $aicoreNote = $aiNoteManager->getNoteOrNull($identity, $aIcores);
 
         $form = $this->createForm(NoteType::class, $note);
         $form->handleRequest($request);
@@ -179,7 +163,7 @@ class AccountController extends AbstractController
             $em->flush();
 
             return $this->redirectToRoute('app_resume', [
-                'identity' => $this->getUser()->getIdentity()
+                'identity' => $identity
             ]);            
         }
 
@@ -194,10 +178,7 @@ class AccountController extends AbstractController
     #[Route('/account/edit/resume', name: 'app_edit_resume')]
     public function editResume(Request $request, IdentityManager $identityManager): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
         $form = $this->createForm(EditResumeType::class, $identity, []);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -222,10 +203,7 @@ class AccountController extends AbstractController
         IdentityManager $identityManager
     ): Response
     {
-        /** @var User $user  */
-        $user = $this->getUser();
-        /** @var Identity $identity */
-        $identity = $user->getIdentity();
+        $identity = $this->userService->getCurrentIdentity();
 
         $experiences = $experience->findBy([
             'identity' => $identity

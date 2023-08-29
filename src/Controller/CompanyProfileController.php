@@ -12,15 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class CompagnyController extends AbstractController
+class CompanyProfileController extends AbstractController
 {
-    #[Route('/company', name: 'app_company')]
-    public function index(): Response
-    {
-        return $this->render('compagny/index.html.twig', [
-            'controller_name' => 'CompagnyController',
-        ]);
-    }
 
     #[Route('/company/profile', name: 'app_company_profile')]
     public function profile(
@@ -52,7 +45,7 @@ class CompagnyController extends AbstractController
             return $this->redirectToRoute('app_dashboard', []);
         }
 
-        return $this->render('compagny/index.html.twig', [
+        return $this->render('company_profile/index.html.twig', [
             'form' => $form->createView(),
         ]);
     }
