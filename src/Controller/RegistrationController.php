@@ -51,7 +51,7 @@ class RegistrationController extends AbstractController
             $mailerService->send(
                 $user->getEmail(),
                 "Confirmation du compte utilisateur",
-                "registration_email.html",
+                "registration_email.html.twig",
                 [
                     'user' => $user,
                     'token' => $tokenRegistration,

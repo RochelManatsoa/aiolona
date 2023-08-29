@@ -49,7 +49,7 @@ class MessagesController extends AbstractController
             $mailerService->send(
                 $message->getRecipient()->getEmail(),
                 "Vous avez reçu un nouveau message",
-                "message_email.html",
+                "message_email.html.twig",
                 [
                     'user' => $message->getRecipient(),
                     'sender' => $this->getUser(),
