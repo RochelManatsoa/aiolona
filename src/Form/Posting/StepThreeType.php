@@ -8,6 +8,7 @@ use App\Form\AiAutocompleteField;
 use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -16,9 +17,15 @@ class StepThreeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('skills', AiAutocompleteField::class, [
-                'label' => 'Outils IA *',
-                'required' => true,
+            ->add('skills', EntityType::class, [
+                'label' => false,
+                'class' => AIcores::class,
+                'autocomplete' => true,
+                'multiple' => true,
+                'attr' => [
+                    'placeholder' => 'AI Tools',
+                    'data-controller' => 'experience-autocomplete',
+                ]
             ])
             ->add('desctiption', CKEditorType::class, [
                 'config' => array('toolbar' => 'basic'),

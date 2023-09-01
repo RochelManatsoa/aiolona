@@ -7,6 +7,7 @@ use App\Entity\Identity;
 use App\Repository\CommandeItemsRepository;
 use App\Repository\CommandeRepository;
 use App\Repository\IdentityRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -15,12 +16,14 @@ class UserService
     public function __construct(
         private Security $security,
         private IdentityRepository $identityRepository,
+        private UserRepository $userRepository,
         private CommandeRepository $commandeRepository,
         private CommandeItemsRepository $itemsRepository,
     )
     {
         $this->security = $security;
         $this->identityRepository = $identityRepository;
+        $this->userRepository = $userRepository;
         $this->commandeRepository = $commandeRepository;
         $this->itemsRepository = $itemsRepository;
     }
@@ -33,6 +36,11 @@ class UserService
     public function getCurrentIdentity(): ?Identity
     {
         return $this->identityRepository->findOneBy(['user' => $this->security->getUser()]);
+    }
+
+    public function getAdminMails(): array
+    {
+        return $this->userRepository->findAdminEmails();
     }
 
     public function getProfilesUnlocked(): array
