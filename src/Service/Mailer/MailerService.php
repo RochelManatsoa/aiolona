@@ -13,7 +13,6 @@ class MailerService
 
     public function send(
         string $to,
-        array $cc,
         string $subject,
         string $template,
         array $context
