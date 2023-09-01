@@ -40,7 +40,9 @@ class UserService
 
     public function getAdminMails(): array
     {
-        return $this->userRepository->findAdminEmails();
+        return   array_map(function($item) {
+            return $item['email'];
+        }, $this->userRepository->findAdminEmails()) ;
     }
 
     public function getProfilesUnlocked(): array

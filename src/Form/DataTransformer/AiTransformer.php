@@ -58,28 +58,33 @@ class AiTransformer implements DataTransformerInterface
                 $aicore = $this->entityManager->getRepository(AIcores::class)->find($aicoreId);
             } else {
                 // Trouvez ou créez une entité basée sur la valeur textuelle
-                $aicore = new AIcores();
-                $aicore
-                    ->setName($aicoreId)
-                    ->setType('user')
-                    ->setUrl('')
-                    ->setSlug($this->sluggerInterface->slug($aicoreId))
-                ; 
-                // ou toute autre opération pour initialiser l'entité
-                $this->entityManager->persist($aicore);
-                $this->entityManager->flush();
-                
-                // envoi email à Sahra pour la validation
-                $this->mailerService->send(
-                    $this->userService->getAdminMails()[0]['email'],
-                    "Validation requise : Nouvel outil ajouté sur PostIn Expert",
-                    "new_ia_email.html.twig",
-                    [
-                        'user' => $this->userService->getCurrentUser(),
-                        'aicore' => $aicore,
-                        'url' => 'https://postin-expert.com/admin',
-                    ]
-                );
+                $aicore = $this->entityManager->getRepository(AIcores::class)->findOneBy([
+                    'name' => $aicoreId
+                ]);
+                if(!$aicore instanceof AIcores){
+                    $aicore = new AIcores();
+                    $aicore
+                        ->setName($aicoreId)
+                        ->setType('user')
+                        ->setUrl('')
+                        ->setSlug($this->sluggerInterface->slug($aicoreId))
+                    ; 
+                    // ou toute autre opération pour initialiser l'entité
+                    $this->entityManager->persist($aicore);
+                    $this->entityManager->flush();
+                    
+                    // envoi email à Sahra pour la validation
+                    $this->mailerService->send(
+                        "miandrisoa.olona@gmail.com",
+                        "Validation requise : Nouvel outil ajouté sur PostIn Expert",
+                        "new_ia_email.html.twig",
+                        [
+                            'user' => $this->userService->getCurrentUser(),
+                            'aicore' => $aicore,
+                            'url' => 'https://postin-expert.com/admin',
+                        ]
+                    );
+                }
             }
             $aicores[] = $aicore;
         }
