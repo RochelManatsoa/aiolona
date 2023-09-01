@@ -113,6 +113,8 @@ class PostingController extends AbstractController
             $em->persist($posting);
             $em->flush();
 
+            $this->addFlash('info', 'Votre annonce a été créée avec succès et est en attente de validation par l\'administrateur.');
+
             return $this->redirectToRoute('app_posting_dashboard', [ 
                 'jobId' => $posting->getJobId()
             ]);

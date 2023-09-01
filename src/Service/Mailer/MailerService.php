@@ -13,12 +13,14 @@ class MailerService
 
     public function send(
         string $to,
+        array $cc,
         string $subject,
         string $template,
         array $context
     ): void
     {
-        $email = (new TemplatedEmail())
+        $email = new TemplatedEmail();
+        $email 
             ->from(new Address('noreply@postin-expert.com', 'PostIn-Expert'))
             ->to($to)
             ->subject($subject)
