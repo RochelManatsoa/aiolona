@@ -9,11 +9,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Security\AppDefaultAthenticatorAuthenticator;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -72,7 +74,12 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/{token}/{id<\d+>}', name: 'account_verify')]
-    public function verify(Request $request, string $token, User $user, EntityManagerInterface $em)
+    public function verify(Request $request, 
+    string $token,
+    User $user,
+    UserAuthenticatorInterface $userAuthenticator, 
+    AppDefaultAthenticatorAuthenticator $authenticator,
+    EntityManagerInterface $em)
     {
         if($user->getTokenRegistration() !== $token){
                 throw new AccessDeniedException('Le lien n\'est pas valide');
@@ -90,9 +97,13 @@ class RegistrationController extends AbstractController
         $user->setTokenRegistration(null);
         $em->flush();
 
-        $this->addFlash('success', 'Votre compte a bien été activé, vous pouvez maintenant vous connecter');
+        $this->addFlash('success', 'Votre compte a bien été activé');
 
-        return $this->redirectToRoute('app_login');
+        return $userAuthenticator->authenticateUser(
+            $user,
+            $authenticator,
+            $request
+        );  
 
     }
     
