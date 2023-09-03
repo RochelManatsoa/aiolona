@@ -79,6 +79,8 @@ class IdentityRepository extends ServiceEntityRepository
             ->join('i.aicores', 'a')
             ->join('i.languages', 'la')
             ->join('la.lang', 'l')
+            ->andWhere('i.fileName IS NOT NULL')
+            ->andWhere('i.username IS NOT NULL')
         ;
         if(!empty($seachData->q)){
             $query = $query
