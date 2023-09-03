@@ -71,14 +71,6 @@
             </div>
             <div id="rating">    
             </div>
-            <div class="relative mb-3">
-                {{ form_row(form.location)}}
-                {% if form_errors(form.location) %}
-                    <div class="mt-2 text-red-500 text-xs">
-                        {{ form_errors(form.location) }}
-                    </div>
-                {% endif %}
-            </div>
             <div class="relative mb-3" >
                 {{ form_row(form.country)}}
                 {% if form_errors(form.country) %}

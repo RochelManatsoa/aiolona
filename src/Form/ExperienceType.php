@@ -46,7 +46,8 @@ class ExperienceType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Start',
                     'class' => "flex w-full rounded p-2 m-1"
-                ]
+                ],
+                'data' => (new \DateTime('now'))->modify('-20 years'),
             ])
             ->add('endDate', DateType::class, [
                 'html5' => false,
@@ -55,7 +56,8 @@ class ExperienceType extends AbstractType
                 'attr' => [
                     'placeholder' => 'End',
                     'class' => "flex w-full rounded p-2 m-1"
-                ]
+                ],
+                'data' => new \DateTime('now')
             ])
             ->add('description', CKEditorType::class, [
                 'config' => array('toolbar' => 'basic'),
@@ -63,13 +65,6 @@ class ExperienceType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'rows' => 8
-                ]
-            ])
-            ->add('location', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Location',
-                    'class' => "border w-full rounded p-2 m-1"
                 ]
             ])
             ->add('skills', EntityType::class, [
