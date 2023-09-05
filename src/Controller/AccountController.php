@@ -29,7 +29,7 @@ class AccountController extends AbstractController
         $this->userService = $userService;
     }
 
-    #[Route('/account', name: 'app_account')]
+    #[Route('/account', name: 'app_account_add')]
     public function index(): Response
     {
         $identity = $this->userService->getCurrentIdentity();

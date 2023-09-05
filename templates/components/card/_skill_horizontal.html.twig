@@ -1,0 +1,32 @@
+<div class="flex flex-col my-3 rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 md:max-w-xl md:flex-row">
+  <div class="h-60 w-60 flex justify-center items-center">
+    <img
+    class="h-20 w-20 rounded-t-lg object-cover md:h-auto md:!rounded-none md:!rounded-l-lg"
+    src="{{asset('/svg/programming_web_icon.svg')}}"
+    alt="{{ star.name }}" />
+  </div>
+  <div class="flex flex-col justify-start p-6 w-full">
+    <h2 class="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50">
+      {{ star.name }}
+    </h2>
+    <p class="mb-4 text-sm text-neutral-600 dark:text-neutral-200">
+      <span class="text-xs mx-2">{{ star.exp }} projets réalisés</span>
+    </p>
+    <div class="flex items-center">
+        {% for i in 1..5 %}
+            {% if i <= star.note %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                </svg>
+            {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                </svg>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <p class="text-xs text-neutral-500 dark:text-neutral-300">
+      {{ getNoteDesc(star.note) }}
+    </p>
+  </div>
+</div>

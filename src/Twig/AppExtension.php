@@ -105,7 +105,9 @@ class AppExtension extends AbstractExtension
             $stars[] = [
                 'name' => $aicore->getName(),
                 'url' => $aicore->getUrl(),
+                'type' => $aicore->getType(),
                 'image' => $aicore->getImage(),
+                'exp' => count($aicore->getExperiences()),
                 'slogan' => $aicore->getSlogan(),
                 'note' => $this->getIdentityAiNote($aicore, $identity)
             ];
