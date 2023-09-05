@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Identity;
 use App\Data\SearchPostData;
+use App\Entity\Account;
 use App\Service\User\UserService;
 use App\Form\Search\SearchPostType;
 use App\Repository\PostingRepository;
@@ -53,6 +54,66 @@ class ExpertController extends AbstractController
 
 
         return $this->render('expert/index.html.twig', [
+            'identity' => $identity,
+            'postings' => $postings,
+            'form' => $form->createView()
+        ]);
+    }
+    
+    #[Route('/dashboard/expert/profile', name: 'app_account')]
+    public function profile(
+        Request $request,
+        PostingRepository $postingRepository,
+        PaginatorInterface $paginatorInterface
+    ): Response
+    {        
+        $identity = $this->userService->getCurrentIdentity();
+        if(!$identity instanceof Identity) return $this->redirectToRoute('app_profile');
+        /** @var $account */
+        $account = $identity->getAccount();
+        if(!$account instanceof Account) return $this->redirectToRoute('app_profile_account');
+        
+        if($identity->getSectors()->isEmpty()){
+            $this->addFlash('danger', 'Selectionnez votre secteur d\'activité');
+            return $this->redirectToRoute('app_profile_sector');
+        } 
+
+        if($identity->getAicores()->isEmpty()){
+            $this->addFlash('danger', 'Veuillez informer vos outils favoris');
+            return $this->redirectToRoute('app_profile_ia');
+        } 
+
+        if($identity->getBio() === null){
+            $this->addFlash('danger', 'Parlez nous de vous');
+            return $this->redirectToRoute('app_profile_overview');
+        } 
+
+        if($identity->getCountry() === null && $identity->getPhone()){
+            $this->addFlash('danger', 'Merci de renseigner ces informations');
+            return $this->redirectToRoute('app_profile_avatar');
+        } 
+
+
+        $postSearch = new SearchPostData();
+        $form = $this->createForm(SearchPostType::class, $postSearch);
+        $form->handleRequest($request);
+        if($form->isSubmitted()){
+            $data = $postingRepository->findSearch($postSearch);
+        }else{
+            $data = $postingRepository->findBySkills($identity->getAicores());
+            foreach ($identity->getExperiences() as $value) {
+                $data += $postingRepository->findBySkills($value->getSkills());
+            }
+        }
+
+        $postings = $paginatorInterface->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            6
+        );
+
+
+        return $this->render('expert/profile.html.twig', [
             'identity' => $identity,
             'postings' => $postings,
             'form' => $form->createView()
