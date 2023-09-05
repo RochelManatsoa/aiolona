@@ -50,21 +50,25 @@
             <h2 class="text-2xl font-semibold">Outil maîtrisés</h2>
             <div class="p-4 flex flex-col items-center">
                 {% for star in stars %}
-                <!-- Card Horizontal -->
-                    {% include 'components/card/_ai_horizontal.html.twig' with {
-                        identity: identity,
-                        star: star,
-                        } 
-                    %}
-                <!-- Card Horizontal -->
+                    {% if star.type is same as "user" %}
+                    <!-- Card Horizontal -->
+                        {% include 'components/card/_skill_horizontal.html.twig' with {
+                            identity: identity,
+                            star: star,
+                            }   
+                        %}
+                    <!-- Card Horizontal -->
+                    {% else %}
+                    <!-- Card Horizontal -->
+                        {% include 'components/card/_ai_horizontal.html.twig' with {
+                            identity: identity,
+                            star: star,
+                            } 
+                        %}
+                    <!-- Card Horizontal -->
+                
+                    {% endif %}
                 {% endfor %}
-            </div>
-        </div>
-
-        <div class="w-full p-4 my-8 shadow-lg rounded-lg">
-            <h2 class="text-2xl font-semibold">Recommandations</h2>
-            <div class="p-4">
-                {{ identity.bio|raw }}
             </div>
         </div>
           
@@ -73,6 +77,13 @@
                 
         <div class="w-full p-4 my-8 shadow-lg rounded-lg">
             <h2 class="text-2xl font-semibold">Evaluation</h2>
+            <div class="p-4">
+                {{ identity.bio|raw }}
+            </div>
+        </div>
+
+        <div class="w-full p-4 my-8 shadow-lg rounded-lg">
+            <h2 class="text-2xl font-semibold">Recommandations</h2>
             <div class="p-4">
                 {{ identity.bio|raw }}
             </div>
