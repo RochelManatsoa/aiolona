@@ -39,7 +39,7 @@ export default class extends Controller {
       popup.click();
     };
   }
-
+  
   _onConnect(event) {
     // TomSelect has just been intialized and you can access details from the event
     console.log(event.detail.tomSelect); // TomSelect instance
@@ -51,14 +51,14 @@ async function fetchData(id) {
   console.log(id)
     const title = document.getElementById("exampleModalScrollableLabel");
     const stars = document.querySelectorAll(".js-stars");
-    const url = "/ajax/" + id;
+    const url = "/ajax-skill/" + id;
     const urlActuelle = window.location.origin;
     const urlComplete = urlActuelle + url;
     await axios.get(urlComplete).then(function(resp){
         console.log(resp.data)
-        title.textContent = resp.data.aicore.name
+        title.textContent = resp.data.skill.name
         stars.forEach((link, index) =>{
-            link.href = "/ajax/" + resp.data.aicore.slug + "/" + (index  + 1)
+            link.href = "/ajax-skill/" + resp.data.skill.slug + "/" + (index  + 1)
         })
     })
 }

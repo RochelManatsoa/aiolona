@@ -74,14 +74,18 @@ class IdentityRepository extends ServiceEntityRepository
    public function findSearch(SeachData $seachData): array
    {
         $query = $this->createQueryBuilder('i')
-            ->select('s', 'i')
+            ->select('i, s, COUNT(v.id) as HIDDEN num_views')
             ->join('i.sectors', 's')
             ->join('i.aicores', 'a')
             ->join('i.languages', 'la')
             ->join('la.lang', 'l')
+            ->leftJoin('i.identityViews', 'v')
             ->andWhere('i.fileName IS NOT NULL')
             ->andWhere('i.username IS NOT NULL')
+            ->groupBy('i.id, s.id')
+            ->orderBy('num_views', 'DESC')
         ;
+
         if(!empty($seachData->q)){
             $query = $query
                 ->andWhere('i.firstName LIKE :q')
@@ -136,6 +140,19 @@ class IdentityRepository extends ServiceEntityRepository
            ->getResult()
        ;
    }
+
+   public function findTopRanked() : array
+   {
+        return $this->createQueryBuilder('i')
+            ->select('i, COUNT(l.id) as HIDDEN num_likes, COUNT(v.id) as HIDDEN num_views')
+            ->leftJoin('i.likes', 'l')  
+            ->leftJoin('i.identityViews', 'v')  
+            ->groupBy('i')
+            ->orderBy('num_views', 'DESC') 
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Identity
 //    {

@@ -2,10 +2,11 @@
 
 namespace App\Manager;
 
-use App\Entity\Compagny;
 use DateTime;
+use App\Entity\Compagny;
 use App\Entity\Identity;
 use Twig\Environment as Twig;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Form\Form;
 use App\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,6 +40,7 @@ class IdentityManager
     {
         $identity = new Identity();
         $identity->setCreatedAt(new DateTime());
+        $identity->setUsername(new Uuid(Uuid::v1()));
         $identity->setAvatar("https://www.jea.com/cdn/images/avatar-gray.png");
         
         return $identity;

@@ -61,6 +61,14 @@
                     </div>
                 {% endif %}
             </div>
+            <div class="relative mb-3" >
+                {{ form_row(form.technicalSkills)}}
+                {% if form_errors(form.technicalSkills) %}
+                    <div class="mt-2 text-red-500 text-xs">
+                        {{ form_errors(form.technicalSkills) }}
+                    </div>
+                {% endif %}      
+            </div>
             <div class="relative mb-3">
                 {{ form_row(form.skills)}}
                 {% if form_errors(form.skills) %}
@@ -68,16 +76,6 @@
                         {{ form_errors(form.skills) }}
                     </div>
                 {% endif %}
-            </div>
-            <div id="rating">    
-            </div>
-            <div class="relative mb-3" >
-                {{ form_row(form.country)}}
-                {% if form_errors(form.country) %}
-                    <div class="mt-2 text-red-500 text-xs">
-                        {{ form_errors(form.country) }}
-                    </div>
-                {% endif %}      
             </div>
         </div>
         <div class="actions">

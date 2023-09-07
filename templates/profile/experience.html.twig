@@ -40,6 +40,17 @@
                           {{ experience.description }}
                         </p>
                       </div>
+                      <div>
+                        <button
+                          type="button"
+                          data-id="js-remove"
+                          data-href="/ajax-remove-exp/{{ experience.id }}/{{ identity.id }}"
+                          class="js-remove inline-block rounded-full bg-primary px-4 py-4 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                            <svg class="w-[12px] h-[12px] text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                            </svg>
+                        </button>
+                      </div>
                     </div>
                   </li>
                 {% endfor %}
@@ -101,6 +112,36 @@ document.getElementById('next_languages').addEventListener('click', function(e){
     window.location.href = urlComplete;
 })
 
+const elements = document.querySelectorAll('.js-remove');
+console.log(elements)
+if (elements.length > 0) {
+  elements.forEach((element) => {    
+    element.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        // Demander confirmation
+        const userConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cet élément ?");
+        
+        if (userConfirmed) {
+            const url = element.getAttribute('data-href');    
+            const clickedLink = this;
+
+            axios.post(url).then(function (response) {
+                // Supprimer le grand-parent de l'élément clickedLink du DOM
+                if (clickedLink.parentNode && clickedLink.parentNode.parentNode) {
+                    clickedLink.parentNode.parentNode.remove();
+                }
+            });
+        } else {
+            // L'utilisateur a annulé l'action
+            console.log("Action annulée par l'utilisateur.");
+        }
+    });
+});
+
+}else {
+  console.log("No elements with the class .js-remove were found.");
+}
 </script>
 {% endblock %}
   
