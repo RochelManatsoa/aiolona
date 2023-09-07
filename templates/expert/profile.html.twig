@@ -43,6 +43,21 @@
                 {{ show_country(identity.country) }}
               </p>
               <div class="flex flex-col">
+              <div class="flex text-center">
+                  <div class="flex-1 py-4">
+                      <p class="text-xl">{{ identity.identityViews|length }}</p>
+                      <p class="text-sm text-gray-400">Vues</p>
+                  </div>
+                  <div class="flex-1 py-4">
+                      <p class="text-xl">{{ identity.likes|length}}</p>
+                      <p class="text-sm text-gray-400">J'aime</p>
+                  </div>
+                  <div class="flex-1 py-4">
+                      <p class="text-xl"><span class="">{{ rank }}<span class="text-xs align-top">ème</span></span>
+                  </p>
+                      <p class="text-sm text-gray-400">sur {{ total }}</p>
+                  </div>
+              </div>
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                   <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                     <div class="overflow-hidden">
@@ -72,6 +87,8 @@
                     identity: identity,
                     class: true,
                     stars: getStars(identity),
+                    skills: getSkills(identity),
+                    owner: true
                 } %}
             <!-- Tabs -->
             </div>

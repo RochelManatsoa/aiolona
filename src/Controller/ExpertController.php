@@ -7,6 +7,7 @@ use App\Data\SearchPostData;
 use App\Entity\Account;
 use App\Service\User\UserService;
 use App\Form\Search\SearchPostType;
+use App\Repository\IdentityRepository;
 use App\Repository\PostingRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,6 +65,7 @@ class ExpertController extends AbstractController
     public function profile(
         Request $request,
         PostingRepository $postingRepository,
+        IdentityRepository $repository,
         PaginatorInterface $paginatorInterface
     ): Response
     {        
@@ -93,6 +95,8 @@ class ExpertController extends AbstractController
             return $this->redirectToRoute('app_profile_avatar');
         } 
 
+        $allIdentities = $repository->findTopRanked();  
+        $rank = array_search($identity, $allIdentities) + 1; 
 
         $postSearch = new SearchPostData();
         $form = $this->createForm(SearchPostType::class, $postSearch);
@@ -116,7 +120,9 @@ class ExpertController extends AbstractController
         return $this->render('expert/profile.html.twig', [
             'identity' => $identity,
             'postings' => $postings,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'rank' => $rank,
+            'total' => count($allIdentities),
         ]);
     }
 }
