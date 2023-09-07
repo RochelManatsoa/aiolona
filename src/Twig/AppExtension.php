@@ -5,26 +5,24 @@ namespace App\Twig;
 use App\Entity\AIcores;
 use App\Entity\Identity;
 use App\Entity\Posting;
+use App\Entity\TechnicalSkill;
 use App\Manager\PostingManager;
 use App\Repository\AccountRepository;
 use App\Repository\AINoteRepository;
+use Doctrine\Common\Collections\Collection;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
-    private $accountRepository;
-    private $aINoteRepository;
 
     public function __construct(
-        AccountRepository $accountRepository, 
-        AINoteRepository $aINoteRepository,
-        PostingManager $postingManager
+        private AccountRepository $accountRepository, 
+        private AINoteRepository $aINoteRepository,
+        private PostingManager $postingManager
         )
     {
-        $this->accountRepository = $accountRepository;
-        $this->aINoteRepository = $aINoteRepository;
-        $this->postingManager = $postingManager;
+
     }
 
     public function getFunctions(): array
@@ -33,11 +31,13 @@ class AppExtension extends AbstractExtension
             new TwigFunction('show_account_desc', [$this, 'showAccountDesc']),
             new TwigFunction('show_country', [$this, 'showCountry']),
             new TwigFunction('getNote', [$this, 'getNote']),
+            new TwigFunction('getIdentitySkillNote', [$this, 'getIdentitySkillNote']),
             new TwigFunction('getIdentityAiNote', [$this, 'getIdentityAiNote']),
             new TwigFunction('checkNotNull', [$this, 'checkNotNull']),
             new TwigFunction('isoToEmoji', [$this, 'isoToEmoji']),
             new TwigFunction('getNoteDesc', [$this, 'getNoteDesc']),
             new TwigFunction('getStars', [$this, 'getStars']),
+            new TwigFunction('getSkills', [$this, 'getSkills']),
             new TwigFunction('checkInfo', [$this, 'checkInfo']),
         ];
     }
@@ -66,6 +66,18 @@ class AppExtension extends AbstractExtension
         $note = 0;
         foreach($identity->getNotes() as $key => $value){
             if($value->getAiCore() == $aIcores){
+                $note = (int)$value->getNote();
+            }
+        }
+
+        return $note;
+    }
+
+    public function getIdentitySkillNote(TechnicalSkill $skills, Identity $identity)
+    {
+        $note = 0;
+        foreach($identity->getSkillNotes() as $key => $value){
+            if($value->getTechnicalSkill() == $skills){
                 $note = (int)$value->getNote();
             }
         }
@@ -107,9 +119,26 @@ class AppExtension extends AbstractExtension
                 'url' => $aicore->getUrl(),
                 'type' => $aicore->getType(),
                 'image' => $aicore->getImage(),
-                'exp' => count($aicore->getExperiences()),
+                'exp' => $this->getCount($aicore->getExperiences(), $identity),
                 'slogan' => $aicore->getSlogan(),
                 'note' => $this->getIdentityAiNote($aicore, $identity)
+            ];
+        }
+
+        return $stars;
+    }
+
+    public function getSkills(Identity $identity)
+    {
+        $stars = [];
+        foreach ($identity->getTechnicalSkills() as $skill) {
+            $stars[] = [
+                'name' => $skill->getName(),
+                'url' => $skill->getUrl(),
+                'type' => $skill->getType(),
+                'image' => $skill->getImage(),
+                'exp' => $this->getCount($skill->getExperience(), $identity),
+                'note' => $this->getIdentitySkillNote($skill, $identity)
             ];
         }
 
@@ -119,5 +148,16 @@ class AppExtension extends AbstractExtension
     public function checkInfo(Posting $posting): bool
     {
         return $this->postingManager->checkInfo($posting);
+    }
+
+    private function getCount(Collection $experiences, Identity $identity): int
+    {
+        $count = 0;
+        foreach ($experiences as $key => $experience) {
+            if($experience->getIdentity() === $identity){
+                $count ++;
+            }
+        }
+        return $count;
     }
 }

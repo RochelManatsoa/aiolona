@@ -147,7 +147,8 @@ class ProfileController extends AbstractController
 
         return $this->render('profile/experience.html.twig', [
             'form' => $form->createView(),
-            'experiences' => $expriences
+            'experiences' => $expriences,
+            'identity' => $identity
         ]);
     }
 

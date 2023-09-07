@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\AIcores;
 use App\Entity\Experience;
+use App\Entity\TechnicalSkill;
 use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -72,18 +73,22 @@ class ExperienceType extends AbstractType
                 'class' => AIcores::class,
                 'autocomplete' => true,
                 'multiple' => true,
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'AI Tools',
                     'data-controller' => 'experience-autocomplete',
                 ]
             ])
-            ->add('country', CountryType::class, [
-                'label' => 'Pays',
+            ->add('technicalSkills', EntityType::class, [
+                'label' => false,
+                'class' => TechnicalSkill::class,
+                'autocomplete' => true,
+                'multiple' => true,
                 'required' => false,
-                'placeholder' => 'Sélectionnez un pays',
                 'attr' => [
-                    'class' => 'peer block min-h-[auto] w-full rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0'
-                ],
+                    'placeholder' => 'Skill Tools',
+                    'data-controller' => 'default-autocomplete',
+                ]
             ])
         ;
 

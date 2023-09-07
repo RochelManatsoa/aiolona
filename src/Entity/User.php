@@ -73,12 +73,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isVerified = false;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: IdentityLike::class)]
+    private Collection $identityLikes;
+
     public function __construct()
     {
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
         $this->isVerified = false;
         $this->tokenLifeTime = (new DateTime('now'))->add(new DateInterval('P1D'));
+        $this->identityLikes = new ArrayCollection();
     }
 
     public function __toString()
@@ -330,6 +334,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(?bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, IdentityLike>
+     */
+    public function getIdentityLikes(): Collection
+    {
+        return $this->identityLikes;
+    }
+
+    public function addIdentityLike(IdentityLike $identityLike): static
+    {
+        if (!$this->identityLikes->contains($identityLike)) {
+            $this->identityLikes->add($identityLike);
+            $identityLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdentityLike(IdentityLike $identityLike): static
+    {
+        if ($this->identityLikes->removeElement($identityLike)) {
+            // set the owning side to null (unless already changed)
+            if ($identityLike->getUser() === $this) {
+                $identityLike->setUser(null);
+            }
+        }
 
         return $this;
     }

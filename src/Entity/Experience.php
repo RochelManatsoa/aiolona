@@ -56,9 +56,13 @@ class Experience
     #[ORM\ManyToMany(targetEntity: AIcores::class, inversedBy: 'experiences')]
     private Collection $skills;
 
+    #[ORM\ManyToMany(targetEntity: TechnicalSkill::class, mappedBy: 'experience')]
+    private Collection $technicalSkills;
+
     public function __construct()
     {
         $this->skills = new ArrayCollection();
+        $this->technicalSkills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,6 +198,33 @@ class Experience
     public function removeSkill(AIcores $skill): static
     {
         $this->skills->removeElement($skill);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TechnicalSkill>
+     */
+    public function getTechnicalSkills(): Collection
+    {
+        return $this->technicalSkills;
+    }
+
+    public function addTechnicalSkill(TechnicalSkill $technicalSkill): static
+    {
+        if (!$this->technicalSkills->contains($technicalSkill)) {
+            $this->technicalSkills->add($technicalSkill);
+            $technicalSkill->addExperience($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTechnicalSkill(TechnicalSkill $technicalSkill): static
+    {
+        if ($this->technicalSkills->removeElement($technicalSkill)) {
+            $technicalSkill->removeExperience($this);
+        }
 
         return $this;
     }

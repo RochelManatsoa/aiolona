@@ -9,13 +9,13 @@ use App\Entity\AIcores;
 use App\Entity\AINote;
 use App\Entity\Commande;
 use App\Entity\Compagny;
-use App\Entity\HonoraryPosting;
 use App\Entity\Identity;
 use App\Entity\Lang;
 use App\Entity\PackName;
 use App\Entity\Posting;
 use App\Entity\SchedulePosting;
 use App\Entity\StripeTransaction;
+use App\Entity\TechnicalSkill;
 use App\Entity\TypePosting;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,6 +43,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('AI', 'fas fa-robot', AIcores::class);
+        yield MenuItem::linkToCrud('Skills', 'fas fa-robot', TechnicalSkill::class);
         yield MenuItem::linkToCrud('Catégorie', 'fas fa-tag', AIcategory::class);
         yield MenuItem::linkToCrud('Language', 'fas fa-globe', Lang::class);
         yield MenuItem::linkToCrud('AI Note', 'fas fa-note-sticky', AINote::class);

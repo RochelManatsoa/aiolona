@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
+use Serializable;
+use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\IdentityRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
-use Serializable;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: IdentityRepository::class)]
 #[Vich\Uploadable]
@@ -123,6 +124,18 @@ class Identity implements Serializable
     #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Commande::class)]
     private Collection $commandes;
 
+    #[ORM\ManyToMany(targetEntity: TechnicalSkill::class, mappedBy: 'identity')]
+    private Collection $technicalSkills;
+
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: SkillNote::class)]
+    private Collection $skillNotes;
+
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: IdentityViews::class)]
+    private Collection $identityViews;
+
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: IdentityLike::class)]
+    private Collection $likes;
+
 
     public function __construct()
     {
@@ -135,6 +148,10 @@ class Identity implements Serializable
         $this->socials = new ArrayCollection();
         $this->packs = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->technicalSkills = new ArrayCollection();
+        $this->skillNotes = new ArrayCollection();
+        $this->identityViews = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function __toString()
@@ -659,4 +676,129 @@ class Identity implements Serializable
         return $this;
     }
 
+    /**
+     * @return Collection<int, TechnicalSkill>
+     */
+    public function getTechnicalSkills(): Collection
+    {
+        return $this->technicalSkills;
+    }
+
+    public function addTechnicalSkill(TechnicalSkill $technicalSkill): self
+    {
+        if (!$this->technicalSkills->contains($technicalSkill)) {
+            $this->technicalSkills->add($technicalSkill);
+            $technicalSkill->addIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTechnicalSkill(TechnicalSkill $technicalSkill): self
+    {
+        if ($this->technicalSkills->removeElement($technicalSkill)) {
+            $technicalSkill->removeIdentity($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SkillNote>
+     */
+    public function getSkillNotes(): Collection
+    {
+        return $this->skillNotes;
+    }
+
+    public function addSkillNote(SkillNote $skillNote): static
+    {
+        if (!$this->skillNotes->contains($skillNote)) {
+            $this->skillNotes->add($skillNote);
+            $skillNote->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkillNote(SkillNote $skillNote): static
+    {
+        if ($this->skillNotes->removeElement($skillNote)) {
+            // set the owning side to null (unless already changed)
+            if ($skillNote->getIdentity() === $this) {
+                $skillNote->setIdentity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, IdentityViews>
+     */
+    public function getIdentityViews(): Collection
+    {
+        return $this->identityViews;
+    }
+
+    public function addIdentityView(IdentityViews $identityView): static
+    {
+        if (!$this->identityViews->contains($identityView)) {
+            $this->identityViews->add($identityView);
+            $identityView->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdentityView(IdentityViews $identityView): static
+    {
+        if ($this->identityViews->removeElement($identityView)) {
+            // set the owning side to null (unless already changed)
+            if ($identityView->getIdentity() === $this) {
+                $identityView->setIdentity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, IdentityLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(IdentityLike $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(IdentityLike $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getIdentity() === $this) {
+                $like->setIdentity(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isLikedByUser(User $user): bool
+    {
+        foreach($this->likes as $like){
+            if($like->getUser() === $user) return true;
+        }
+        
+        return false;
+    }
 }

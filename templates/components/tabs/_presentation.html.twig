@@ -47,12 +47,12 @@
         </div>
 
         <div class="w-full p-4 my-8 shadow-lg rounded-lg">
-            <h2 class="text-2xl font-semibold">Outil maîtrisés</h2>
+            <h2 class="text-2xl font-semibold">Outil IA maîtrisés</h2>
             <div class="p-4 flex flex-col items-center">
                 {% for star in stars %}
                     {% if star.type is same as "user" %}
                     <!-- Card Horizontal -->
-                        {% include 'components/card/_skill_horizontal.html.twig' with {
+                        {% include 'components/card/_ai_user_horizontal.html.twig' with {
                             identity: identity,
                             star: star,
                             }   
@@ -70,6 +70,22 @@
                     {% endif %}
                 {% endfor %}
             </div>
+            {% if skills is defined and skills|length > 0 %}
+                <h2 class="text-2xl font-semibold">Domaines d'expertise</h2>
+                <div class="flex flex-wrap">
+                    {% for star in skills %}
+                      <div class="w-1/2 p-2">
+                        <!-- Card Horizontal -->
+                            {% include 'components/card/_skill_horizontal.html.twig' with {
+                                identity: identity,
+                                star: star,
+                                }   
+                            %}
+                        <!-- Card Horizontal -->
+                      </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
           
     </div>
@@ -95,7 +111,47 @@
         <div class="w-full p-4 my-8 shadow-lg rounded-lg">
             <h2 class="text-2xl font-semibold">Expériences et références</h2>
             <div class="p-4">
-                {{ identity.bio|raw }}
+            {% if identity.experiences is not empty %}
+              <ul class="divide-y divide-gray-200">
+                {% for experience in identity.experiences %}
+                  <li class="py-2">
+                    <div class="flex items-center space-x-4">
+                      <div class="flex-shrink-0">
+                        <img src="{{asset('/svg/company_icon.svg')}}" class="h-9 w-9 rounded-full" src="#" alt="{{ experience.title }}"></div>
+                        <div>
+                          <h3 class="text-lg font-medium">
+                            {{ experience.title }}
+                          </h3>
+                          <p class="text-gray-500 text-sm">
+                            {{ experience.company }}
+                          </p>
+                          <p class="text-gray-700 text-xs">
+                            {{ experience.startDate | date('M Y') }}
+                            -                                                    
+                            {{ experience.endDate | date('M Y') }}
+                          </p>
+                          <p class="text-gray-900 text-xs">
+                            {{ experience.description }}
+                          </p>
+                        </div>
+                        {% if owner %}
+                        <div>
+                          <button
+                            type="button"
+                            data-id="js-remove"
+                            data-href="/ajax-remove-exp/{{ experience.id }}/{{ identity.id }}"
+                            class="js-remove inline-block rounded-full bg-primary px-4 py-4 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                              <svg class="w-[12px] h-[12px] text-white dark:text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                              </svg>
+                          </button>
+                        </div>
+                        {% endif %}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
             </div>
         </div>
           
