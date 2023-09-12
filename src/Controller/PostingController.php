@@ -3,10 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Posting;
+use App\Entity\Application;
+use App\Entity\PostingViews;
+use App\Form\ApplicationType;
 use App\Manager\PostingManager;
 use App\Form\Posting\StepOneType;
 use App\Form\Posting\StepTwoType;
+use App\Service\User\UserService;
 use App\Form\Posting\StepThreeType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -129,11 +134,86 @@ class PostingController extends AbstractController
     public function view(
         Request $request,
         Posting $posting,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        UserService $userService
     ): Response
     {
+        $identity = $userService->getCurrentIdentity();
+        $application = new Application();
+        $application->setCreatedAt(new DateTime());
+        $application->setPosting($posting);
+        $application->setIdentity($identity);
+        $form = $this->createForm(ApplicationType::class, $application);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($application);
+            $em->flush();
+    
+            $this->addFlash('success', "Candidature envoyé ");
+        }
+
+        if ($posting) {
+            $ipAddress = $request->getClientIp();
+            $viewRepository = $em->getRepository(PostingViews::class);
+            $existingView = $viewRepository->findOneBy([
+                'posting' => $posting,
+                'ipAdress' => $ipAddress,
+            ]);
+    
+            if (!$existingView) {
+                $view = new PostingViews();
+                $view->setPosting($posting);
+                $view->setIpAdress($ipAddress);
+    
+                $em->persist($view);
+                $posting->addView($view);
+                $em->flush();
+            }
+        }
+
         return $this->render('posting/index.html.twig', [
             'posting' => $posting,
+            'company' => $posting->getCompagny(),
+            'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/posting/enable/{jobId}', name: 'app_posting_enable')]
+    public function enable(
+        Posting $posting,
+        EntityManagerInterface $em,
+        UserService $userService
+    ): Response
+    {
+        $identity = $userService->getCurrentIdentity();
+        if($posting->isValid()){
+            $posting->setValid(false);
+            $message = "Fermer";
+        }else{
+            $posting->setValid(true);
+            $message = "Ouvrir";
+        }
+        $em->persist($posting);
+        $em->flush();
+
+        return $this->json([
+            'message' => $message,
+        ], 200);
+    }
+
+    #[Route('/posting/boost/{jobId}', name: 'app_posting_boost')]
+    public function boost(
+        Request $request,
+        Posting $posting,
+        EntityManagerInterface $em,
+        UserService $userService
+    ): Response
+    {
+        $identity = $userService->getCurrentIdentity();
+
+        return $this->json([
+            'message' => 'Tarif, ajout badge urgent sur les annonces',
+        ], 200);
     }
 }

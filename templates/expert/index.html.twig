@@ -1,114 +1,122 @@
 {% extends 'expert/layout/_base.html.twig' %}
 
-{% block title %}Tableau de bord{% endblock %}
+{% block title %}
+  Tableau de bord
+{% endblock %}
 
 {% block body %}
 
+  <div class="xl:pl-60 xl:mr-0">
 
-<div class="xl:pl-60 xl:mr-0">
-
-
-<!-- Jumbotron -->
-<div
-  class="rounded-lg bg-neutral-100 p-6 my-6 text-neutral-700 shadow-lg dark:bg-neutral-600 dark:text-neutral-200 dark:shadow-black/30">
-  <h2 class="mb-5 text-3xl font-semibold">Lancer une recherche</h2>
-  {{ form_start(form) }}
-    <div class="experience my-6">
+    <!-- Jumbotron -->
+    <div class="rounded-lg bg-neutral-100 p-6 my-6 text-neutral-700 shadow-lg dark:bg-neutral-600 dark:text-neutral-200 dark:shadow-black/30">
+      <h2 class="mb-5 text-3xl font-semibold">
+        Lancer une recherche
+      </h2>
+      {{ form_start(form) }}
+      <div class="experience my-6">
         <div class="fields">
-            <div class="flex">
-                <div class="relative mb-3 w-1/2 pr-2">
-                    {{ form_row(form.q)}}
-                    {% if form_errors(form.q) %}
-                        <div class="mt-2 text-red-500 text-xs">
-                            {{ form_errors(form.q) }}
-                        </div>
-                    {% endif %}
+          <div class="flex">
+            <div class="relative mb-3 w-1/2 pr-2">
+              {{ form_row(form.q) }}
+              {% if form_errors(form.q) %}
+                <div class="mt-2 text-red-500 text-xs">
+                  {{ form_errors(form.q) }}
                 </div>
-                <div class="relative mb-3 w-1/2 pr-2">
-                    {{ form_row(form.search)}}
-                </div>
+              {% endif %}
             </div>
+            <div class="relative mb-3 w-1/2 pr-2">
+              {{ form_row(form.search) }}
+            </div>
+          </div>
         </div>
+      </div>
+      {{ form_end(form) }}
     </div>
-    {{ form_end(form) }}
-</div>
-<!-- Jumbotron -->
+    <!-- Jumbotron -->
 
-<!--Pills navigation-->
-<ul
-  class="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row"
-  id="pills-tab"
-  role="tablist"
-  data-te-nav-ref>
-  <li role="presentation">
-    <a
-      href="#pills-home"
-      class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-      id="pills-home-tab"
-      data-te-toggle="pill"
-      data-te-target="#pills-home"
-      data-te-nav-active
-      role="tab"
-      aria-controls="pills-home"
-      aria-selected="true"
-      >Offre d'emploi</a
-    >
-  </li>
-  <li role="presentation">
-    <a
-      href="#pills-profile"
-      class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4"
-      id="pills-profile-tab"
-      data-te-toggle="pill"
-      data-te-target="#pills-profile"
-      role="tab"
-      aria-controls="pills-profile"
-      aria-selected="true"
-      >Recherche récentes</a
-    >
-  </li>
-</ul>
+    <!--Pills navigation-->
+    <ul class="mb-5 flex list-none flex-col flex-wrap pl-0 md:flex-row" id="pills-tab" role="tablist" data-te-nav-ref>
+      <li role="presentation">
+        <a href="#pills-home" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-home-tab" data-te-toggle="pill" data-te-target="#pills-home" data-te-nav-active role="tab" aria-controls="pills-home" aria-selected="true">
+          Offre d'emploi
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#pills-profile" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-profile-tab" data-te-toggle="pill" data-te-target="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">
+          Recherche récentes
+        </a>
+      </li>
+      <li role="presentation">
+        <a href="#pills-applications" class="my-2 block rounded bg-neutral-100 px-7 pb-3.5 pt-4 text-xs font-medium uppercase leading-tight text-neutral-500 data-[te-nav-active]:!bg-primary-100 data-[te-nav-active]:text-primary-700 dark:bg-neutral-700 dark:text-white dark:data-[te-nav-active]:text-primary-700 md:mr-4" id="pills-applications-tab" data-te-toggle="pill" data-te-target="#pills-applications" role="tab" aria-controls="pills-applications" aria-selected="true">
+          Offres postulées
+        </a>
+      </li>
+    </ul>
 
-<!--Pills content-->
-<div class="mb-6">
-  <div
-    class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-    id="pills-home"
-    role="tabpanel"
-    aria-labelledby="pills-home-tab"
-    data-te-tab-active>
-    {% if postings is empty %}
-    <div class="text-center pt-6">
-        <p class="font-semibold">Nous travaillons sur vos offres d'emploi personnalisées</p>
-        <p class="text-gray-500">En attendant, lancez une recherche pour trouver votre prochain emploi</p>
-    </div>
-    {% else %}
-        {% for posting in postings %}
+    <!--Pills content-->
+    <div class="mb-6">
+      <div class="hidden opacity-100 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" data-te-tab-active>
+        {% if postings is empty %}
+          <div class="text-center pt-6">
+            <p class="font-semibold">
+              Nous travaillons sur vos offres d'emploi personnalisées
+            </p>
+            <p class="text-gray-500">
+              En attendant, lancez une recherche pour trouver votre prochain emploi
+            </p>
+          </div>
+        {% else %}
+          {% for posting in postings %}
 
             {{ component('simple_posting',{
                 posting: posting,
                 company: posting.compagny,
             }) }}
-            
-        {% endfor %}
-        <nav class="flex items-center justify-center mt-4">
-        {% do postings.setPageRange(2) %}
-        {{ knp_pagination_render(postings, 'base/pagination.html.twig')}}
-        </nav>
-    {% endif %}
-  </div>
-  <div
-    class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block"
-    id="pills-profile"
-    role="tabpanel"
-    aria-labelledby="pills-profile-tab">
-    <div class="text-center pt-6">
-        <p class="font-semibold">Aucune recherche récente</p>
-        <p class="text-gray-500">Vos recherches récentes sont affichées ici.</p>
-    </div>
-   </div>
-</div>
 
-</div>
+          {% endfor %}
+          <nav class="flex items-center justify-center mt-4">
+            {% do postings.setPageRange(2) %}
+            {{ knp_pagination_render(postings, 'base/pagination.html.twig') }}
+          </nav>
+        {% endif %}
+      </div>
+      <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div class="text-center pt-6">
+          <p class="font-semibold">
+            Aucune recherche récente
+          </p>
+          <p class="text-gray-500">
+            Vos recherches récentes sont affichées ici.
+          </p>
+        </div>
+      </div>
+      <div class="hidden opacity-0 transition-opacity duration-150 ease-linear data-[te-tab-active]:block" id="pills-applications" role="tabpanel" aria-labelledby="pills-applications-tab">
+      {% if applications is empty %}  
+      <div class="text-center pt-6">
+          <p class="font-semibold">
+            Aucun candidature envoyé
+          </p>
+          <p class="text-gray-500">
+            Vos candidatures sont affichées ici.
+          </p>
+        </div>
+      </div>
+      {% else %}
+        <!-- Tables -->
+        {% include 'components/table/_application.html.twig' with {
+            applications: applications,
+          } 
+        %}
+        <!-- Tables -->
+        <nav class="flex items-center justify-center mt-4">
+          {% do applications.setPageRange(2) %}
+          {{ knp_pagination_render(applications, 'base/pagination.html.twig') }}
+        </nav>
+      {% endif %} 
+        
+    </div>
+
+  </div>
 
 {% endblock %}

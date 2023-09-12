@@ -131,7 +131,7 @@
                             {{ experience.endDate | date('M Y') }}
                           </p>
                           <p class="text-gray-900 text-xs">
-                            {{ experience.description }}
+                            {{ experience.description|raw }}
                           </p>
                         </div>
                         {% if owner %}

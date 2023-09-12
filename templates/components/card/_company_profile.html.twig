@@ -1,0 +1,39 @@
+
+{% if company.identity.avatar is empty %}
+  {% set image =  asset('/svg/company_icon.svg') %}
+{% else %}
+  {% set image = company.identity.avatar %}
+{% endif %}
+<div class="flex rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]">
+  <!-- Première colonne pour l'image -->
+  <div class="w-1/5 flex items-center justify-center p-3 m-2">
+    <img src="{{ image }}" alt="{{ company.name }}" class="object-cover"></div>
+
+    <!-- Deuxième colonne pour le texte -->
+    <div class="w-4/5 flex flex-col justify-center p-2">
+      <p class=" text-xl font-medium text-neutral-800 dark:text-neutral-50">
+        <a href="">
+        {{ company.name }}
+        </a>
+      </p>
+      <p class="">
+        <span class="text-xs mx-2">
+          Autres infos   
+        </span>
+      </p>
+      <div class="flex items-center">
+        {% for i in 1..5 %}
+          {% if i <= 4 %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+            </svg>
+          {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+            </svg>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  

@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User as AppUser;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccountExpiredException;
@@ -13,6 +14,7 @@ class UserConfirmation implements UserCheckerInterface
 {
     public function __construct(
         private RequestStack $requestStack,
+        private UrlGeneratorInterface $urlGeneratorInterface
     )
     {
         
@@ -24,7 +26,7 @@ class UserConfirmation implements UserCheckerInterface
         }
     }
 
-    public function checkPostAuth(UserInterface $user): void
+    public function checkPostAuth(UserInterface $user)
     {
         if (!$user instanceof AppUser) {
             return;
@@ -33,8 +35,10 @@ class UserConfirmation implements UserCheckerInterface
         if (!$user->isIsVerified()) {
             $message = "Votre compte n'est pas vérifié, merci de le confirmer avant le {$user->getTokenLifeTime()->format('d M Y à H:i')}";
             $this->requestStack->getSession()->getFlashBag()->add('warning', $message);
+
+            return $this->urlGeneratorInterface->generate('app_profile');
             // the message passed to this exception is meant to be displayed to the user
-            throw new CustomUserMessageAccountStatusException("Votre compte n'est pas vérifié, merci de le confirmer avant le {$user->getTokenLifeTime()->format('d M Y à H:i')}");
+            //throw new CustomUserMessageAccountStatusException("Votre compte n'est pas vérifié, merci de le confirmer avant le {$user->getTokenLifeTime()->format('d M Y à H:i')}");
         }
     }
 }

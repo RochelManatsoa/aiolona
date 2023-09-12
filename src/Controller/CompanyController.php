@@ -10,6 +10,7 @@ use App\Service\User\UserService;
 use App\Repository\PostingRepository;
 use App\Repository\IdentityRepository;
 use App\Form\Search\AdvancedSearchType;
+use App\Repository\ApplicationRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,13 +38,34 @@ class CompanyController extends AbstractController
         return $this->render('company/index.html.twig', $this->checkUserInfo());
     }
 
+    #[Route('/dashboard/company/profile', name: 'app_dashboard_profile')]
+    public function profile(): Response
+    {
+        $identity = $this->userService->getCurrentIdentity();
+        if(!$identity instanceof Identity) return $this->redirectToRoute('app_account');
+        if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->redirectToRoute('app_expert');
+
+        return $this->render('company/profile.html.twig', $this->checkUserInfo());
+    }
+
     #[Route('/dashboard/company/posting', name: 'app_posting_dashboard')]
     public function posting(
         PostingRepository $repository,
     ): Response
     {
         $params = $this->checkUserInfo();
-        $params += ['annonces' => $repository->findBy(['compagny' => $params['company']])];
+        $postings = $repository->findBy(['compagny' => $params['company']]);
+        $applications = [];
+        foreach ($postings as $key => $posting) {
+            $applies = $posting->getApplications();
+            foreach ($applies as $key => $application) {
+                $applications[] = $application;
+            }
+        }
+        $params += [
+            'annonces' => $postings,
+            'applications' => $applications,
+        ];
 
         return $this->render('company/posting.html.twig', $params);
     }

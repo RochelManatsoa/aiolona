@@ -7,6 +7,7 @@ use App\Data\SearchPostData;
 use App\Entity\Account;
 use App\Service\User\UserService;
 use App\Form\Search\SearchPostType;
+use App\Repository\ApplicationRepository;
 use App\Repository\IdentityRepository;
 use App\Repository\PostingRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -26,6 +27,7 @@ class ExpertController extends AbstractController
     public function index(
         Request $request,
         PostingRepository $postingRepository,
+        ApplicationRepository $applicationRepository,
         PaginatorInterface $paginatorInterface
     ): Response
     {        
@@ -34,6 +36,8 @@ class ExpertController extends AbstractController
         if(!$identity instanceof Identity){
             return $this->redirectToRoute('app_account');
         }
+
+        $applies = $applicationRepository->findApplicationsByUser($identity);
 
         $postSearch = new SearchPostData();
         $form = $this->createForm(SearchPostType::class, $postSearch);
@@ -53,10 +57,16 @@ class ExpertController extends AbstractController
             6
         );
 
+        $applications = $paginatorInterface->paginate(
+            $applies,
+            $request->query->getInt('page', 1),
+            6
+        );
 
         return $this->render('expert/index.html.twig', [
             'identity' => $identity,
             'postings' => $postings,
+            'applications' => $applications,
             'form' => $form->createView()
         ]);
     }
@@ -74,6 +84,7 @@ class ExpertController extends AbstractController
         /** @var $account */
         $account = $identity->getAccount();
         if(!$account instanceof Account) return $this->redirectToRoute('app_profile_account');
+        if ($identity->getAccount() instanceof Account && $identity->getAccount()->getSlug() === "ressource" ) return $this->redirectToRoute('app_company_profile', []);
         
         if($identity->getSectors()->isEmpty()){
             $this->addFlash('danger', 'Selectionnez votre secteur d\'activité');
