@@ -46,8 +46,11 @@ class PostingRepository extends ServiceEntityRepository
     public function findValid(): array
     {
         return $this->createQueryBuilder('p')
+            ->select('p, COUNT(v.id) as HIDDEN num_views')
+            ->leftJoin('p.views', 'v')
             ->andWhere('p.valid = 1')
-            ->orderBy('p.id', 'ASC')
+            ->groupBy('p.id')
+            ->orderBy('num_views', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -70,7 +73,7 @@ class PostingRepository extends ServiceEntityRepository
     {
 
         $query = $this->createQueryBuilder('p')
-            ->select('s', 'p')
+            ->select('s, p, COUNT(v.id) as HIDDEN num_views')
             ->join('p.skills', 's')
         ;
         if(!empty($seachData->q)){

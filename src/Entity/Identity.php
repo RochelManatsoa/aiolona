@@ -136,6 +136,9 @@ class Identity implements Serializable
     #[ORM\OneToMany(mappedBy: 'identity', targetEntity: IdentityLike::class)]
     private Collection $likes;
 
+    #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Application::class)]
+    private Collection $applications;
+
 
     public function __construct()
     {
@@ -152,6 +155,7 @@ class Identity implements Serializable
         $this->skillNotes = new ArrayCollection();
         $this->identityViews = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     public function __toString()
@@ -800,5 +804,35 @@ class Identity implements Serializable
         }
         
         return false;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setIdentity($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getIdentity() === $this) {
+                $application->setIdentity(null);
+            }
+        }
+
+        return $this;
     }
 }

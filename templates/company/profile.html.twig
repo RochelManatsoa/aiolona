@@ -1,0 +1,95 @@
+{% extends 'company/layout/_base.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+
+
+<div class="xl:pl-60 xl:mr-0">
+
+    <!-- Jumbotron -->
+    {% include 'components/jumbotron.html.twig' with {
+        title: 'Votre profil employeur',
+        content: 'Ce que les candidats voient sur mon profil.'
+      } 
+    %}
+    <!-- Jumbotron -->
+    <a
+    href="{{ path('app_profile_ia')}}"
+    class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+    Modifier
+  </a>
+  <div class="container mx-auto px-4 py-8 overflow-y-visible">
+    <div class="flex flex-row flex-wrap -mx-2">
+      <!-- Colonne 1/3 avec fond sombre, sticky en haut -->
+      <div class="w-full md:w-1/3 px-2">
+        <div class="bg-neutral-700 text-white p-4 sticky rounded-lg top-0 min-h-screen items-center flex flex-col">
+        {% if identity.filename is not empty %}  
+        <img src="{{ vich_uploader_asset(identity, 'file') }}" alt="Avatar" class="w-40 h-40 rounded-full">
+        {% else %}
+        <img src="{{asset('/svg/company_icon.svg')}}" class="rounded-full w-40 h-40" alt="{{ identity.firstName }}" loading="lazy">
+        {% endif %}
+            <h2 class="text-2xl font-bold mt-4 text-center">
+              {{ company.name }}
+            </h2>
+            <p class="text-center text-sm mb-4 flex flex-row items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+              </svg>
+              {{ show_country(company.country) }}
+            </p>
+            <div class="flex flex-col">
+            <div class="flex text-center">
+                <div class="flex-1 py-4">
+                    <p class="text-xl">{{ identity.identityViews|length }}</p>
+                    <p class="text-sm text-gray-400">Vues</p>
+                </div>
+                <div class="flex-1 py-4">
+                    <p class="text-xl">{{ identity.likes|length}}</p>
+                    <p class="text-sm text-gray-400">J'aime</p>
+                </div>
+            </div>
+              <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                  <div class="overflow-hidden">
+                    <h2 class="text-xl font-semibold mt-4 text-center">
+                      Statistique
+                    </h2>
+                    <p class="text-center mb-4 text-sm">
+                      depuis la création du compte
+                    </p>
+                    <!-- Tabs -->
+                    {% include 'components/table/_stats_company.html.twig' with {
+                      company: company,
+                    } %}
+                  <!-- Tabs -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Colonne 2/3 -->
+        <div class="w-full md:w-2/3 px-2">
+          <div class="p-4 h-full">
+            <!-- Tabs -->
+            {% include 'components/tabs/_presentation.html.twig' with {
+                  identity: identity,
+                  class: true,
+                  stars: getStars(identity),
+                  skills: getSkills(identity),
+                  owner: true
+              } %}
+          <!-- Tabs -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

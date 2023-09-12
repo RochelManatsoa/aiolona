@@ -98,5 +98,38 @@
 
     </div>
 
+  <script type="text/javascript">
+
+    const elements = document.querySelectorAll('.js-remove');
+    console.log(elements)
+    if (elements.length > 0) {
+      elements.forEach((element) => {    
+        element.addEventListener("click", function(event) {
+            event.preventDefault();
+    
+            // Demander confirmation
+            const userConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cet élément ?");
+            
+            if (userConfirmed) {
+                const url = element.getAttribute('data-href');    
+                const clickedLink = this;
+    
+                axios.post(url).then(function (response) {
+                    // Supprimer le grand-parent de l'élément clickedLink du DOM
+                    if (clickedLink.parentNode && clickedLink.parentNode.parentNode) {
+                        clickedLink.parentNode.parentNode.remove();
+                    }
+                });
+            } else {
+                // L'utilisateur a annulé l'action
+                console.log("Action annulée par l'utilisateur.");
+            }
+        });
+    });
+    
+    }else {
+      console.log("No elements with the class .js-remove were found.");
+    }
+    </script>
   {% endblock %}
   

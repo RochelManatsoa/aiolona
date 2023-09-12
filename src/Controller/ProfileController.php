@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Account;
 use App\Form\IaType;
 use App\Form\AccType;
 use App\Form\ExpType;
@@ -60,9 +61,9 @@ class ProfileController extends AbstractController
             $identity->setLastName($user->getLastName());
         }
 
-        if ($identity->getCompagny() instanceof Compagny) {
-            return $this->redirectToRoute('app_dashboard', []);
-        }
+        if ($identity->getCompagny() instanceof Compagny) return $this->redirectToRoute('app_dashboard', []);
+        if ($identity->getAccount() instanceof Account && $identity->getAccount()->getSlug() === "ressource" ) return $this->redirectToRoute('app_company_profile', []);
+        if ($identity->getAccount() instanceof Account && $identity->getAccount()->getSlug() === "expert" ) return $this->redirectToRoute('app_profile_sector', []);
 
         $form = $this->createForm(AccType::class, $identity, []);
         $form->handleRequest($request);
