@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Data\SeachData;
 use App\Entity\Account;
+use App\Entity\Compagny;
 use App\Entity\Identity;
 use App\Service\Cart\CartService;
 use App\Service\User\UserService;
@@ -34,6 +35,7 @@ class CompanyController extends AbstractController
         $identity = $this->userService->getCurrentIdentity();
         if(!$identity instanceof Identity) return $this->redirectToRoute('app_account');
         if($identity->getAccount()->getSlug() === Account::EXPERT) return $this->redirectToRoute('app_expert');
+        if(!$identity->getCompagny() instanceof Compagny) return $this->redirectToRoute('app_company_profile');
 
         return $this->render('company/index.html.twig', $this->checkUserInfo());
     }
