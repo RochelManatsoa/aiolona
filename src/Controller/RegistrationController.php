@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
@@ -22,6 +23,7 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request, 
+        RequestStack $requestStack,
         UserPasswordHasherInterface $userPasswordHasher, 
         EntityManagerInterface $entityManager,
         MailerService $mailerService, 
@@ -31,6 +33,10 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        $typology = $request->query->get('typology');
+        if ($typology) {
+            $requestStack->getSession()->set('typology', $typology);
+        }
         
         if ($form->isSubmitted() && $form->isValid()) {
             // token

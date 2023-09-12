@@ -49,6 +49,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
             new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
                 /** @var GoogleUser $googleUser */
                 $googleUser = $client->fetchUserFromToken($accessToken);
+                $typology = $this->requestStack->getSession()->get('typology', null);
 
                 $email = $googleUser->getEmail();
                 $tokenRegistration = $this->tokenGeneratorInterface->generateToken();
@@ -61,10 +62,14 @@ class GoogleAuthenticator extends OAuth2Authenticator
                 if (!$existingUser) {
                     $new = true;
                     $existingUser = new User();
+                    $identity = $this->identityManager->init();
+                    $identity->setFirstName($googleUser->getFirstName());
+                    $identity->setLastName($googleUser->getLastName());
                     $existingUser->setEmail($email);
                     $existingUser->setGoogleId($googleUser->getId());
                     $existingUser->setTokenRegistration($tokenRegistration);
-                    $existingUser->setIdentity($this->identityManager->init());
+                    $existingUser->setIdentity($identity);
+                    $this->em->persist($identity);
                 }
                 $existingUser->setFirstName($googleUser->getFirstName());
                 $existingUser->setLastName($googleUser->getLastName());
@@ -85,10 +90,10 @@ class GoogleAuthenticator extends OAuth2Authenticator
                             'lifeTimeToken' => $existingUser->getTokenLifeTime()->format('d/M/Y à Hh:i')
                         ]
                     );
+                    $this->requestStack->getSession()->getFlashBag()->add('info', 'Votre compte a bien été crée, veuillez vérifier vos e-mails pour l\'activer.');
                 }
 
     
-                $this->requestStack->getSession()->getFlashBag()->add('info', 'Votre compte a bien été crée, veuillez vérifier vos e-mails pour l\'activer.');
 
                 return $existingUser;
             })
@@ -105,7 +110,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
         TokenInterface $token, 
         $providerKey) : Response
     {
-        $targetUrl = $this->router->generate('app_login');
+        $targetUrl = $this->router->generate('app_dashboard');
 
         return new RedirectResponse($targetUrl);
     }

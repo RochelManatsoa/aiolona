@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use App\Entity\Account;
 use DateTime;
 use App\Entity\Compagny;
 use App\Entity\Identity;
@@ -11,35 +12,28 @@ use Symfony\Component\Form\Form;
 use App\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class IdentityManager
 {
-    private $em;
-    private $twig;
-    private $sluggerInterface;
-    private $accountRepository;
-    private $security;
-
     public function __construct(
-        EntityManagerInterface $em,
-        Twig $twig,
-        SluggerInterface $sluggerInterface,
-        AccountRepository $accountRepository,
-        Security $security
+        private EntityManagerInterface $em,
+        private Twig $twig,
+        private SluggerInterface $sluggerInterface,
+        private AccountRepository $accountRepository,
+        private RequestStack $requestStack,
+        private Security $security
     )
     {
-        $this->em = $em;
-        $this->twig = $twig;
-        $this->sluggerInterface = $sluggerInterface;
-        $this->security = $security;
-        $this->accountRepository = $accountRepository;
+        
     }
 
     public function init()
     {
         $identity = new Identity();
         $identity->setCreatedAt(new DateTime());
+        $identity->setAccount($this->getTypologie());
         $identity->setUsername(new Uuid(Uuid::v1()));
         $identity->setAvatar("https://www.jea.com/cdn/images/avatar-gray.png");
         
@@ -67,5 +61,13 @@ class IdentityManager
 
         return $identity;
 
+    }
+
+    private function getTypologie(): ?Account
+    {
+        $typology = $this->requestStack->getSession()->get('typology');
+        $account = $this->accountRepository->findOneBy([ 'slug' => $typology]);
+        if($account instanceof Account) return $account;
+        return null;
     }
 }

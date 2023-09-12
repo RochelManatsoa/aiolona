@@ -65,12 +65,20 @@ class Posting
     #[ORM\ManyToMany(targetEntity: AIcores::class, inversedBy: 'postings')]
     private Collection $skills;
 
+    #[ORM\OneToMany(mappedBy: 'posting', targetEntity: PostingViews::class)]
+    private Collection $views;
+
+    #[ORM\OneToMany(mappedBy: 'posting', targetEntity: Application::class)]
+    private Collection $applications;
+
     public function __construct()
     {
         $this->sector = new ArrayCollection();
         $this->jobId = new Uuid(Uuid::v1());
         $this->schedulePostings = new ArrayCollection();
         $this->skills = new ArrayCollection();
+        $this->views = new ArrayCollection();
+        $this->applications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -305,6 +313,66 @@ class Posting
     public function removeSkill(AIcores $skill): static
     {
         $this->skills->removeElement($skill);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostingViews>
+     */
+    public function getViews(): Collection
+    {
+        return $this->views;
+    }
+
+    public function addView(PostingViews $view): static
+    {
+        if (!$this->views->contains($view)) {
+            $this->views->add($view);
+            $view->setPosting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeView(PostingViews $view): static
+    {
+        if ($this->views->removeElement($view)) {
+            // set the owning side to null (unless already changed)
+            if ($view->getPosting() === $this) {
+                $view->setPosting(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Application>
+     */
+    public function getApplications(): Collection
+    {
+        return $this->applications;
+    }
+
+    public function addApplication(Application $application): static
+    {
+        if (!$this->applications->contains($application)) {
+            $this->applications->add($application);
+            $application->setPosting($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApplication(Application $application): static
+    {
+        if ($this->applications->removeElement($application)) {
+            // set the owning side to null (unless already changed)
+            if ($application->getPosting() === $this) {
+                $application->setPosting(null);
+            }
+        }
 
         return $this;
     }

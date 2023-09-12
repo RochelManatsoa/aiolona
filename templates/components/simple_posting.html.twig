@@ -7,7 +7,16 @@
   
     </div>
     <div class="p-4">
-      <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{ posting.title }}</div>
+      <div class="uppercase tracking-wide text-sm text-inddivigo-500 font-semibold">
+        <a href="{{ path('app_posting_view', {'jobId': posting.jobId }) }}">
+          {{ posting.title }}</div>
+        </a>
+        <div class="flex items-center">
+          <div class="bg-green-500 w-4 h-4 rounded-full"></div>
+            <span class="ml-2 text-slate-500">Ouvert | {{ posting.views|length }} vues | {{ posting.applications|length }} offres</span>
+          </div>
+
+      
       Outils IA : 
       {% for skill in posting.skills %}
 
@@ -17,7 +26,7 @@
 
       {% endfor %}
         <span class="inline-block whitespace-nowrap rounded-full bg-dark-100 px-[0.65em] pb-[0.25em] pt-[0.35em] text-center align-baseline text-[0.75em] font-bold leading-none text-dark-700">
-          {{ posting.number }} Vues
+          {{ posting.views|length }} Vues
         </span>
 
       <div class="mt-2 text-slate-500 text-xs">{{ posting.desctiption|slice(0, 400)|raw }} ...</div>

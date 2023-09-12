@@ -108,6 +108,14 @@ class ProfileCatalogController extends AbstractController
         return new BinaryFileResponse($file);
     }
 
+    #[Route('/company/{username}', name: 'app_profile_company')]
+    public function company(Sector $sector, IdentityRepository $identityRepository): Response
+    {
+        return $this->render('profile_catalog/sector.html.twig', [
+            'identities' => $identityRepository->findBySector($sector->getSlug()),
+        ]);
+    }
+
     #[Route('/experts/{username}/like', name: 'app_profile_like')]
     public function like(
         Identity $identity, 
