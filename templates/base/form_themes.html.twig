@@ -11,9 +11,23 @@
 {%- endblock -%}
 
 {%- block checkbox_widget -%}
-    {%- set widget_class = widget_class|default('mr-2 rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50') -%}
+    {%- set widget_class = 'hidden' -%} {# Cachez le vrai checkbox #}
     {{- parent() -}}
+    <span class="w-6 h-6 my-4 mx-4 rounded-full border-4 border-gray-300 inline-block cursor-pointer relative">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="absolute inset-0 flex items-center justify-center text-white opacity-0" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+    </span>
+    <style>
+        input[type="checkbox"]:checked + span {
+            border-color: blue;
+        }
+        input[type="checkbox"]:checked + span svg {
+            opacity: 1; {# Affiche l'icône quand la case à cocher est sélectionnée #}
+        }
+    </style>
 {%- endblock -%}
+
 
 {%- block checkbox_label -%}
     {%- set label_class = label_class|default('block text-gray-800') -%}

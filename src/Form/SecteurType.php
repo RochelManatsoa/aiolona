@@ -21,6 +21,10 @@ class SecteurType extends AbstractType
                 'choice_label' => 'name', 
                 'multiple' => true, 
                 'expanded' => true, 
+                // 'attr' => ['class' => 'custom-checkbox'],
+                // 'choice_attr' => function($choice, $key, $value) {
+                //     return ['class' => 'sector-checkbox'];
+                // },
             ])
         ;
     }

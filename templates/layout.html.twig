@@ -17,7 +17,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   </head>
 
-  {% include 'layout/_navbar.html.twig' %}
+  {# {% if isAjaxRequest is defined and isAjaxRequest is true %} #}
+    {% include 'layout/_navbar.html.twig' %}
+  {# {% endif %} #}
 
   <body class="flex flex-col min-h-screen">
     <main id="swup" class="flex-grow bg-[#FBFBFB]">
@@ -26,5 +28,7 @@
     </main>
   </body>
   {% block javascript %}{% endblock %}
-  {% include 'layout/_footer.html.twig' %}
+  {# {% if isAjaxRequest is defined and isAjaxRequest is true %} #}
+      {% include 'layout/_footer.html.twig' %}
+  {# {% endif %} #}
 </html>

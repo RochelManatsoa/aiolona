@@ -38,7 +38,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/create-profile, roles: ROLE_USER }
         - { path: ^/account, roles: ROLE_USER }
         - { path: ^/dashboard, roles: ROLE_USER }
@@ -46,7 +46,7 @@ security:
         - { path: ^/create-session-stripe, roles: ROLE_USER }
         - { path: ^/compagny, roles: ROLE_USER }
         - { path: ^/import, roles: ROLE_USER }
-        - { path: ^/posting, roles: ROLE_USER }
+        # - { path: ^/posting, roles: ROLE_USER }
 
 when@test:
     security:

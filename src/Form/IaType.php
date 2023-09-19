@@ -41,6 +41,7 @@ class IaType extends AbstractType
                 'autocomplete' => true,
                 'attr' => [
                     'data-controller' => 'technical-add-autocomplete',
+                    'palcehoder' => "Domaine d'expertise",
                 ],
                 'tom_select_options' => [
                     'create' => true,

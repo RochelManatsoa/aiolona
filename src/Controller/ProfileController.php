@@ -59,6 +59,7 @@ class ProfileController extends AbstractController
             $identity->setUser($this->getUser());
             $identity->setFirstName($user->getFirstName());
             $identity->setLastName($user->getLastName());
+            $identityManager->save($identity);
         }
 
         if ($identity->getCompagny() instanceof Compagny) return $this->redirectToRoute('app_dashboard', []);
@@ -84,11 +85,16 @@ class ProfileController extends AbstractController
         Request $request,
         IdentityManager $identityManager,
     ): Response {
+        /** @var User $user  */
+        $user = $this->getUser();
         $identity = $this->userService->getCurrentIdentity();
 
         if (!$identity instanceof Identity) {
             $identity = $identityManager->init();
             $identity->setUser($this->getUser());
+            $identity->setFirstName($user->getFirstName());
+            $identity->setLastName($user->getLastName());
+            $identityManager->save($identity);
         }
         $form = $this->createForm(SecteurType::class, $identity, []);
         $form->handleRequest($request);

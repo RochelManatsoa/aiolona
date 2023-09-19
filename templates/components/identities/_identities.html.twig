@@ -1,0 +1,10 @@
+
+{% for identity in identities %}
+    {{ component('simple_card',{
+            identity: identity,
+            url: path('app_profile_expert', {'username' : identity.username} ),
+            stars: getStars(identity),
+            imgUrl: vich_uploader_asset(identity, 'file')
+        })
+    }}
+{% endfor %}

@@ -2,17 +2,21 @@
 
 namespace App\Controller;
 
+use App\Data\SeachData;
 use App\Entity\AIcores;
-use App\Entity\Experience;
-use App\Entity\Identity;
 use App\Entity\Message;
 use App\Entity\Posting;
+use App\Entity\Identity;
+use App\Entity\Experience;
 use App\Entity\TechnicalSkill;
 use App\Manager\AiNoteManager;
+use App\Form\Search\SearchType;
 use App\Manager\PostingManager;
 use App\Manager\SkillNoteManager;
 use App\Repository\AINoteRepository;
+use App\Repository\AIcoresRepository;
 use App\Repository\MessageRepository;
+use App\Repository\IdentityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -226,6 +230,44 @@ class AjaxController extends AbstractController
 
         return $this->json([
             'content' => "Experience effacé"
+        ], 200, []);
+    }
+
+    #[Route('/store/ajax', name: 'app_store_ajax')]
+    public function store(
+        AIcoresRepository $aIcoresRepository,
+        Request $request,
+    ): Response
+    {
+        $offset = $request->query->get('offset', 0);
+        $aicores = $aIcoresRepository->findBy([
+            'type' => 'publish'
+        ], null, 12, $offset);
+
+
+        return  $this->json([
+            'html' => $this->renderView('components/product/_product.html.twig', [
+                'aicores' => $aicores,
+            ], []),
+        ], 200, []);
+    }
+
+    #[Route('/all/expert/ajax', name: 'app_all_expert_ajax')]
+    public function allExpert(
+        IdentityRepository $identityRepository,
+        Request $request,
+    ): Response
+    {
+        $offset = $request->query->get('offset', 0);
+        $dataType = new SeachData();
+        $form = $this->createForm(SearchType::class, $dataType);
+        $form->handleRequest($request);
+        $identities = $identityRepository->findSearch($dataType, 13, $offset);
+
+        return  $this->json([
+            'html' => $this->renderView('components/identities/_identities.html.twig', [
+                'identities' => $identities,
+            ], []),
         ], 200, []);
     }
 
