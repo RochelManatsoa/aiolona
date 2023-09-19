@@ -67,8 +67,8 @@ ia:
   label: Quels outils AI maitrisez-vous?
 
 experience:
-  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
-  label: Si vous avez une expérience pertinente, ajoutez-la ici.
+  label: Vos expériences
+  intro: Si vous avez une expérience pertinente, ajoutez-la ici.
 
 language:
   intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
@@ -79,12 +79,12 @@ rate:
   label: C'est bien. Ensuite, indiquez-nous tarif moyen journalier.
 
 overview:
-  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
-  label: Génial ! Maintenant rédigez une biographie pour vous présenter au monde.
+  label: Rédigez votre biographie
+  intro: Génial ! Maintenant rédigez une biographie pour vous présenter au monde.
 
 photo:
-  intro: Ces informations seront affichées publiquement, veuillez donc faire attention à ce que vous partagez.
-  label: Quelques derniers détails, ensuite vous pourrez vérifier et publier votre profil.
+  intro: Quelques derniers détails, ensuite vous pourrez vérifier et publier votre profil.
+  label: Informations supplémentaires
 
 account:
   offer: Améliorez la pertinence de vos offres

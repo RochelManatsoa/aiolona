@@ -71,7 +71,7 @@ class IdentityRepository extends ServiceEntityRepository
    /**
     * @return Identity[] Returns an array of Identity objects
     */
-   public function findSearch(SeachData $seachData): array
+   public function findSearch(SeachData $seachData, int $max = 13, int $offset = null): array
    {
         $query = $this->createQueryBuilder('i')
             ->select('i, s, COUNT(v.id) as HIDDEN num_views')
@@ -84,6 +84,8 @@ class IdentityRepository extends ServiceEntityRepository
             ->andWhere('i.username IS NOT NULL')
             ->groupBy('i.id, s.id')
             ->orderBy('num_views', 'DESC')
+            ->setMaxResults($max)
+            ->setFirstResult($offset)
         ;
 
         if(!empty($seachData->q)){

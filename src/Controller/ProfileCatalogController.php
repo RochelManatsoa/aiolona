@@ -25,20 +25,15 @@ class ProfileCatalogController extends AbstractController
     public function index(
         IdentityRepository $identityRepository,
         Request $request,
-        PaginatorInterface $paginatorInterface
     ): Response {
 
         $dataType = new SeachData();
         $form = $this->createForm(SearchType::class, $dataType);
         $form->handleRequest($request);
         $data = $identityRepository->findSearch($dataType);
-        $identities = $paginatorInterface->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            8
-        );
+
         return $this->render('profile_catalog/catalog.html.twig', [
-            'identities' => $identities,
+            'identities' => $data,
             'form' => $form->createView()
         ]);
     }
