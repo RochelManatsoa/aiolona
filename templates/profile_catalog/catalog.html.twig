@@ -31,36 +31,50 @@ style="
 </div>
 </div>
 
-<div class="container mx-auto bg-[#FBFBFB]">
-  <div class="md:flex gap-6">
-    <div class="md:w-3/12 p-8">
-        <h2 class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Trouvez des experts en IA rapidement</h2>
-        {% include "base/_filter.html.twig" with {form : form} %}
+<div class="container my-24 mx-auto md:px-6">
+  <!-- Section: Design Block -->
+  <section class="mb-32 text-center lg:text-left" id="produit-container">
+    <h2 class="mb-12 text-center text-3xl font-bold">
+    Olona's Selection: The Best Expertise Solutions
+    </h2>
+    <div class="flex flex-wrap justify-center">
+     <!--Button trigger vertically centered scrollable modal-->
+        <button
+        type="button"
+        class="inline-block rounded-full bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+        data-te-toggle="modal"
+        data-te-target="#exampleModalCenteredScrollable"
+        data-te-ripple-init
+        data-te-ripple-color="light">
+        Filter
+      </button>
+      <div
+        data-te-chip-init
+        data-te-ripple-init
+        class="[word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] bg-[#eceff1] px-[12px] py-0 text-[13px] font-normal normal-case leading-loose text-[#4f4f4f] shadow-none transition-[opacity] duration-300 ease-linear hover:!shadow-none active:bg-[#cacfd1] dark:bg-neutral-600 dark:text-neutral-200"
+        data-te-close="true">
+        Text
+      </div>
+      <div
+        data-te-chip-init
+        data-te-ripple-init
+        class="[word-wrap: break-word] my-[5px] mr-4 flex h-[32px] cursor-pointer items-center justify-between rounded-[16px] bg-[#eceff1] px-[12px] py-0 text-[13px] font-normal normal-case leading-loose text-[#4f4f4f] shadow-none transition-[opacity] duration-300 ease-linear hover:!shadow-none active:bg-[#cacfd1] dark:bg-neutral-600 dark:text-neutral-200"
+        data-te-close="true">
+        Text
+      </div>
     </div>
-    <div class="md:w-9/12 p-8">
-        <div class="tracking-wide text-sm text-indigo-500 font-semibold">Experts</div>
-        <div class="flex flex-wrap justify-center space-x-4 space-y-4">
-        {% for identity in identities %}
-            {{ component('simple_card',{
-                    identity: identity,
-                    url: path('app_profile_expert', {'username' : identity.username} ),
-                    stars: getStars(identity),
-                    imgUrl: vich_uploader_asset(identity, 'file')
-                })
-            }}
-        {% endfor %}
-        </div>
+      <div class="flex flex-wrap space-y-4 produit-item">
+      {% include 'components/identities/_identities.html.twig' with {'identities': identities} %}
+      <div id="loader" style="display:none;">
+        <!-- Vous pouvez mettre une image ou une animation CSS ici -->
+        Chargement...
+      </div>
+      </div>
 
-        <nav class="flex items-center justify-center mt-4">
-        {% do identities.setPageRange(2) %}
-        {{ knp_pagination_render(identities, 'base/pagination.html.twig')}}
-        </nav>
-    </div>
-
-  </div>
+  </section>
 </div>
-
-
+{% include 'components/modal/_expertForm.html.twig' with {'form' : form } %}
+<script src="{{ asset('assets/js/loadMoreExpert.js') }}"></script>
 
 {% endblock %}
     

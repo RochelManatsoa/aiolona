@@ -15,36 +15,66 @@
 
       <!--Modal body-->
       <div class="relative p-4">
-        <p class="text-2xl m-4 text-center font-bold">Créer un compte</p>
+        <p class="text-2xl m-4 text-center font-bold">Inscrivez-vous gratuitement</p>
         <div
           class="block rounded-lg bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-          <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a
-            href="{{ path('app_register') }}?typology=expert"
-            id="expert"
-            class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-            data-te-ripple-init
-            data-te-ripple-color="light">
-            Je suis un prestataire
-          </a>
+          
+          <a href="{{ path('app_register') }}?typology=expert">
+          
+          <div class="flex rounded-lg bg-white">
+          <!-- Première colonne pour l'image -->
+          <div class="w-1/5 flex items-center justify-center p-3 m-2">
+            <img src="{{ asset('/svg/company_icon.svg') }}" alt="company" class="object-cover"></div>
+
+            <!-- Deuxième colonne pour le texte -->
+            <div class="w-3/5 flex flex-col justify-center p-2">
+              <p class=" text-xl font-medium text-neutral-800 dark:text-neutral-50">
+                Expert
+              </p>
+              <p class="">
+                <span class="text-xs mx-2">
+                  Je cherche des projets  
+                </span>
+              </p>
+            </div>
+            <div class="w-1/5 flex flex-col justify-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+          
+            </div>
+          </div>
+        </a>
         </div>
         <div
           class="block rounded-lg bg-white p-6 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
-          <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a
-            href="{{ path('app_register') }}?typology=ressource"
-            id="company"
-            class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-            data-te-ripple-init
-            data-te-ripple-color="light">
-            J'ai un projet à réaliser
-          </a>
+          
+          <a href="{{ path('app_register') }}?typology=expert">
+          
+          <div class="flex rounded-lg bg-white">
+          <!-- Première colonne pour l'image -->
+          <div class="w-1/5 flex items-center justify-center p-3 m-2">
+            <img src="{{ asset('/svg/company_icon.svg') }}" alt="company" class="object-cover"></div>
+
+            <!-- Deuxième colonne pour le texte -->
+            <div class="w-3/5 flex flex-col justify-center p-2">
+              <p class=" text-xl font-medium text-neutral-800 dark:text-neutral-50">
+                Client
+              </p>
+              <p class="">
+                <span class="text-xs mx-2">
+                  J'ai un projet à réaliser   
+                </span>
+              </p>
+            </div>
+            <div class="w-1/5 flex flex-col justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+            </svg>
+          
+            </div>
+          </div>
+        </a>
+        </div>
         </div>
       </div>
 

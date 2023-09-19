@@ -1,0 +1,30 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Store{% endblock %}
+
+{% block body %}
+<!-- Container for demo purpose -->
+<div class="container my-24 mx-auto md:px-6">
+  <!-- Section: Design Block -->
+  <section class="mb-32 text-center lg:text-left" id="produit-container">
+    <h2 class="mb-12 text-center text-3xl font-bold">
+        The Guide to Innovations in Artificial Intelligence
+    </h2>
+
+    <div class="grid gap-x-6 lg:grid-cols-3 produit-item" >
+
+    {% include 'components/product/_product.html.twig' with {'aicores': aicores} %}
+    <div id="loader" style="display:none;">
+      <!-- Vous pouvez mettre une image ou une animation CSS ici -->
+      Chargement...
+    </div>
+  
+    </div>
+
+  </section>
+  <!-- Section: Design Block -->
+</div>
+<!-- Container for demo purpose -->
+
+<script src="{{ asset('assets/js/loadMore.js') }}"></script>
+{% endblock %}

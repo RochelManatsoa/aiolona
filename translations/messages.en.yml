@@ -67,8 +67,8 @@ ia:
   label: What AI tools are you proficient in?
 
 experience:
-  intro: This information will be displayed publicly, so please be mindful of what you share.
-  label: If you have relevant experience, please add it here.
+  label: Your experiences
+  intro: If you have relevant experience, please add it here.
 
 language:
   intro: This information will be displayed publicly, so please be mindful of what you share.
@@ -79,11 +79,11 @@ rate:
   label: Great. Next, please indicate your average daily rate.
 
 overview:
-  intro: This information will be displayed publicly, so please be mindful of what you share.
-  label: Great! Now, write a biography to introduce yourself to the world.
+  label: Write your biography
+  intro: Great! Now, write a biography to introduce yourself to the world.
 
 photo:
-  intro: This information will be displayed publicly, so please be mindful of what you share.
+  intro: Additional information
   label: Just a few final details, then you'll be able to review and publish your profile.
 
 account:

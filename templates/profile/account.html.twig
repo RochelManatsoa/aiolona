@@ -5,39 +5,66 @@
 {% endblock %}
 
 {% block body %}
+<!-- Container for demo purpose -->
+<div class="container my-24 mx-auto md:px-6">
+  <!-- Section: Design Block -->
+  <section class="flex flex-col mb-32 text-center justify-center lg:text-left">
 
-  <div class="mt-8 flex justify-center " id="nav">
-    <div class="w-full max-w-lg">
+  <div class="relative flex flex-col justify-center overflow-hidden">
+    <div class="mx-auto max-w-2xl">
+
+
+    {{ form_start(form) }} 
+    <div class="flex flex-wrap justify-center gap-4">
+      {% for account in form.account %}
+          <label class="relative cursor-pointer">
+            {{ form_widget(account, {'attr': {'class': 'sr-only peer'}}) }}
+            <!-- Votre code HTML/CSS/JS personnalisé ici -->
+            <span class="absolute top-2 right-2 z-10 transition-all opacity-0 peer-checked:opacity-100 ">
+              <svg xmlns="http://www.w3.org/2000/svg" class="fill-blue-500 stroke-white" width="36" height="36" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                <path d="M9 12l2 2l4 -4"></path>
+              </svg>
+            </span>
+            <div class="overflow-hidden rounded-lg bg-white shadow-md ring ring-transparent peer-checked:ring-blue-500 grayscale peer-checked:grayscale-0 active:scale-95 transition-all">
+                <div>
+                    <img src="{{ asset('/images/' ~ account.vars.label ~ '.png') }}" class="h-28 w-48 object-cover" alt="{{ account.vars.label }}">
+                </div>
+                <header class="p-2.5">
+                    <p class="text-lg font-bold tracking-wide text-gray-700">
+                        {{ account.vars.label }}
+                    </p>
+                    <p class="text-sm text-gray-400">
+                    {{ show_account_desc(account.vars.value) }}
+                    </p>
+                </header>
+            </div>
+          </label>
+      {% endfor %}
+    </div>
+    <div
+      class="flex flex-shrink-0 flex-wrap items-center justify-center rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+      <button
+        type="submit"
+        id="get_started"
+        class="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+        data-te-ripple-init
+        data-te-ripple-color="light">
+        {{ 'profile.create'|trans }} 
+      </button>
+    </div>
+{{ form_end(form) }}
+
     
-      {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
-      ) }} 
-            
-      <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">
-          {{ 'select.label'|trans }}                  
-        </h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">
-          {{ 'select.intro'|trans }}                 
-        </p>
-        <div class="space-y-10">
-          <div class="mt-4">
-            {{ form_widget(form) }}
-          </div>
-        </div>
-      </div>
-      <div
-        class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
-        <button
-          type="submit"
-          id="get_started"
-          class="ml-1 inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-          data-te-ripple-init
-          data-te-ripple-color="light">
-          {{ 'profile.create'|trans }} 
-        </button>
-      </div>
-      {{ form_end(form) }}
+      
     </div>
   </div>
+</section>
+<!-- Section: Design Block -->
+</div>
+<!-- Container for demo purpose -->
+
+
 
 {% endblock %}

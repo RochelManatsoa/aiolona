@@ -5,27 +5,31 @@
 {% endblock %}
 
 {% block body %}
-
-  <div class="flex justify-center ">
-    <div class="w-full max-w-lg">
-      {{ form_start(form,  {'attr': {'class': 'bg-white shadow-lg rounded p-8' }}
-      ) }} 
-      
-            
-      <div class="border-b border-gray-900/10 pb-12" id="nav">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">
-          {{ 'ia.label'|trans }}
-        </h2>
-        <p class="mt-1 text-sm leading-6 text-gray-600">
-          {{ 'ia.intro'|trans }}
-        </p>
+<!-- Container for demo purpose -->
+<div class="container my-24 mx-auto md:px-6">
+<!-- Section: Design Block -->
+  <section class="flex flex-col mb-32 text-center justify-center lg:text-left">
+    <div class="mx-auto justify-left w-full max-w-lg">
+      <p class="mb-3 text-sm leading-6 text-gray-400">
+        2/7 Create your profile 
+        <svg class="inline-block ml-4 w-4 h-4 text-gray-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+        </svg> 
+        5 - 10 min 
+      </p>
+      <h2 class="mb-12 text-center text-3xl font-bold">
+      {{ 'ia.label'|trans }}
+      </h2>
+      <div class="mx-auto justify-center w-full max-w-lg">
+      <p class="mt-1 text-sm leading-6 text-gray-600">
+        {{ 'ia.intro'|trans }}                 
+      </p>
+      {{ form_start(form)}}                 
+      <div class="" id="nav">
         <div class="mt-10 space-y-10">
-          <fieldset>
-            <legend class="text-sm font-semibold leading-6 text-gray-900"></legend>
             <div class="mt-6 space-y-6">
               {{ form_widget(form) }}
             </div>
-          </fieldset>
         </div>
 
       </div>

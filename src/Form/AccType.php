@@ -18,7 +18,11 @@ class AccType extends AbstractType
                 'label' => false,
                 'required' => true,
                 'class' => Account::class,
-                'expanded' => true
+                'expanded' => true,
+                'multiple' => false,
+                'attr' => [
+                    'class' => 'sr-only peer',
+                ],
             ])
         ;
     }

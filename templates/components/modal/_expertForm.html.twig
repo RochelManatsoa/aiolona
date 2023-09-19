@@ -1,0 +1,72 @@
+<!--Verically centered scrollable modal-->
+<div
+  data-te-modal-init
+  class="fixed left-0 top-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
+  id="exampleModalCenteredScrollable"
+  tabindex="-1"
+  aria-labelledby="exampleModalCenteredScrollableLabel"
+  aria-modal="true"
+  role="dialog">
+  <div
+    data-te-modal-dialog-ref
+    class="pointer-events-none relative flex min-h-[calc(100%-1rem)] w-auto translate-y-[-50px] items-center opacity-0 transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:min-h-[calc(100%-3.5rem)] min-[576px]:max-w-[500px]">
+    <div
+      class="pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
+      <div
+        class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
+        <!--Modal title-->
+        <h5
+          class="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200"
+          id="exampleModalCenteredScrollableLabel">
+          Select Filters to Apply
+        </h5>
+        <!--Close button-->
+        <button
+          type="button"
+          class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
+          data-te-modal-dismiss
+          aria-label="Close">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-6 w-6">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!--Modal body-->
+      <div class="relative p-4">
+        {{ form_start(form) }}
+            {# {{ form_row(form.q) }} #}
+            <h4 class="text-md font-semibold"> Secteurs </h4>    
+            {{ form_row(form.sectors) }}
+            <h4 class="text-md font-semibold"> Outils IA </h4>    
+            {{ form_row(form.aicores) }}
+            <h4 class="text-md font-semibold"> Tarif journalier </h4>
+            <div class="flex">
+                <div class="w-1/2 p-2">
+                {{ form_row(form.min) }}
+                </div>
+                <div class="w-1/2 p-2">
+                {{ form_row(form.max) }}
+                </div>
+            </div>
+            <div id="slider" class="mb-6"></div>
+            <h4 class="text-md font-semibold"> Langues </h4>    
+            {{ form_row(form.langues) }}
+            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full">
+            Filtrer
+            </button>
+        {{ form_end(form) }}
+      </div>
+
+    </div>
+  </div>
+</div>
