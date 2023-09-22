@@ -17,6 +17,7 @@ use App\Repository\AINoteRepository;
 use App\Repository\AIcoresRepository;
 use App\Repository\MessageRepository;
 use App\Repository\IdentityRepository;
+use App\Repository\PostingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -240,10 +241,7 @@ class AjaxController extends AbstractController
     ): Response
     {
         $offset = $request->query->get('offset', 0);
-        $aicores = $aIcoresRepository->findBy([
-            'type' => 'publish'
-        ], null, 12, $offset);
-
+        $aicores = $aIcoresRepository->findSearch('publish', 12, $offset);
 
         return  $this->json([
             'html' => $this->renderView('components/product/_product.html.twig', [
@@ -267,6 +265,22 @@ class AjaxController extends AbstractController
         return  $this->json([
             'html' => $this->renderView('components/identities/_identities.html.twig', [
                 'identities' => $identities,
+            ], []),
+        ], 200, []);
+    }
+
+    #[Route('/all/postings/ajax', name: 'app_all_postings_ajax')]
+    public function allPostings(
+        PostingRepository $postingRepository,
+        Request $request,
+    ): Response
+    {
+        $offset = $request->query->get('offset', 0);
+        $postings = $postingRepository->findValid(10, $offset);
+
+        return  $this->json([
+            'html' => $this->renderView('components/postings/_postings.html.twig', [
+                'postings' => $postings,
             ], []),
         ], 200, []);
     }

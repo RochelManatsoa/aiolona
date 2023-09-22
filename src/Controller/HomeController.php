@@ -14,6 +14,7 @@ use App\Repository\AccountRepository;
 use App\Repository\AIcoresRepository;
 use App\Repository\PostingRepository;
 use App\Repository\AIcategoryRepository;
+use App\Repository\SectorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,18 +30,23 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(
         PostingRepository $postingRepository,
+        SectorRepository $sectorRepository,
         Request $request,
         PaginatorInterface $paginatorInterface
     ): Response
     {
-        $data = $paginatorInterface->paginate(
-            $postingRepository->findValid(),
-            $request->query->getInt('page', 1),
-            6
-        );
+        $offset = $request->query->get('offset', 0);
+        $sectors = $sectorRepository->findAll();
+        $postings = $postingRepository->findValid(10, $offset);
+        // $data = $paginatorInterface->paginate(
+        //     $postingRepository->findValid(),
+        //     $request->query->getInt('page', 1),
+        //     6
+        // );
 
         return $this->render('home/index.html.twig', [
-            'postings' => $data,
+            'postings' => $postings,
+            'sectors' => $sectors,
         ]);
     }
 

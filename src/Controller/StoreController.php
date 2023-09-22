@@ -17,9 +17,7 @@ class StoreController extends AbstractController
     ): Response
     {
         $offset = $request->query->get('offset', 0);
-        $aicores = $aIcoresRepository->findBy([
-            'type' => 'publish'
-        ], null, 12, $offset);
+        $aicores = $aIcoresRepository->findSearch('publish', 12, $offset);
 
         return $this->render('store/index.html.twig', [
             'aicores' => $aicores,

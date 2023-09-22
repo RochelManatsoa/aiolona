@@ -1,4 +1,75 @@
+<!-- Container for demo purpose -->
+<div class="container my-4 mx-auto md:px-6">
+  <!-- Section: Design Block -->
+  <section class="mb-2 text-center lg:text-left">
+    <div
+      class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+      <div class="flex flex-wrap items-center">
+        <div class="block w-full shrink-0 grow-0 basis-auto">
+          <img src="{{ aicore.image }}" alt="{{ aicore.name }}"
+            class="w-full rounded-t-lg" />
+        </div>
+        <div class="w-full shrink-0 grow-0 basis-auto">
+          <div class="p-6">
+            <h2 class="display-5 mb-6 text-4xl font-bold text-primary dark:text-primary-400">
+            {{ aicore.name }}
+            </h2>
+            <div class="flex items-center">
+                {% for i in 1..5 %}
+                    {% if i <= 4 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                        </svg>
+                    {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 1L12.39 6.75H19.78L14.76 10.25L17.17 16L10 12.75L2.83 16L5.24 10.25L0.22 6.75H7.61L10 1Z" />
+                        </svg>
+                    {% endif %}
+                {% endfor %}
+              <span class="text-sm text-end text-gray-500">( {{aicore.aIcategories|length % 10}} )</span>
+            </div>
+            <p class="mb-12 text-neutral-500 dark:text-neutral-300">
+            {{ aicore.slogan }}
+            </p>
 
+            <div class="grid md:grid-cols-2 lg:gap-x-12">
+              <div class="mb-12 md:mb-0 flex justify-center items-center">
+                <!-- Required font awesome -->
+                <a
+                href="{{aicore.url}}"
+                target=_blank
+                data-te-ripple-init
+                data-te-ripple-color="light"
+                class="flex text-center items-center rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+                
+                </a>
+              </div>
+
+              <div class="flex justify-center items-center">
+              <!-- Required font awesome -->
+              <button
+                target=_blank
+                data-te-ripple-init
+                data-te-ripple-color="light"
+                class="flex text-center items-center rounded bg-secondary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-secondary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-secondary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
+                </svg>              
+              </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Section: Design Block -->
+</div>
+<!-- Container for demo purpose -->
+{# 
 <div class="mb-12 lg:mb-0">
 <div class="relative mb-6 overflow-hidden rounded-lg bg-cover bg-no-repeat shadow-lg dark:shadow-black/20 bg-[50%]" data-te-ripple-init data-te-ripple-color="light">
   <img src="{{ aicore.image }}" class="w-full" alt="{{ aicore.name }}"/>
@@ -13,13 +84,10 @@
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
     <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3" />
   </svg>
-  {# {% for item in aicore.aIcategories %}
-   | {{ item.name }} 
-  {% endfor %} #}
 </div>
 <p class="text-neutral-500 dark:text-neutral-300">
   {{ aicore.slogan }}
 </p>
-</div>
+</div> #}
 
 

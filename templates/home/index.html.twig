@@ -31,24 +31,17 @@ style="
 
 <div class="container mx-auto bg-[#FBFBFB]">
   <div class="md:flex gap-6">
-    <div class="md:w-3/12 p-8">
+    <div class="md:w-3/12 py-2 px-4 m-4">
         <h2 class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Nos principaux métiers</h2>
+        {% include "components/list/_sectors.html.twig" with {'sectors': sectors} %}
     </div>
-    <div class="md:w-9/12 p-8">
+    <div class="md:w-9/12 p-2 m-4" id="produit-container">
       <div class="tracking-wide text-sm text-indigo-500 font-semibold">Projet à la une</div>
-      {% for posting in postings %}
-
-        {{ component('simple_posting',{
-            posting: posting,
-            company: posting.compagny,
-        }) }}
-        
-      {% endfor %}
+      <div class="produit-item">
+        {% include "components/postings/_postings.html.twig" %}
+      </div>
     </div>
   </div>
-  <nav class="flex items-center justify-center mt-4">
-  {% do postings.setPageRange(2) %}
-  {{ knp_pagination_render(postings, 'base/pagination.html.twig')}}
-  </nav>
 </div>
+<script src="{{ asset('assets/js/loadMorePosting.js') }}"></script>
 {% endblock %}
