@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use DateTime;
+use App\Entity\Sector;
 use App\Entity\Posting;
 use App\Entity\Application;
 use App\Entity\PostingViews;
@@ -11,7 +13,8 @@ use App\Form\Posting\StepOneType;
 use App\Form\Posting\StepTwoType;
 use App\Service\User\UserService;
 use App\Form\Posting\StepThreeType;
-use DateTime;
+use App\Repository\PostingRepository;
+use App\Repository\SectorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,6 +38,7 @@ class PostingController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         /** @var User $user */
         $user = $this->getUser();
         $posting = $postingManager->init($user->getIdentity()->getCompagny());
@@ -63,6 +67,7 @@ class PostingController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         /** @var User $user */
         $user = $this->getUser();
         $form = $this->createForm(StepOneType::class, $posting);
@@ -186,6 +191,7 @@ class PostingController extends AbstractController
         UserService $userService
     ): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $identity = $userService->getCurrentIdentity();
         if($posting->isValid()){
             $posting->setValid(false);
@@ -210,10 +216,27 @@ class PostingController extends AbstractController
         UserService $userService
     ): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $identity = $userService->getCurrentIdentity();
 
         return $this->json([
             'message' => 'Tarif, ajout badge urgent sur les annonces',
         ], 200);
+    }
+
+    #[Route('/postings/{slug}', name: 'app_posting_sector')]
+    public function sector(
+        Sector $sector, 
+        PostingRepository $postingRepository, 
+        SectorRepository $sectorRepository,
+        Request $request
+    ): Response
+    {
+        $offset = $request->query->get('offset', 0);
+
+        return $this->render('home/index.html.twig', [
+            'postings' => $postingRepository->findBySector($sector->getId(), 10, $offset),
+            'sectors' => $sectorRepository->findAll(),
+        ]);
     }
 }

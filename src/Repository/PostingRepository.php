@@ -43,7 +43,7 @@ class PostingRepository extends ServiceEntityRepository
     /**
      * @return Posting[] Returns an array of Posting objects
      */
-    public function findValid(): array
+    public function findValid(int $max = 10, int $offset = null): array
     {
         return $this->createQueryBuilder('p')
             ->select('p, COUNT(v.id) as HIDDEN num_views')
@@ -51,6 +51,8 @@ class PostingRepository extends ServiceEntityRepository
             ->andWhere('p.valid = 1')
             ->groupBy('p.id')
             ->orderBy('num_views', 'DESC')
+            ->setMaxResults($max)
+            ->setFirstResult($offset)
             ->getQuery()
             ->getResult();
     }
@@ -83,5 +85,22 @@ class PostingRepository extends ServiceEntityRepository
         }
 
         return $query->getQuery()->getResult();
+    }
+
+    /**
+     * @return Postings[] Returns an array of Postings objects
+     */
+    public function findBySector($id,int $max = 10, int $offset = null): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('s', 'p')
+            ->join('p.sector', 's')
+            ->andWhere('s.id IN (:sector)')
+            ->setParameter('sector', $id)
+            ->setMaxResults($max)
+            ->setFirstResult($offset)
+            ->getQuery()
+            ->getResult();
+        ;
     }
 }
