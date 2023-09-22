@@ -39,20 +39,23 @@ class AIcoresRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return AIcores[] Returns an array of AIcores objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return AIcores[] Returns an array of AIcores objects
+    */
+   public function findSearch($value, int $max = 13, int $offset = null): array
+   {
+       return $this->createQueryBuilder('a')
+           ->andWhere('a.type = :val')
+           ->andWhere('a.slogan IS NOT NULL')
+           ->andWhere('a.image IS NOT NULL')
+           ->setParameter('val', $value)
+           ->orderBy('a.id', 'ASC')
+           ->setMaxResults($max)
+           ->setFirstResult($offset)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?AIcores
 //    {

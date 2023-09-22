@@ -1,0 +1,9 @@
+
+{% for posting in postings %}
+
+{{ component('simple_posting',{
+    posting: posting,
+    company: posting.compagny,
+}) }}
+
+{% endfor %}

@@ -1,7 +1,9 @@
 let offset = 12; // Commence à 10 car les 10 premiers sont déjà chargés
 window.addEventListener('scroll', function () {
-    console.log('scroll', window.scrollY + window.innerHeight, document.documentElement.scrollHeight);
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+    const threshold = 2;
+    const position = window.scrollY + window.innerHeight;
+    const height = document.documentElement.scrollHeight;
+    if (position >= height - threshold) {
         axios.get(`/all/expert/ajax?offset=${offset}`)
             .then(response => {
                 if (response.data) {
