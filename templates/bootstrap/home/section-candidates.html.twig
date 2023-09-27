@@ -1,0 +1,23 @@
+<section id="candidates" class="" style="background-color: white;">
+    <div class="container">
+        <div class="row">
+            <h2 class="text-black text-center my-5 w-100 h1"><strong>NOS DERNIERS CANDIDATS</strong></h2>
+            <div class="row row-cols-1 row-cols-md-5 g-4">
+            {% for identity in experts %}
+                <div class="col">
+                    <div class="card">
+                        <img src="{{vich_uploader_asset(identity, 'file')}}" class="card-img-top" alt="{{ identity.firstName }}">
+                        <div class="card-body">
+                        <p class="card-title h4">{{ identity.firstName }} {{ identity.lastName|slice(0, 1)|upper }}.</p>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        <p class="d-flex flex-column flex-sm-row justify-content-center">  
+            <span class="mb-6"><button class="btn btn-sm btn-secondary text-uppercase px-4 py-2 mx-4 rounded-pill">Trouvez une offre</button></span>
+        </p>
+    </div>
+</section>

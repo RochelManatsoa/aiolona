@@ -1,0 +1,17 @@
+{% extends 'bootstrap.html.twig' %}
+{% block title %}{{ 'menu.home'|trans }}{% endblock %}
+
+{% block header %}
+{% include "bootstrap/layout/nav.html.twig" with {} %}
+{% endblock %}
+
+{% block body %}
+
+{% include "bootstrap/home/section-hero.html.twig" with {} %}
+{% include "bootstrap/home/section-postings.html.twig" with {'postings': postings} %}
+{% include "bootstrap/home/section-about.html.twig" with {} %}
+{% include "bootstrap/home/section-sectors.html.twig" with {'sectors': sectors} %}
+{% include "bootstrap/home/section-candidates.html.twig" with {} %}
+{% include "bootstrap/home/section-contact.html.twig" with {} %}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+<section id="postings" class="vh-100" style="background-color: white;position:relative">
+    <div class="container h-100 d-flex flex-column justify-content-center">
+        <div class="row">
+            <h2 class="text-black text-center my-5 w-100 h1"><strong>LE FUTUR DU TRAVAIL</strong></h2>
+            {% for item in postings %}
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100" style="text-align:left!important;">
+                    <div class="card-body d-flex flex-column">
+                        <h3 class="card-title h4">{{ item.title }}</h3>
+                        <h6 class="card-subtitle mb-2 text-body-secondary"><span class="badge text-bg-danger">Urgent</span> | {{ item.views|length }} vues | {{ item.applications|length }} offres</h6>
+                        <p class="card-text flex-grow-1">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-dark card-link mt-auto">Postuler</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
