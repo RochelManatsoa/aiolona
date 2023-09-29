@@ -23,6 +23,7 @@ security:
   forgotten: Forgot password?
   google: Sign in with Google
   signin: Sign in
+  remember: "Remember me"
   or: OR
 
 registration:
@@ -124,6 +125,19 @@ payment:
   failed: 
     title: Failed payment
     message: 
+
+app_home:
+    title: "Top 1 Employment and Freelance Platform Francophone & Malagasy"
+    description: "Find projects, apply for job offers, and collaborate with the best professionals from Madagascar and French-speaking regions. Join us now."
+    keywords: "freelance, project, offer"
+app_homepage:
+    title: "Top 1 Employment and Freelance Platform Francophone & Malagasy"
+    description: "Find projects, apply for job offers, and collaborate with the best professionals from Madagascar and French-speaking regions. Join us now."
+    keywords: "freelance, project, offer"
+app_profile_catalog:
+    title: "Top 1 Employment and Freelance Platform Francophone & Malagasy"
+    description: "Find projects, apply for job offers, and collaborate with the best professionals from Madagascar and French-speaking regions. Join us now."
+    keywords: "freelance, project, offer"
 
 
 

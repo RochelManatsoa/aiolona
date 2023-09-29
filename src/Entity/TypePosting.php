@@ -24,6 +24,12 @@ class TypePosting
     #[ORM\OneToMany(mappedBy: 'typePosting', targetEntity: Posting::class)]
     private Collection $posting;
 
+    #[ORM\ManyToMany(targetEntity: Compagny::class, mappedBy: 'typeSearch')]
+    private Collection $companies;
+
+    #[ORM\ManyToMany(targetEntity: Expert::class, mappedBy: 'typeJob')]
+    private Collection $experts;
+
     public function __toString()
     {
         return $this->name;
@@ -32,6 +38,8 @@ class TypePosting
     public function __construct()
     {
         $this->posting = new ArrayCollection();
+        $this->companies = new ArrayCollection();
+        $this->experts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,6 +96,60 @@ class TypePosting
             if ($posting->getTypePosting() === $this) {
                 $posting->setTypePosting(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Compagny>
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(Compagny $company): static
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies->add($company);
+            $company->addTypeSearch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Compagny $company): static
+    {
+        if ($this->companies->removeElement($company)) {
+            $company->removeTypeSearch($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Expert>
+     */
+    public function getExperts(): Collection
+    {
+        return $this->experts;
+    }
+
+    public function addExpert(Expert $expert): static
+    {
+        if (!$this->experts->contains($expert)) {
+            $this->experts->add($expert);
+            $expert->addTypeJob($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpert(Expert $expert): static
+    {
+        if ($this->experts->removeElement($expert)) {
+            $expert->removeTypeJob($this);
         }
 
         return $this;

@@ -1,0 +1,52 @@
+{% extends 'bootstrap.html.twig' %}
+
+{% block header %}
+{% include "bootstrap/layout/nav.html.twig" with {} %}
+{% endblock %}
+
+{% block body %}
+
+
+<section id="experts" class="" style="background-color: black;">
+    <div class="container h-100 d-flex flex-column justify-content-center">
+        <div class="row">
+            <h1 class="h3 text-center py-4 text-white font-bold">
+                {{ 'app_catalog_experts.title'|trans }}
+            </h1>
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+            {% for identity in identities %}
+                <div class="col">
+                    <div class="card  bg-dark">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="{{vich_uploader_asset(identity, 'file')}}" class="card-img-top rounded-circle" alt="{{ identity.firstName }}">
+                        </div>
+                        <div class="col-8">
+                            <p class="card-title text-white h5 mt-2">{{ identity.firstName }} {{ identity.lastName|slice(0, 1)|upper }}.</p>
+                            {% for lang in identity.languages %}
+                            {{ isoToEmoji(lang.code) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <p class="card-title text-white"><small>Eum architecto ipsum commodi officia aut qui enim. Ea non quia quia qui amet nulla. Perferendis quo qui labore iure ...</small></p>
+                                <div class="col-6">
+                                    <small class="text-light">{{ identity.tarif }} € / heure</small>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-light">{{ identity.experiences|length }} projets réalisés</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
