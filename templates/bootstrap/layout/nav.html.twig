@@ -9,22 +9,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Deposer votre annonce</a>
+          <a class="nav-link active" aria-current="page" href="{{ path('app_catalog_posting')}}">Deposer votre annonce</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Trouver un profil</a>
+          <a class="nav-link" href="{{ path('app_catalog_experts')}}">Trouver un profil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Trouver une offre</a>
+          <a class="nav-link" href="{{ path('app_catalog_posting')}}">Trouver une offre</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Nos formations</a>
+          <a class="nav-link" href="{{ path('app_catalog_formation')}}">Nos formations</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Nous contacter</a>
+          <a class="nav-link" href="{{ path('app_profile_catalog')}}">Nous contacter</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true" href="#">Bon plan IA</a>
+          <a class="nav-link disabled" aria-disabled="true" href="{{ path('app_catalog_ia')}}">Bon plan IA</a>
         </li>
       </ul>
       {% if app.user %}

@@ -1,0 +1,13 @@
+{% block radio_image_widget %}
+    <div class="custom-control custom-radio image-checkbox">
+        <input type="radio" 
+               class="custom-control-input" 
+               id="{{ id }}" 
+               name="{{ name }}" 
+               value="{{ value }}" 
+               {{ checked ? 'checked' : '' }} />
+        <label class="custom-control-label" for="{{ id }}">
+            <img src="{{ image_src }}" alt="#" class="img-fluid">
+        </label>
+    </div>
+{% endblock %}

@@ -139,6 +139,9 @@ class Identity implements Serializable
     #[ORM\OneToMany(mappedBy: 'identity', targetEntity: Application::class)]
     private Collection $applications;
 
+    #[ORM\OneToOne(mappedBy: 'identity', targetEntity: Expert::class)]
+    private ?Expert $expert = null;
+
 
     public function __construct()
     {
@@ -160,7 +163,7 @@ class Identity implements Serializable
 
     public function __toString()
     {
-        return $this->firstName;
+        return $this->firstName ?? '';
     }
 
     public function getId(): ?int
@@ -832,6 +835,28 @@ class Identity implements Serializable
                 $application->setIdentity(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getExpert(): ?Expert
+    {
+        return $this->expert;
+    }
+
+    public function setExpert(?Expert $expert): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($expert === null && $this->expert !== null) {
+            $this->expert->setIdentity(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($expert !== null && $expert->getIdentity() !== $this) {
+            $expert->setIdentity($this);
+        }
+
+        $this->expert = $expert;
 
         return $this;
     }

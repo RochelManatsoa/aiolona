@@ -2,14 +2,15 @@
 
 namespace App\Manager\Trait;
 
-use App\Entity\Compagny;
+use App\Entity\Expert;
 
-trait CompanyTrait
+trait ExpertTrait
 {
     public $LABELS = [
-        Compagny::SIZE_SMALL => '50 to 149',
-        Compagny::SIZE_MEDIUM => '150 to 249',
-        Compagny::SIZE_LARGE => '250 to 499',
+        Expert::YEAR_SMALL => '50 to 149',
+        Expert::YEAR_MEDIUM => '150 to 249',
+        Expert::YEAR_LARGE => '250 to 499',
+        Expert::YEAR_XLARGE => '250 to 499',
     ];
 
     public function getRealFileName($label): string

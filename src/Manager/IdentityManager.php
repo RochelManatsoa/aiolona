@@ -5,11 +5,13 @@ namespace App\Manager;
 use App\Entity\Account;
 use DateTime;
 use App\Entity\Compagny;
+use App\Entity\Expert;
 use App\Entity\Identity;
 use Twig\Environment as Twig;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Form\Form;
 use App\Repository\AccountRepository;
+use App\Repository\IdentityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,11 +25,9 @@ class IdentityManager
         private SluggerInterface $sluggerInterface,
         private AccountRepository $accountRepository,
         private RequestStack $requestStack,
+        private IdentityRepository $identityRepository,
         private Security $security
-    )
-    {
-        
-    }
+    ){}
 
     public function init()
     {
@@ -46,6 +46,14 @@ class IdentityManager
         $compagny->setIdentity($identity);
 
         return $compagny;
+    }
+
+    public function createExpert($identity)
+    {
+        $expert = new Expert();
+        $expert->setIdentity($identity);
+
+        return $expert;
     }
 
     public function save(Identity $identity)
@@ -69,5 +77,9 @@ class IdentityManager
         $account = $this->accountRepository->findOneBy([ 'slug' => $typology]);
         if($account instanceof Account) return $account;
         return null;
+    }
+
+    public function findSearch($dataType){
+        return $this->identityRepository->findSearch($dataType);
     }
 }

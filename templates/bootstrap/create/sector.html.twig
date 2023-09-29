@@ -1,0 +1,55 @@
+{% extends 'bootstrap.html.twig' %}
+
+{% block header %}
+{% include "bootstrap/layout/nav.html.twig" with {} %}
+{% endblock %}
+
+{% block body %}
+
+
+<section id="sector" class="vh-100" style="background-color: black;">
+    <div class="container h-100 d-flex flex-column justify-content-center">
+        <h1 class="h3 text-center py-4 text-white font-bold">
+        </h1>
+        <div class="row text-white">
+            <div class="col-md-6 offset-md-3">
+    
+            <p>{{ 'profile.answer'|trans }}</p>
+                <hr class="my-4">
+                <p>{{ 'profile.apply'|trans }}</p>
+                <hr class="my-4">
+                <p>{{ 'profile.getpaid'|trans }} </p>
+                <hr class="my-4">
+                <button
+                    type="button"
+                    id="get_started"
+                    class="btn btn-primary"
+                    data-te-ripple-init
+                    data-te-ripple-color="light">
+                    {{ 'profile.start'|trans }} 
+                </button>
+                </div>
+            </div>
+    
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    
+    document.getElementById('get_started').addEventListener('click', function(e){
+        e.preventDefault();
+        const url = "{{ path('app_profile_account') }}";
+        const urlActuelle = window.location.origin;
+        const urlComplete = urlActuelle + url;
+        window.location.href = urlComplete;
+    })
+
+</script>
+{% endblock %}

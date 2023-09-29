@@ -2,16 +2,19 @@
 
 namespace App\Twig;
 
+use Twig\TwigFunction;
 use App\Entity\AIcores;
-use App\Entity\Identity;
 use App\Entity\Posting;
+use App\Entity\Identity;
 use App\Entity\TechnicalSkill;
 use App\Manager\PostingManager;
-use App\Repository\AccountRepository;
 use App\Repository\AINoteRepository;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\AccountRepository;
+use Symfony\Component\Intl\Countries;
 use Twig\Extension\AbstractExtension;
-use Twig\TwigFunction;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AppExtension extends AbstractExtension
 {
@@ -19,7 +22,9 @@ class AppExtension extends AbstractExtension
     public function __construct(
         private AccountRepository $accountRepository, 
         private AINoteRepository $aINoteRepository,
-        private PostingManager $postingManager
+        private PostingManager $postingManager,
+        private TranslatorInterface $translator,
+        private RequestStack $requestStack  
         )
     {
 
@@ -39,6 +44,9 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getStars', [$this, 'getStars']),
             new TwigFunction('getSkills', [$this, 'getSkills']),
             new TwigFunction('checkInfo', [$this, 'checkInfo']),
+            new TwigFunction('meta_title', [$this, 'metaTitle']),
+            new TwigFunction('meta_description', [$this, 'metaDescription']),
+            new TwigFunction('meta_keywords', [$this, 'metaKeywords']),
         ];
     }
 
@@ -159,5 +167,24 @@ class AppExtension extends AbstractExtension
             }
         }
         return $count;
+    }
+
+    public function metaTitle(): string
+    {
+        $routeName = $this->requestStack->getCurrentRequest()->attributes->get('_route'); 
+
+        return $this->translator->trans($routeName . '.title');
+    }
+
+    public function metaDescription(): string
+    {
+        $routeName = $this->requestStack->getCurrentRequest()->attributes->get('_route'); 
+        return $this->translator->trans($routeName . '.description');
+    }
+
+    public function metaKeywords(): string
+    {
+        $routeName = $this->requestStack->getCurrentRequest()->attributes->get('_route');  
+        return $this->translator->trans($routeName . '.keywords');
     }
 }

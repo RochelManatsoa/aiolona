@@ -14,47 +14,18 @@
         <div class="col-md-6 text-center mx-auto">
           <img src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg" class="img-fluid" alt="login olona talents" />
         </div>
-        <div class="col-md-6">
-          <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p class="mb-0 mr-4 h2">
-              <!-- text-lg in Tailwind is similar to h2 in Bootstrap -->
-              Sign in with
-                          
-            </p>
-
-            <!-- Google Button -->
-            <button id="google_button" type="button" class="btn btn-primary mx-1 rounded-circle text-white shadow" style="width: 2.25rem; height: 2.25rem;">
-              <!-- Google SVG -->
-              <svg class="mx-auto" style="width: 1.1rem; height: 1.1rem;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
-                <path fill-rule="evenodd" d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z" clip-rule="evenodd" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Separator -->
-          <div class="separator text-center my-4">
-            <span class="bg-black px-2 text-white">Or</span>
-            <div class="border-top border-light mx-auto" style="width: 80%;"></div>
-          </div>
+        <div class="col-md-6 text-white">
+          <h1 class="h4 my-6 text-center text-white" >{{ meta_title() }}</h1>
+          <p class="text-light text-center fs-6" ><small>{{ meta_description() }}</small></p>
+          <hr>
           <form method="POST" class="text-white">
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">
-                Email address
-                                              
-                              
               </label>
               <input type="email" class="form-control" name="email" placeholder="{{ 'security.email'|trans }}" value="{{ last_username }}" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text text-white">
-                  We'll never share your email with anyone else.
-                                                    
-                                  
-                </div>
               </div>
               <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">
-                  Password
-                                                  
-                                  
                 </label>
                 <input type="password" class="form-control" name="password" placeholder="{{ 'security.password'|trans }}" id="exampleInputPassword1"></div>
                 <div class="mb-3 form-check">
@@ -62,8 +33,7 @@
                     <div class="col-6">
                       <input type="checkbox" class="form-check-input" id="exampleCheck1">
                         <label class="form-check-label" for="exampleCheck1">
-                          Check me out                                      
-                                                
+                        {{ 'security.remember'|trans }}           
                         </label>
                       </div>
                       <div class="col-6">
@@ -79,11 +49,12 @@
                       {{ 'security.signin'|trans }}
                     </button>
                   </form>
-                  <p class="mt-6 text-center text-neutral-800 dark:text-neutral-200">
-                    Not a member?
-                    <a href="#!" class="text-primary transition ">
-                      Register
+                  <p class="my-4 text-center text-white">
+                    {{ 'security.not_member'|trans }}
+                    <a href="{{ path('app_register') }}" class="text-primary transition ">
+                    {{ 'security.register'|trans }}
                     </a>
+                    {{ 'security.join'|trans }}
                   </p>
                 </div>
               </div>

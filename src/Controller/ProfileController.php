@@ -38,7 +38,8 @@ class ProfileController extends AbstractController
         /** @var User $user  */
         $user = $this->getUser();
 
-        return $this->render('profile/index.html.twig', [
+        return $this->render('bootstrap/create/create.html.twig', [
+        // return $this->render('profile/index.html.twig', [
             'user' => $user,
         ]);
     }
@@ -104,7 +105,8 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile_ia', []);
         }
 
-        return $this->render('profile/sector.html.twig', [
+        return $this->render('bootstrap/create/sector.html.twig', [
+        // return $this->render('profile/sector.html.twig', [
             'form' => $form->createView(),
         ]);
     }

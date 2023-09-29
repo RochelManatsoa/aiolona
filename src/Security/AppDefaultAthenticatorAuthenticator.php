@@ -52,7 +52,7 @@ class AppDefaultAthenticatorAuthenticator extends AbstractLoginFormAuthenticator
         //     return new RedirectResponse($this->urlGenerator->generate('app_profile'));
         // }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_profile'));
+        return new RedirectResponse($this->urlGenerator->generate('app_identity'));
     }
 
     protected function getLoginUrl(Request $request): string

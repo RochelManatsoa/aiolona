@@ -49,6 +49,26 @@
     transform: translateY(-50%);
 }
 
+a{
+    text-decoration: none!important;
+    color: aqua!important;
+}
+
 .separator span {
     z-index: 1;
+}
+
+.custom-control-label .img-fluid {
+    object-fit: cover;  /* Pour maintenir l'aspect de l'image */
+}
+/* Dans votre fichier CSS */
+.image-checkbox {
+    position: relative;  /* Position relative pour le conteneur */
+}
+
+.custom-control-input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;  /* Pour s'assurer qu'il reste en haut */
 }
