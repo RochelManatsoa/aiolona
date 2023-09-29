@@ -32,7 +32,7 @@ class ProfileCatalogController extends AbstractController
         $form->handleRequest($request);
         $data = $identityRepository->findSearch($dataType);
 
-        return $this->render('bootstrap/catalog/profiles.html.twig', [
+        return $this->render('profile_catalog/catalog.html.twig', [
             'identities' => $data,
             'form' => $form->createView()
         ]);
