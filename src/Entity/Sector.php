@@ -36,6 +36,12 @@ class Sector
     #[ORM\ManyToMany(targetEntity: Posting::class, mappedBy: 'sector')]
     private Collection $postings;
 
+    #[ORM\ManyToMany(targetEntity: Compagny::class, mappedBy: 'sector')]
+    private Collection $companies;
+
+    #[ORM\ManyToMany(targetEntity: Expert::class, mappedBy: 'sector')]
+    private Collection $experts;
+
     public function __toString()
     {
         return $this->name;
@@ -45,6 +51,8 @@ class Sector
     {
         $this->identity = new ArrayCollection();
         $this->postings = new ArrayCollection();
+        $this->companies = new ArrayCollection();
+        $this->experts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,6 +142,60 @@ class Sector
     {
         if ($this->postings->removeElement($posting)) {
             $posting->removeSector($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Compagny>
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(Compagny $company): static
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies->add($company);
+            $company->addSector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Compagny $company): static
+    {
+        if ($this->companies->removeElement($company)) {
+            $company->removeSector($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Expert>
+     */
+    public function getExperts(): Collection
+    {
+        return $this->experts;
+    }
+
+    public function addExpert(Expert $expert): static
+    {
+        if (!$this->experts->contains($expert)) {
+            $this->experts->add($expert);
+            $expert->addSector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpert(Expert $expert): static
+    {
+        if ($this->experts->removeElement($expert)) {
+            $expert->removeSector($this);
         }
 
         return $this;

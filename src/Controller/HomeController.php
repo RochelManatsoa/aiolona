@@ -3,18 +3,21 @@
 namespace App\Controller;
 
 use League\Csv\Reader;
+use App\Data\SeachData;
 use App\Entity\AIcores;
 use App\Data\ImportData;
 use App\Entity\AIcategory;
 use App\Form\IdentityType;
 use App\Service\WooCommerce;
 use App\Form\Import\ImportType;
+use App\Form\Search\SearchType;
 use App\Manager\IdentityManager;
+use App\Repository\SectorRepository;
 use App\Repository\AccountRepository;
 use App\Repository\AIcoresRepository;
 use App\Repository\PostingRepository;
+use App\Repository\IdentityRepository;
 use App\Repository\AIcategoryRepository;
-use App\Repository\SectorRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,6 +49,38 @@ class HomeController extends AbstractController
 
         return $this->render('home/index.html.twig', [
             'postings' => $postings,
+            'sectors' => $sectors,
+        ]);
+    }
+
+    #[Route('/home', name: 'app_homepage')]
+    public function homePage(
+        PostingRepository $postingRepository,
+        IdentityRepository $identityRepository,
+        SectorRepository $sectorRepository,
+        Request $request,
+        PaginatorInterface $paginatorInterface
+    ): Response
+    {
+        $offset = $request->query->get('offset', 0);
+        $sectors = $sectorRepository->findAll();
+        $postings = $paginatorInterface->paginate(
+            $postingRepository->findValid(6, $offset),
+            $request->query->getInt('page', 1),
+            6
+        );
+        $dataType = new SeachData();
+        $form = $this->createForm(SearchType::class, $dataType);
+        $form->handleRequest($request);
+        $experts = $paginatorInterface->paginate(
+            $identityRepository->findSearch($dataType),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('home/home.html.twig', [
+            'postings' => $postings,
+            'experts' => $experts,
             'sectors' => $sectors,
         ]);
     }

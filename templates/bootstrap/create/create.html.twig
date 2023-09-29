@@ -1,0 +1,54 @@
+{% extends 'bootstrap.html.twig' %}
+
+{% block header %}
+{% include "bootstrap/layout/nav.html.twig" with {} %}
+{% endblock %}
+
+{% block body %}
+
+
+<section id="hero" class="vh-100" style="background-color: black;">
+    <div class="container h-100 d-flex flex-column justify-content-center">
+        <h1 class="h3 text-center py-4 text-white font-bold">
+        {{ 'profile.hey'|trans }}
+        </h1>
+        <div class="row text-white">
+            <div class="col-md-6 offset-md-3">
+    
+                <p class="text-center">{{ 'app_profile.description'|trans }}</p>
+                <hr class="my-4">
+                <p class="text-center">{{ 'app_profile.message'|trans }}</p>
+                <hr class="my-4">
+                <div class="d-flex justify-content-center">
+                    <button
+                        type="button"
+                        id="get_started"
+                        class="btn btn-primary">
+                        {{ 'profile.start'|trans }} 
+                    </button>
+                </div>
+                </div>
+            </div>
+    
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    
+    document.getElementById('get_started').addEventListener('click', function(e){
+        e.preventDefault();
+        const url = "{{ path('app_profile_account') }}";
+        const urlActuelle = window.location.origin;
+        const urlComplete = urlActuelle + url;
+        window.location.href = urlComplete;
+    })
+
+</script>
+{% endblock %}

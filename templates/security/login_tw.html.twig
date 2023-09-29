@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'security.title'|trans }}{% endblock %}
+
+{% block body %}
+<form method="post">
+
+    {% if app.user %}
+        <div class="mb-3">
+            {{ 'security.logged'|trans }} {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">{{ 'security.logout'|trans }}</a>
+        </div>
+    {% endif %}
+    <div class="bg-gray-100 flex items-center justify-center h-screen">
+        <div class="bg-white shadow p-6 rounded-lg">
+            <h2 class="text-2xl mb-4">{{ 'security.login'|trans }}</h2>
+
+            {% if error %}
+                <div class="bg-yellow-200 text-yellow-800 border-l-4 border-yellow-500 p-4 m-3" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <div class="mb-4">
+                <label for="inputEmail" class="block text-gray-700 text-sm font-bold mb-2">{{ 'security.email'|trans }}</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+            </div>
+        
+            <div class="mb-6">
+                <label for="inputPassword" class="block text-gray-700 text-sm font-bold mb-2">{{ 'security.password'|trans }}</label>
+                <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
+
+            <input type="hidden" name="_csrf_token"
+                value="{{ csrf_token('authenticate') }}"
+            >
+            <div class="flex items-center justify-between">
+              <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">{{ 'security.signin'|trans }}</button>
+              <a href="{{ path('app_forgot_password_request') }}" class="text-sm text-indigo-500 hover:text-indigo-600">{{ 'security.forgotten'|trans }}</a>
+            </div>
+            <div class="flex items-center justify-center my-6">
+                <hr class="border-gray-300 border-t-2 flex-grow">
+                <span class="mx-4 text-gray-500 font-bold">{{ 'security.or'|trans }}</span>
+                <hr class="border-gray-300 border-t-2 flex-grow">
+            </div>
+            <div class="flex items-center justify-center mb-4">
+                <a href="{{path('connect_google_start')}}" class="flex items-center hover:bg-blue-400 text-white font-bold py-2 px-3 bg-blue-300 rounded-full focus:outline-none focus:shadow-outline">
+                <svg class="w-6 h-6 text-gray-800 dark:text-white mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
+                    <path fill-rule="evenodd" d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z" clip-rule="evenodd"/>
+                </svg>
+                {{ 'security.google'|trans }}
+                </a>
+            </div>
+
+            {#
+                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
+                </div>
+            #}
+        </div>
+    </div>
+</form>
+{% endblock %}

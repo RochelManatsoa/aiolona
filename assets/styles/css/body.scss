@@ -6,6 +6,3 @@ body{
     display: flex;
     flex-direction: column;
 }
-.image-checkbox input[type="checkbox"]:checked + img {
-    border: 2px solid #007bff;
-}

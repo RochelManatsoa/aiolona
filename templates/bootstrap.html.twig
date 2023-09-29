@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    <title>{% block title %}{{ meta_title()}}{% endblock %}</title>
+    <meta name="description" content="{{ meta_description() }}">
+    <meta name="keywords" content="{{ meta_keywords()}}">
+    <meta property="og:title" content="{{ meta_title()}}">
+    <meta property="og:description" content="{{ meta_description() }}">
+    <meta property="og:url" content="{% block og_url %}{{ app.request.uri }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% endblock %}">
+    {% block stylesheets %}{{ encore_entry_link_tags('bs') }}{% endblock %}
+    {% block javascripts %}{{ encore_entry_script_tags('bs') }}{% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  </head>
+  {% block header %}{% endblock %}
+  <body>
+    {% block body %}{% endblock %}
+    {% block footer %}{% endblock %}
+  </body>
+  {% block javascript %}{% endblock %}
+</html>

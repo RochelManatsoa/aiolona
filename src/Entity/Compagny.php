@@ -13,18 +13,14 @@ class Compagny
 {
     use \App\Manager\Trait\CompanyTrait;
 
-    const SIZE_XSMALL = 'XS';
     const SIZE_SMALL = 'SM';
     const SIZE_MEDIUM = 'MD';
     const SIZE_LARGE = 'LG';
-    const SIZE_XLARGE = 'XL';
 
     const CHOICE_SIZE = [        
-         '1 to 49' => self::SIZE_XSMALL ,
-         '50 to 149' => self::SIZE_SMALL ,
-         '150 to 249' => self::SIZE_MEDIUM ,
-         '250 to 499' => self::SIZE_LARGE ,
-         '500 +' => self::SIZE_XLARGE ,
+         'Petite (1-10 employés)' => self::SIZE_SMALL ,
+         'Moyenne (11-100 employés)' => self::SIZE_MEDIUM ,
+         'Grande (plus de 100 employés)' => self::SIZE_LARGE ,
     ];
 
     #[ORM\Id]
@@ -59,6 +55,18 @@ class Compagny
     #[ORM\OneToMany(mappedBy: 'compagny', targetEntity: Posting::class)]
     private Collection $posting;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $project = null;
+
+    #[ORM\ManyToMany(targetEntity: TypePosting::class, inversedBy: 'companies')]
+    private Collection $typeSearch;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $budget = null;
+
+    #[ORM\ManyToMany(targetEntity: Sector::class, inversedBy: 'companies')]
+    private Collection $sector;
+
     public function __toString()
     {
         return $this->getName();
@@ -67,6 +75,8 @@ class Compagny
     public function __construct()
     {
         $this->posting = new ArrayCollection();
+        $this->typeSearch = new ArrayCollection();
+        $this->sector = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -196,6 +206,78 @@ class Compagny
                 $posting->setCompagny(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProject(): ?string
+    {
+        return $this->project;
+    }
+
+    public function setProject(?string $project): static
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TypePosting>
+     */
+    public function getTypeSearch(): Collection
+    {
+        return $this->typeSearch;
+    }
+
+    public function addTypeSearch(TypePosting $typeSearch): static
+    {
+        if (!$this->typeSearch->contains($typeSearch)) {
+            $this->typeSearch->add($typeSearch);
+        }
+
+        return $this;
+    }
+
+    public function removeTypeSearch(TypePosting $typeSearch): static
+    {
+        $this->typeSearch->removeElement($typeSearch);
+
+        return $this;
+    }
+
+    public function getBudget(): ?string
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?string $budget): static
+    {
+        $this->budget = $budget;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Sector>
+     */
+    public function getSector(): Collection
+    {
+        return $this->sector;
+    }
+
+    public function addSector(Sector $sector): static
+    {
+        if (!$this->sector->contains($sector)) {
+            $this->sector->add($sector);
+        }
+
+        return $this;
+    }
+
+    public function removeSector(Sector $sector): static
+    {
+        $this->sector->removeElement($sector);
 
         return $this;
     }

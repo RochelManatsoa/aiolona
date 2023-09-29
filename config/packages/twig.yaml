@@ -1,6 +1,8 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes:
+        - 'bootstrap_5_layout.html.twig'
+        - 'form/radio_image_widget.html.twig'
         - 'form/experience_type.html.twig'
         - 'base/form_themes.html.twig'
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

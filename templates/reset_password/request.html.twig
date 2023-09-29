@@ -1,40 +1,40 @@
-{% extends 'layout.html.twig' %}
+{% extends 'bootstrap.html.twig' %}
+{% form_theme requestForm 'bootstrap_5_layout.html.twig' %}
 
 {% block title %}Reset your password{% endblock %}
 
+{% block header %}
+{% include "bootstrap/layout/nav.html.twig" with {} %}
+{% endblock %}
+
 {% block body %}
-<!-- Container for demo purpose -->
-<div class="container my-24 mx-auto md:px-6">
-  <!-- Section: Design Block -->
-  <section class="flex flex-col mb-32 text-center justify-center lg:text-left">
-  {% for flash_error in app.flashes('reset_password_error') %}
-      <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-  {% endfor %}
-  <div class="text-center w-full">
-    <h2 class="mb-12 text-center text-3xl font-bold">
-    Reset your password
-    </h2>
 
-    <div class="flex mx-auto justify-center w-full max-w-lg">
 
-    {{ form_start(requestForm) }}
-        {{ form_row(requestForm.email) }}
-        <div>
-            <small>
-                Enter your email address and we will send you a
-                link to reset your password.
-            </small>
+<section id="hero" class="vh-100" style="background-color: black;">
+    <div class="container h-100 d-flex flex-column justify-content-center">
+        <div class="row text-white">
+        <h2 class="mb-12 text-center text-3xl font-bold">
+        Reset your password
+        </h2>
+            <div class="col-md-6 offset-md-3">
+            {% for flash_error in app.flashes('reset_password_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+            {{ form_start(requestForm) }}
+                {{ form_row(requestForm.email) }}
+                <div>
+                    <small>
+                        Enter your email address and we will send you a
+                        link to reset your password.
+                    </small>
+                </div>
+        
+                <button class="btn btn-primary">Send password reset email</button>
+            {{ form_end(requestForm) }}
+            </div>
         </div>
-
-        <button class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">Send password reset email</button>
-    {{ form_end(requestForm) }}
-
     </div>
-</div>
+</section>
 
-  </section>
-  <!-- Section: Design Block -->
-</div>
-<!-- Container for demo purpose -->
-</div>
+
 {% endblock %}

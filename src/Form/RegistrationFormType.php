@@ -19,18 +19,33 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, ['label' => 'security.email'])
-            ->add('firstName', TextType::class, [ 'label' => 'registration.firstname'])
-            ->add('lastName', TextType::class, [ 'label' => 'registration.lastname'])
-            ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'registration.agree',
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
+            ->add('email', EmailType::class, [
+                'label' => 'security.email',
+                'row_attr' => ['class' => 'col-md-12'],
+                'attr' => ['class' => 'form-control']
+                ])
+            ->add('firstName', TextType::class, [
+                'label' => 'registration.firstname',
+                'row_attr' => ['class' => 'col-md-6'],
+                'attr' => ['class' => 'form-control']
+                ])
+            ->add('lastName', TextType::class, [ 
+                'label' => 'registration.lastname',
+                'row_attr' => ['class' => 'col-md-6'],
+                'attr' => ['class' => 'form-control']
+                ])
+                ->add('agreeTerms', CheckboxType::class, [
+                    'label' => false,
+                    'mapped' => false,
+                    'constraints' => [
+                        new IsTrue([
+                            'message' => 'You should agree to our terms.',
+                        ]),
+                    ],
+                    'attr' => [
+                        'label' => 'registration.terms_and_privacy',
+                    ],
+                ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
